@@ -25,3 +25,7 @@ flutter:
 
   assets:
     - assets/logo.png
+    - assets/TheAppointments.png
+    - assets/ThePackages.png
+    - assets/TheReader.png
+    - assets/TheTestimonies.png

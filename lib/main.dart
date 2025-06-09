@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Dashboard.dart';
 
 void main() {
   runApp(const LoginApp());
@@ -48,7 +49,7 @@ class LoginPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 40), // moved way more up
+                      const SizedBox(height: 40),
 
                       Image.asset(
                         'assets/logo.png',
@@ -97,7 +98,13 @@ class LoginPage extends StatelessWidget {
                             ),
                             padding: const EdgeInsets.symmetric(vertical: 14),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Dashboard()),
+                            );
+                          },
                           child: const Text(
                             'LOG-IN',
                             style: TextStyle(
