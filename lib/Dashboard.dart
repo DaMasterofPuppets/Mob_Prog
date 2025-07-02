@@ -97,7 +97,7 @@ class PageFour extends StatelessWidget {
 
 class _SimplePage extends StatelessWidget {
   final String title;
-  const _SimplePage({required this.title, super.key});
+  const _SimplePage({required this.title});
 
   @override
   Widget build(BuildContext context) {
