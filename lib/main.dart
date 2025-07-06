@@ -35,7 +35,7 @@ class LoginPage extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back, color: Colors.amber),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).maybePop();
                   },
                 ),
               ),
@@ -50,14 +50,11 @@ class LoginPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 40),
-
                       Image.asset(
                         'assets/logo.png',
                         height: 150,
                       ),
-
                       const SizedBox(height: 30),
-
                       TextField(
                         decoration: InputDecoration(
                           filled: true,
@@ -69,9 +66,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 15),
-
                       TextField(
                         obscureText: true,
                         decoration: InputDecoration(
@@ -84,9 +79,7 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 25),
-
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -102,7 +95,8 @@ class LoginPage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Dashboard()),
+                                builder: (context) => const Dashboard(), // ✅ Proper use of `const`
+                              ),
                             );
                           },
                           child: const Text(

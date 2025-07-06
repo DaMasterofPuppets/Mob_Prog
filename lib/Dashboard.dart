@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Dashboard extends StatelessWidget
-{
-  const Dashboard({super.key})
+class Dashboard extends StatelessWidget {
+  const Dashboard({super.key});
 
-  final Color backgroundColor = const Color(0xFF420309);
-
-  void navigateTo(BuildContext context, Widget page)
-  {
+  void navigateTo(BuildContext context, Widget page) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => page),
@@ -15,45 +11,45 @@ class Dashboard extends StatelessWidget
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
+    final Color backgroundColor = const Color(0xFF420309);
+
     return Scaffold(
       backgroundColor: backgroundColor,
-appBar: AppBar(
-  backgroundColor: backgroundColor,
-  elevation: 0,
-  leading: Navigator.canPop(context)
-      ? Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.black,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.amber),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
-        )
-      : null,
-),
-body: Padding(
-  padding: const EdgeInsets.all(20.0),
-  child: GridView.count(
-    crossAxisCount: 2,
-    crossAxisSpacing: 20,
-    mainAxisSpacing: 20,
-    children: [
-      imageButton(context, 'assets/TheAppointments.png', const PageOne()),
-      imageButton(context, 'assets/ThePackages.png', const PageTwo()),
-      imageButton(context, 'assets/TheReader.png', const PageThree()),
-      imageButton(context, 'assets/TheTestimonies.png', const PageFour()),
-    ],
-  ),
-),
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        leading: Navigator.canPop(context)
+            ? Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.black,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              )
+            : null,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          children: [
+            imageButton(context, 'assets/TheAppointments.png', const PageOne()),
+            imageButton(context, 'assets/ThePackages.png', const PageTwo()),
+            imageButton(context, 'assets/TheReader.png', const PageThree()),
+            imageButton(context, 'assets/TheTestimonies.png', const PageFour()),
+          ],
+        ),
+      ),
     );
   }
 
-  Widget imageButton(BuildContext context, String asset, Widget page)
-  {
+  Widget imageButton(BuildContext context, String asset, Widget page) {
     return GestureDetector(
       onTap: () => navigateTo(context, page),
       child: Image.asset(
@@ -65,7 +61,8 @@ body: Padding(
   }
 }
 
-//PLACE HOLDERS WHEN BUTTONS ARE PRESSED
+// Placeholder pages
+
 class PageOne extends StatelessWidget {
   const PageOne({super.key});
 
@@ -94,9 +91,9 @@ class PageFour extends StatelessWidget {
   Widget build(BuildContext context) => const _SimplePage(title: 'The Testimonies');
 }
 
-class _SimplePage extends StatelessWidget
-{
+class _SimplePage extends StatelessWidget {
   final String title;
+
   const _SimplePage({required this.title, super.key});
 
   @override
@@ -120,5 +117,3 @@ class _SimplePage extends StatelessWidget
     );
   }
 }
-
-
