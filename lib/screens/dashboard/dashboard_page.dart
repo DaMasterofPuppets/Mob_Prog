@@ -13,6 +13,7 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color backgroundColor = const Color(0xFF420309);
+    final double imageSize = MediaQuery.of(context).size.width * 0.4;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -22,17 +23,19 @@ class DashboardPage extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       body: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 400),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 20,
-            runSpacing: 20,
+        child: SizedBox(
+          width: imageSize * 2 + 40, // grid width
+          height: imageSize * 2 + 40, // grid height
+          child: GridView.count(
+            crossAxisCount: 2,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20,
             children: [
-              _imageButton(context, 'assets/TheAppointments.png', const AppointmentsPage()),
-              _imageButton(context, 'assets/ThePackages.png', const PackagesPage()),
-              _imageButton(context, 'assets/TheReader.png', const ReaderPage()),
-              _imageButton(context, 'assets/TheTestimonies.png', const TestimoniesPage()),
+              _imageButton(context, 'assets/TheAppointments.png', const AppointmentsPage(), imageSize),
+              _imageButton(context, 'assets/ThePackages.png', const PackagesPage(), imageSize),
+              _imageButton(context, 'assets/TheReader.png', const ReaderPage(), imageSize),
+              _imageButton(context, 'assets/TheTestimonies.png', const TestimoniesPage(), imageSize),
             ],
           ),
         ),
@@ -40,13 +43,13 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _imageButton(BuildContext context, String asset, Widget page) {
+  Widget _imageButton(BuildContext context, String asset, Widget page, double size) {
     return GestureDetector(
       onTap: () => navigateTo(context, page),
       child: Image.asset(
         asset,
-        width: 140,
-        height: 90,
+        width: size,
+        height: size,
         fit: BoxFit.contain,
       ),
     );
