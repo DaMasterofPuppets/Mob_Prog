@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
+=======
+import 'the_reader.dart';
+import 'testimonials.dart'; 
+>>>>>>> Stashed changes
 
 class Dashboard extends StatelessWidget
 {
@@ -19,6 +24,7 @@ class Dashboard extends StatelessWidget
   {
     return Scaffold(
       backgroundColor: backgroundColor,
+<<<<<<< Updated upstream
 appBar: AppBar(
   backgroundColor: backgroundColor,
   elevation: 0,
@@ -49,6 +55,38 @@ body: Padding(
     ],
   ),
 ),
+=======
+      appBar: AppBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
+        leading: Navigator.canPop(context)
+            ? Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: CircleAvatar(
+                  backgroundColor: Colors.black,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ),
+              )
+            : null,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+          children: [
+            imageButton(context, 'assets/TheAppointments.png', const PageOne()),
+            imageButton(context, 'assets/ThePackages.png', const PageTwo()),
+            imageButton(context, 'assets/TheReader.png', const ReaderPage()),
+            imageButton(context, 'assets/TheTestimonies.png', const TestimonialsPage()), 
+          ],
+        ),
+      ),
+>>>>>>> Stashed changes
     );
   }
 
@@ -65,7 +103,11 @@ body: Padding(
   }
 }
 
+<<<<<<< Updated upstream
 //PLACE HOLDERS WHEN BUTTONS ARE PRESSED
+=======
+// PLACEHOLDERS FOR OTHER PAGES
+>>>>>>> Stashed changes
 class PageOne extends StatelessWidget {
   const PageOne({super.key});
 
@@ -80,6 +122,7 @@ class PageTwo extends StatelessWidget {
   Widget build(BuildContext context) => const _SimplePage(title: 'The Packages');
 }
 
+<<<<<<< Updated upstream
 class PageThree extends StatelessWidget {
   const PageThree({super.key});
 
@@ -87,6 +130,8 @@ class PageThree extends StatelessWidget {
   Widget build(BuildContext context) => const _SimplePage(title: 'The Reader');
 }
 
+=======
+>>>>>>> Stashed changes
 class PageFour extends StatelessWidget {
   const PageFour({super.key});
 

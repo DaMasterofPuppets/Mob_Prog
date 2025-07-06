@@ -1,4 +1,4 @@
-name: tarot_app
+name: empress_reads
 description: "A new Flutter project."
 publish_to: 'none'
 
@@ -10,17 +10,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^5.0.0
 
 flutter:
-
   uses-material-design: true
 
   assets:
@@ -29,3 +26,16 @@ flutter:
     - assets/ThePackages.png
     - assets/TheReader.png
     - assets/TheTestimonies.png
+<<<<<<< Updated upstream
+=======
+    - assets/the_reader.png
+    - assets/testimonialsbanner.jpeg
+
+  fonts:
+    - family: LuxuriousScript
+      fonts:
+        - asset: assets/fonts/LuxuriousScript-Regular.ttf
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-Regular.ttf
+>>>>>>> Stashed changes
