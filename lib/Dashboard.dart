@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-=======
 import 'the_reader.dart';
-import 'testimonials.dart'; 
->>>>>>> Stashed changes
+import 'packages.dart';
+import 'testimonials.dart';
 
-class Dashboard extends StatelessWidget
-{
-  const Dashboard({super.key})
+class Dashboard extends StatelessWidget {
+  const Dashboard({super.key});
 
   final Color backgroundColor = const Color(0xFF420309);
 
-  void navigateTo(BuildContext context, Widget page)
-  {
+  void navigateTo(BuildContext context, Widget page) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (_) => page),
@@ -20,42 +16,9 @@ class Dashboard extends StatelessWidget
   }
 
   @override
-  Widget build(BuildContext context)
-  {
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor,
-<<<<<<< Updated upstream
-appBar: AppBar(
-  backgroundColor: backgroundColor,
-  elevation: 0,
-  leading: Navigator.canPop(context)
-      ? Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.black,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.amber),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
-        )
-      : null,
-),
-body: Padding(
-  padding: const EdgeInsets.all(20.0),
-  child: GridView.count(
-    crossAxisCount: 2,
-    crossAxisSpacing: 20,
-    mainAxisSpacing: 20,
-    children: [
-      imageButton(context, 'assets/TheAppointments.png', const PageOne()),
-      imageButton(context, 'assets/ThePackages.png', const PageTwo()),
-      imageButton(context, 'assets/TheReader.png', const PageThree()),
-      imageButton(context, 'assets/TheTestimonies.png', const PageFour()),
-    ],
-  ),
-),
-=======
       appBar: AppBar(
         backgroundColor: backgroundColor,
         elevation: 0,
@@ -80,18 +43,16 @@ body: Padding(
           mainAxisSpacing: 20,
           children: [
             imageButton(context, 'assets/TheAppointments.png', const PageOne()),
-            imageButton(context, 'assets/ThePackages.png', const PageTwo()),
+            imageButton(context, 'assets/ThePackages.png', const PackagesPage()), // ⬅ linked to packages
             imageButton(context, 'assets/TheReader.png', const ReaderPage()),
-            imageButton(context, 'assets/TheTestimonies.png', const TestimonialsPage()), 
+            imageButton(context, 'assets/TheTestimonies.png', const TestimonialsPage()), // ⬅ linked to testimonials
           ],
         ),
       ),
->>>>>>> Stashed changes
     );
   }
 
-  Widget imageButton(BuildContext context, String asset, Widget page)
-  {
+  Widget imageButton(BuildContext context, String asset, Widget page) {
     return GestureDetector(
       onTap: () => navigateTo(context, page),
       child: Image.asset(
@@ -103,11 +64,7 @@ body: Padding(
   }
 }
 
-<<<<<<< Updated upstream
-//PLACE HOLDERS WHEN BUTTONS ARE PRESSED
-=======
-// PLACEHOLDERS FOR OTHER PAGES
->>>>>>> Stashed changes
+// PLACEHOLDERS FOR OTHER BUTTONS
 class PageOne extends StatelessWidget {
   const PageOne({super.key});
 
@@ -115,34 +72,9 @@ class PageOne extends StatelessWidget {
   Widget build(BuildContext context) => const _SimplePage(title: 'The Appointments');
 }
 
-class PageTwo extends StatelessWidget {
-  const PageTwo({super.key});
-
-  @override
-  Widget build(BuildContext context) => const _SimplePage(title: 'The Packages');
-}
-
-<<<<<<< Updated upstream
-class PageThree extends StatelessWidget {
-  const PageThree({super.key});
-
-  @override
-  Widget build(BuildContext context) => const _SimplePage(title: 'The Reader');
-}
-
-=======
->>>>>>> Stashed changes
-class PageFour extends StatelessWidget {
-  const PageFour({super.key});
-
-  @override
-  Widget build(BuildContext context) => const _SimplePage(title: 'The Testimonies');
-}
-
-class _SimplePage extends StatelessWidget
-{
+class _SimplePage extends StatelessWidget {
   final String title;
-  const _SimplePage({required this.title, super.key});
+  const _SimplePage({required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -165,5 +97,3 @@ class _SimplePage extends StatelessWidget
     );
   }
 }
-
-

@@ -26,10 +26,17 @@ flutter:
     - assets/ThePackages.png
     - assets/TheReader.png
     - assets/TheTestimonies.png
-<<<<<<< Updated upstream
-=======
+    - assets/testimonialsbanner.jpeg
     - assets/the_reader.png
     - assets/testimonialsbanner.jpeg
+    - assets/tiara_package.png
+    - assets/coronet_package.png
+    - assets/crown_package.png
+    - assets/ava.png
+    - assets/sammy.png
+    - assets/binky.png
+    - assets/hermione.png
+    - assets/chubi.png
 
   fonts:
     - family: LuxuriousScript
@@ -38,4 +45,3 @@ flutter:
     - family: PlayfairDisplay
       fonts:
         - asset: assets/fonts/PlayfairDisplay-Regular.ttf
->>>>>>> Stashed changes
