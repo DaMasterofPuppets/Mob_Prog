@@ -113,7 +113,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
 
             Center(
               child: SizedBox(
-                width: 200, // Adjust width as needed
+                width: 200, 
                 child: ElevatedButton(
                   onPressed: () {
                     final code = _controllers.map((c) => c.text).join();

@@ -12,11 +12,11 @@ class LoadScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 200, // Keep layout space fixed
+              height: 200,
               width: 300,
               child: FittedBox(
                 fit: BoxFit.contain,
-                child: Image.asset('assets/logo.png'),
+                child: Image.asset('assets/images/logo.png'),
               ),
             ),
 
@@ -33,7 +33,7 @@ class LoadScreen extends StatelessWidget {
                   ),
                 ),
                 Transform.translate(
-                  offset: Offset(0, 0), // adjust Y-axis upward
+                  offset: Offset(0, 0),
                   child: Text(
                     'Reads',
                     style: TextStyle(
@@ -71,7 +71,7 @@ class LoadScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/'); // This should go to a Forgot Password Page
+                Navigator.pushNamed(context, '/');
               },
               child: Text(
                 "Forget Password?",

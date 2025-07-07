@@ -29,8 +29,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   style: IconButton.styleFrom(
                     backgroundColor: Colors.black,
                     shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(12), // Same padding as LoginPage
-                    fixedSize: const Size(48, 48),     // Ensures same size circle
+                    padding: const EdgeInsets.all(12),
+                    fixedSize: const Size(48, 48), 
                   ),
                 ),
               ),
@@ -61,7 +61,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             ),
             const SizedBox(height: 30),
 
-            // Text Fields with reduced width
             _buildInputField('Username'),
             _buildInputField('Email'),
             _buildInputField('Password', obscureText: true),
@@ -69,9 +68,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
             const SizedBox(height: 15),
 
-            // Interactive TOS Checkbox
             Padding(
-              padding: const EdgeInsets.only(left: 50.0), // shift everything right
+              padding: const EdgeInsets.only(left: 50.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -108,10 +106,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
             const SizedBox(height: 10),
 
-            // Register Button
+            // Registerrrr
             Center(
               child: SizedBox(
-                width: 200, // 👈 Adjust this value to control button width
+                width: 200,
                 child: ElevatedButton(
                   onPressed: tosAgreed
                       ? () => Navigator.pushNamed(context, '/confirm')
@@ -119,7 +117,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFFFC860),
                     shape: const StadiumBorder(),
-                    padding: const EdgeInsets.symmetric(vertical: 15), // removed horizontal padding
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                   ),
                   child: const Text(
                     'REGISTER',
@@ -134,7 +132,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
   }
 
-  // Widget builder for centered text fields with consistent width
   Widget _buildInputField(String hint, {bool obscureText = false}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -150,7 +147,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
   }
 
-  // Input decoration helper
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,

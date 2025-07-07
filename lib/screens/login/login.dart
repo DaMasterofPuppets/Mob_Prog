@@ -32,7 +32,7 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 10),
               Center(
                 child: Image.asset(
-                  'assets/logo.png',
+                  'assets/images/logo.png',
                   height: 320,
                 ),
               ),
