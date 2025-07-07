@@ -1,6 +1,6 @@
 {
-    "name": "tarot_app",
-    "short_name": "tarot_app",
+    "name": "tarrot_app",
+    "short_name": "tarrot_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

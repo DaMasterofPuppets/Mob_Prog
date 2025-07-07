@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
-import 'routes/app_routes.dart';
+import 'screens/login/load_screen.dart';
+import 'screens/login/create_account_screen.dart';
+import 'screens/login/confirmation_screen.dart';
+import 'screens/login/account_created.dart';
+import 'screens/login/login.dart';
+import 'screens/dashboard/dashboard_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const EmpressReadsApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class EmpressReadsApp extends StatelessWidget {
+  const EmpressReadsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Empress Reads',
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.login,
-      routes: AppRoutes.routes,
+      theme: ThemeData(fontFamily: 'Inter'),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoadScreen(),
+        '/create': (context) => const CreateAccountScreen(),
+        '/confirm': (context) => const ConfirmationScreen(),
+        '/acc_created': (context) => const AccountCreatedPage(),
+        '/login': (context) => const LoginPage(),
+        '/dashboard': (context) => const DashboardPage(),
+      },
     );
   }
 }

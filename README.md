@@ -1,4 +1,4 @@
-# tarot_app
+# tarrot_app
 
 A new Flutter project.
 
