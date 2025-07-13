@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tarrot_app/screens/dashboard/packages.dart';
 import 'package:tarrot_app/screens/dashboard/the_reader.dart';
 import 'package:tarrot_app/screens/dashboard/testimonials.dart';
+import 'package:tarrot_app/screens/dashboard/appointment_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -48,7 +49,7 @@ class DashboardPage extends StatelessWidget {
             crossAxisSpacing: 20,
             mainAxisSpacing: 20,
             children: [
-              _imageButton(context, 'assets/images/TheAppointments.png', const PlaceholderPage(title: "Appointments Page"), imageSize),
+              _imageButton(context, 'assets/images/TheAppointments.png', const AppointmentPage(), imageSize),
               _imageButton(context, 'assets/images/ThePackages.png', const PackagesPage(), imageSize),
               _imageButton(context, 'assets/images/TheReader.png', const TheReaderPage(), imageSize),
               _imageButton(context, 'assets/images/TheTestimonies.png', const TestimonialsPage(), imageSize),
