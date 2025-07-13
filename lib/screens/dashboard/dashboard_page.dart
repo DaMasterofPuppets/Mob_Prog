@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-// ✅ import your actual pages
 import 'package:tarrot_app/screens/dashboard/packages.dart';
 import 'package:tarrot_app/screens/dashboard/the_reader.dart';
 import 'package:tarrot_app/screens/dashboard/testimonials.dart';

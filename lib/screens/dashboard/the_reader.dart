@@ -32,7 +32,7 @@ class TheReaderPage extends StatelessWidget {
               SizedBox(
                 height: 350,
                 child: Image.asset(
-                  'assets/images/TheReader.png',
+                  'assets/images/The_Reader_Face.png',
                   fit: BoxFit.contain,
                 ),
               ),
