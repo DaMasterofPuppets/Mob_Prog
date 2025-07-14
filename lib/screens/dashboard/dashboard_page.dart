@@ -16,10 +16,12 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Background Color
     final Color backgroundColor = const Color(0xFF420309);
     final double imageSize = MediaQuery.of(context).size.width * 0.4;
 
     return Scaffold(
+      //Back Button
       backgroundColor: backgroundColor,
       appBar: AppBar(
         backgroundColor: backgroundColor,
@@ -39,6 +41,8 @@ class DashboardPage extends StatelessWidget {
           ),
         ),
       ),
+
+      //Interacti Icons
       body: Center(
         child: SizedBox(
           width: imageSize * 2 + 40,
@@ -68,29 +72,6 @@ class DashboardPage extends StatelessWidget {
         width: size,
         height: size,
         fit: BoxFit.contain,
-      ),
-    );
-  }
-}
-
-// keep your placeholder only for Appointments
-class PlaceholderPage extends StatelessWidget {
-  final String title;
-  const PlaceholderPage({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF420309),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF420309),
-        title: Text(title),
-      ),
-      body: const Center(
-        child: Text(
-          'Work in Progress',
-          style: TextStyle(color: Colors.white, fontSize: 24),
-        ),
       ),
     );
   }

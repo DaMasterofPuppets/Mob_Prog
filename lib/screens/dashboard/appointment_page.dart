@@ -16,6 +16,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   final List<String> times = ['10:00 a.m', '11:00 a.m', '01:00 p.m', '04:00 p.m'];
   final List<String> packages = ['Tiara', 'Coronet', 'Crown'];
 
+  //This week (To be used in available time section) (Placeholder for testing)
   bool isThisWeek(DateTime date) {
     final now = DateTime.now();
     final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
@@ -55,6 +56,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
 
   @override
   Widget build(BuildContext context) {
+    //Background Colors
     final Color maroon = const Color(0xFF420309);
     final Color gold = const Color(0xFFF1B24A);
     final days = List.generate(4, (i) => selectedDate.add(Duration(days: i)));
@@ -64,20 +66,28 @@ class _AppointmentPageState extends State<AppointmentPage> {
       appBar: AppBar(
         backgroundColor: maroon,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.amber),
-          onPressed: () => Navigator.pop(context),
+        //Back Button
+        automaticallyImplyLeading: false,
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
+            onPressed: () => Navigator.pop(context),
+            style: IconButton.styleFrom(
+              backgroundColor: Colors.black,
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(12),
+              fixedSize: const Size(48, 48),
+            ),
+          ),
         ),
-        title: const Text(
-          'Book an Appointment',
-          style: TextStyle(color: Colors.amber, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            //Tapping the Yellow rectangle Container triggers this which opens a date picker
             GestureDetector(
               onTap: _pickDate,
               child: Container(
@@ -122,6 +132,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
             ),
+
+            //Available Time
             const SizedBox(height: 24),
             const Text(
               'Available Time',
@@ -196,8 +208,18 @@ class _AppointmentPageState extends State<AppointmentPage> {
             ),
             const SizedBox(height: 24),
             ElevatedButton(
+              //When "Book now" is pressed
               onPressed: () {
-                // TODO: Handle booking
+              if (selectedTime.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Please select a time first')),
+              );
+              } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(
+        'Appointment booked on ${DateFormat.yMMMMd().format(selectedDate)} at $selectedTime')),
+        );
+                    }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: gold,

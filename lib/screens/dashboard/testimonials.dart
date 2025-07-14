@@ -59,7 +59,7 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Color maroon = const Color(0xFF560000);
+    final Color maroon = const Color(0xFF420309);
     final Color gold = const Color(0xFFFFB84D);
 
     return Scaffold(

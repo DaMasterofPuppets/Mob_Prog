@@ -6,7 +6,7 @@ class TheReaderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF560000),
+      backgroundColor: const Color(0xFF420309),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
