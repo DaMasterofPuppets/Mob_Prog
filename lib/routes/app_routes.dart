@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/login/login_page.dart';
+import '../screens/login/login.dart';
 import '../screens/dashboard/dashboard_page.dart';
 
 class AppRoutes {

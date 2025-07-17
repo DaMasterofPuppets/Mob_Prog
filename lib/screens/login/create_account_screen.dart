@@ -30,7 +30,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     backgroundColor: Colors.black,
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(12),
-                    fixedSize: const Size(48, 48), 
+                    fixedSize: const Size(48, 48),
                   ),
                 ),
               ),
@@ -68,12 +68,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
             const SizedBox(height: 15),
 
-            Padding(
-              padding: const EdgeInsets.only(left: 50.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Checkbox(
+            // TOS Checkbox + Text
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Checkbox(
                     value: tosAgreed,
                     onChanged: (value) {
                       setState(() {
@@ -83,7 +84,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     checkColor: Colors.black,
                     activeColor: Colors.amber,
                   ),
-                  const Expanded(
+                ),
+                const Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 5),
                     child: Text.rich(
                       TextSpan(
                         text: 'By making an account you acknowledge \nour ',
@@ -100,13 +104,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
 
             const SizedBox(height: 10),
 
-            // Registerrrr
+            // Register Button
             Center(
               child: SizedBox(
                 width: 200,
