@@ -71,7 +71,7 @@ class LoadScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/forgot_pass');
               },
               child: Text(
                 "Forget Password?",
