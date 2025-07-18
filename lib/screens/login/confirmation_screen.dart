@@ -61,6 +61,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
               style: TextStyle(
                 fontSize: 34,
                 color: Color(0xFFFFD700),
+                fontFamily: 'PlayfairDisplay',
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -70,6 +71,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFFFFD700),
+                fontFamily: 'PlayfairDisplay',
                 fontSize: 21,
               ),
             ),

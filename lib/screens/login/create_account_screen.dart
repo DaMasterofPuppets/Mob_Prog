@@ -45,6 +45,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     style: TextStyle(
                       fontSize: 48,
                       color: Color(0xFFFFD700),
+                      fontFamily: 'PlayfairDisplay',
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -53,6 +54,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     style: TextStyle(
                       fontSize: 48,
                       color: Color(0xFFFFD700),
+                      fontFamily: 'PlayfairDisplay',
                       fontWeight: FontWeight.bold,
                     ),
                   ),

@@ -82,6 +82,7 @@ class _ForgotPassResetState extends State<ForgotPassReset> {
                       'Account',
                       style: TextStyle(
                         fontSize: 38,
+                        fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.bold,
                         color: Color(0xFFFFC857),
                       ),
@@ -90,6 +91,7 @@ class _ForgotPassResetState extends State<ForgotPassReset> {
                       'Recovery',
                       style: TextStyle(
                         fontSize: 38,
+                        fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.bold,
                         color: Color(0xFFFFC857),
                       ),
@@ -105,6 +107,7 @@ class _ForgotPassResetState extends State<ForgotPassReset> {
                   'Enter New Password',
                   style: TextStyle(
                     color: Color(0xFFFFC857),
+                    fontFamily: 'PlayfairDisplay',
                     fontSize: 16,
                   ),
                 ),

@@ -88,6 +88,7 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
                   style: TextStyle(
                     color: Color(0xFFFFC76A),
                     fontSize: 38,
+                    fontFamily: 'PlayfairDisplay',
                     fontWeight: FontWeight.bold,
                     height: 1.2,
                   ),
@@ -102,6 +103,7 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
                       style: TextStyle(
                         color: Color(0xFFFFD700),
                         fontSize: 36,
+                        fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.5,
                       ),
@@ -112,6 +114,7 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFFFFC76A),
+                        fontFamily: 'PlayfairDisplay',
                         fontSize: 16,
                         height: 1.4,
                       ),
