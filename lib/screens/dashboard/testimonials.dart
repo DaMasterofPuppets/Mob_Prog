@@ -15,27 +15,27 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
     {
       'name': 'Ava Suarez',
       'desc': 'I was honestly skeptical at first, but the tarot reading gave me so much clarity. I left feeling lighter and more hopeful.',
-      'image': 'assets/images/Testimonies/ava.png'
+      'image': 'assets/images/Testimonies-Page/User1-Ava.png'
     },
     {
       'name': 'Sam Canlas',
       'desc': 'Booking through the app was so smooth! It’s like having a spiritual guide right at your fingertips.',
-      'image': 'assets/images/Testimonies/sammy.png'
+      'image': 'assets/images/Testimonies-Page/User2-Sammy.png'
     },
     {
       'name': 'Stinky Binky',
       'desc': 'The staff made me feel completely at ease. It felt like I was talking to old friends.',
-      'image': 'assets/images/Testimonies/binky.png'
+      'image': 'assets/images/Testimonies-Page/User3-Binky.png'
     },
     {
       'name': 'Hermione Ching',
       'desc': 'I’m new to tarot but they explained everything patiently. I left with a new perspective.',
-      'image': 'assets/images/Testimonies/hermione.png'
+      'image': 'assets/images/Testimonies-Page/User4-Hermione.png'
     },
     {
       'name': 'Chubi',
       'desc': 'My reading touched on things I hadn’t voiced out loud. Healing in ways I can’t explain.',
-      'image': 'assets/images/Testimonies/chubi.png'
+      'image': 'assets/images/Testimonies-Page/User5-Chubi.png'
     },
   ];
 
@@ -103,7 +103,7 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
                   height: MediaQuery.of(context).size.height * 0.28,
                   decoration: BoxDecoration(
                     image: const DecorationImage(
-                      image: AssetImage('assets/images/testimonialsbanner.jpeg'),
+                      image: AssetImage('assets/images/Testimonies-Page/Banner.jpeg'),
                       fit: BoxFit.cover,
                     ),
                   ),

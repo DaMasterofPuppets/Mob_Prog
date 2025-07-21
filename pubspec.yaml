@@ -26,17 +26,18 @@ flutter:
     - assets/images/ThePackages.png
     - assets/images/TheReader.png
     - assets/images/TheTestimonies.png
-    - assets/images/testimonialsbanner.jpeg
-    - assets/images/tiara_package.png
-    - assets/images/coronet_package.png
     - assets/images/The_Reader_Face.png
-    
-    - assets/images/crown_package.png
-    - assets/images/Testimonies/ava.png
-    - assets/images/Testimonies/sammy.png
-    - assets/images/Testimonies/binky.png
-    - assets/images/Testimonies/hermione.png
-    - assets/images/Testimonies/chubi.png
+
+    - assets/images/Packages-Page/Crown_Package.png
+    - assets/images/Packages-Page/Coronet_Package.png
+    - assets/images/Packages-Page/Tiara_Package.png
+
+    - assets/images/Testimonies-Page/Banner.jpeg
+    - assets/images/Testimonies-Page/User1-Ava.png
+    - assets/images/Testimonies-Page/User2-Sammy.png
+    - assets/images/Testimonies-Page/User3-Binky.png
+    - assets/images/Testimonies-Page/User4-Hermione.png
+    - assets/images/Testimonies-Page/User5-Chubi.png
 
   fonts:
     - family: LuxScript

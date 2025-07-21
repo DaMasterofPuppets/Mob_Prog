@@ -38,11 +38,11 @@ class PackagesPage extends StatelessWidget {
             const SizedBox(height: 30),
 
             // Package images stacked
-            Image.asset('assets/images/tiara_package.png'),
+            Image.asset('assets/images/Packages-Page/Tiara_Package.png'),
             const SizedBox(height: 20),
-            Image.asset('assets/images/coronet_package.png'),
+            Image.asset('assets/images/Packages-Page/Coronet_Package.png'),
             const SizedBox(height: 20),
-            Image.asset('assets/images/crown_package.png'),
+            Image.asset('assets/images/Packages-Page/Crown_Package.png'),
           ],
         ),
       ),

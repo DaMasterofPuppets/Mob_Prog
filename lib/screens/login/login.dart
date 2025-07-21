@@ -1,7 +1,42 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  // Hardcoded credentials
+  final String _hardcodedUsername = 'group4';
+  final String _hardcodedPassword = 'masterofpuppets';
+
+  void _login(BuildContext context) {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+
+    if (username == _hardcodedUsername && password == _hardcodedPassword) {
+      Navigator.pushNamed(context, '/dashboard');
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Login Failed'),
+          content: const Text('Incorrect username or password.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +73,7 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               TextField(
+                controller: _usernameController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -47,6 +83,7 @@ class LoginPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextField(
+                controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   filled: true,
@@ -63,9 +100,7 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/dashboard');
-                  },
+                  onPressed: () => _login(context),
                   child: const Text(
                     'LOG-IN',
                     style: TextStyle(
