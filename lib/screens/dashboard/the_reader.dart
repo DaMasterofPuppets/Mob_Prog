@@ -5,55 +5,59 @@ class TheReaderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color maroon = const Color(0xFF420309);
+    final Color gold = const Color(0xFFE5A94E);
+
     return Scaffold(
-      backgroundColor: const Color(0xFF420309),
+      backgroundColor: maroon,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Back Button + Title (row)
               Padding(
-                padding: const EdgeInsets.only(left: 16.0, top: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () => Navigator.pop(context),
-                      child: const CircleAvatar(
-                        backgroundColor: Colors.black,
-                        radius: 28,
-                        child: Icon(Icons.arrow_back, color: Colors.amber, size: 28),
+                    CircleAvatar(
+                      backgroundColor: Colors.black,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Text(
+                      'The Reader',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'PlayfairDisplay',
+                        color: gold,
                       ),
                     ),
                   ],
                 ),
               ),
+
               const SizedBox(height: 10),
 
               // Framed Image
               SizedBox(
                 height: 350,
+                width: double.infinity,
                 child: Image.asset(
                   'assets/images/The_Reader_Face.png',
                   fit: BoxFit.contain,
                 ),
               ),
 
-              const SizedBox(height: 5),
-
-              // Title - The Reader
-              const Text(
-                'The Reader',
-                style: TextStyle(
-                  fontFamily: 'LuxuriousScript',
-                  fontSize: 70,
-                  color: Color(0xFFE5A94E),
-                ),
-              ),
-
-              const SizedBox(height: 5),
+              const SizedBox(height: 20),
 
               // Intro Text
-              Container(
-                width: MediaQuery.of(context).size.width * 0.85,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: const Text(
                   'Hello! My name is Deni and I’m a 2nd year SE student. I have 8 years of tarot card reading experience, and I specialize in love readings!',
                   textAlign: TextAlign.center,
@@ -69,8 +73,8 @@ class TheReaderPage extends StatelessWidget {
               const SizedBox(height: 25),
 
               // Description
-              Container(
-                width: MediaQuery.of(context).size.width * 0.85,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: const Text(
                   '🌙✨ Welcome, dear soul. The universe brought you here for a reason. Whether your heart is full of questions, quietly healing, or bursting with hope, the cards are ready to reveal what you need to hear. Through intuition, energy, and the sacred language of tarot, I offer love-focused guidance tailored just for you.',
                   textAlign: TextAlign.center,
@@ -82,6 +86,8 @@ class TheReaderPage extends StatelessWidget {
                   ),
                 ),
               ),
+
+              const SizedBox(height: 30),
             ],
           ),
         ),

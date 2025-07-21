@@ -68,18 +68,26 @@ class _AppointmentPageState extends State<AppointmentPage> {
         elevation: 0,
         //Back Button
         automaticallyImplyLeading: false,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-            onPressed: () => Navigator.pop(context),
-            style: IconButton.styleFrom(
+        title: Row(
+          children: [
+            CircleAvatar(
               backgroundColor: Colors.black,
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(12),
-              fixedSize: const Size(48, 48),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                onPressed: () => Navigator.pop(context),
+              ),
             ),
-          ),
+            const SizedBox(width: 16),
+            Text(
+              'Appointment',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'PlayfairDisplay',
+                color: gold,
+              ),
+            ),
+          ],
         ),
       ),
 

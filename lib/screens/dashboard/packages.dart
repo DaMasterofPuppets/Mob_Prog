@@ -5,20 +5,34 @@ class PackagesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color gold = const Color(0xFFFFB84D);
+
     return Scaffold(
       backgroundColor: const Color(0xFF420309),
       appBar: AppBar(
         backgroundColor: const Color(0xFF420309),
         elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.black,
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.amber),
-              onPressed: () => Navigator.pop(context),
+        automaticallyImplyLeading: false,
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundColor: Colors.black,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                onPressed: () => Navigator.pop(context),
+              ),
             ),
-          ),
+            const SizedBox(width: 16),
+            Text(
+              'Packages',
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'PlayfairDisplay',
+                color: gold,
+              ),
+            ),
+          ],
         ),
       ),
       body: SingleChildScrollView(
