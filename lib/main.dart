@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'screens/login/fp_resetpass.dart';
+import 'screens/login/fp_verify.dart';
 import 'screens/login/load_screen.dart';
 import 'screens/login/create_account_screen.dart';
 import 'screens/login/confirmation_screen.dart';
 import 'screens/login/account_created.dart';
 import 'screens/login/login.dart';
+import 'screens/login/forgot_password.dart';
 import 'screens/dashboard/dashboard_page.dart';
 
 void main() {
@@ -27,6 +30,9 @@ class EmpressReadsApp extends StatelessWidget {
         '/acc_created': (context) => const AccountCreatedPage(),
         '/login': (context) => const LoginPage(),
         '/dashboard': (context) => const DashboardPage(),
+        '/forgot_pass': (context) => const ForgotPassword(),
+        '/fpverify': (context) => const ForgotPassVerify(),
+        '/fp_resetpass': (context) => const ForgotPassReset(),
       },
     );
   }

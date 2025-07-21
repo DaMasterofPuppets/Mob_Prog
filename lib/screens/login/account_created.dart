@@ -16,6 +16,7 @@ class AccountCreatedPage extends StatelessWidget {
               style: TextStyle(
                 color: Color(0xFFFFD700),
                 fontSize: 48,
+                fontFamily: 'PlayfairDisplay',
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -25,6 +26,7 @@ class AccountCreatedPage extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFFFFD700),
+                fontFamily: 'PlayfairDisplay',
                 fontSize: 24,
               ),
             ),

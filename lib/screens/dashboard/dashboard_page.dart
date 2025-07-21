@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tarrot_app/screens/dashboard/packages.dart';
-import 'package:tarrot_app/screens/dashboard/the_reader.dart';
-import 'package:tarrot_app/screens/dashboard/testimonials.dart';
-import 'package:tarrot_app/screens/dashboard/appointment_page.dart';
+import 'package:tarot_app/screens/dashboard/appointment_page.dart';
+import 'package:tarot_app/screens/dashboard/packages.dart';
+import 'package:tarot_app/screens/dashboard/testimonials.dart';
+import 'package:tarot_app/screens/dashboard/the_reader.dart';
+
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
