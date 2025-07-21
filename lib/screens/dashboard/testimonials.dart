@@ -15,27 +15,27 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
     {
       'name': 'Ava Suarez',
       'desc': 'I was honestly skeptical at first, but the tarot reading gave me so much clarity. I left feeling lighter and more hopeful.',
-      'image': 'assets/images/ava.png'
+      'image': 'assets/images/Testimonies/ava.png'
     },
     {
       'name': 'Sam Canlas',
       'desc': 'Booking through the app was so smooth! It’s like having a spiritual guide right at your fingertips.',
-      'image': 'assets/images/sammy.png'
+      'image': 'assets/images/Testimonies/sammy.png'
     },
     {
       'name': 'Stinky Binky',
       'desc': 'The staff made me feel completely at ease. It felt like I was talking to old friends.',
-      'image': 'assets/images/binky.png'
+      'image': 'assets/images/Testimonies/binky.png'
     },
     {
       'name': 'Hermione Ching',
       'desc': 'I’m new to tarot but they explained everything patiently. I left with a new perspective.',
-      'image': 'assets/images/hermione.png'
+      'image': 'assets/images/Testimonies/hermione.png'
     },
     {
       'name': 'Chubi',
       'desc': 'My reading touched on things I hadn’t voiced out loud. Healing in ways I can’t explain.',
-      'image': 'assets/images/chubi.png'
+      'image': 'assets/images/Testimonies/chubi.png'
     },
   ];
 

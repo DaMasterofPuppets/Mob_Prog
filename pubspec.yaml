@@ -31,13 +31,14 @@ flutter:
     - assets/images/testimonialsbanner.jpeg
     - assets/images/tiara_package.png
     - assets/images/coronet_package.png
-    - assets/images/crown_package.png
-    - assets/images/ava.png
-    - assets/images/sammy.png
-    - assets/images/binky.png
-    - assets/images/hermione.png
-    - assets/images/chubi.png
     - assets/images/The_Reader_Face.png
+    
+    - assets/images/crown_package.png
+    - assets/images/Testimonies/ava.png
+    - assets/images/Testimonies/sammy.png
+    - assets/images/Testimonies/binky.png
+    - assets/images/Testimonies/hermione.png
+    - assets/images/Testimonies/chubi.png
 
   fonts:
     - family: LuxScript
