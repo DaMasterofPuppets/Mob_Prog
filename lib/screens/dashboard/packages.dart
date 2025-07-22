@@ -7,6 +7,24 @@ class PackagesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color gold = const Color(0xFFFFB84D);
 
+    final List<Map<String, String>> packages = [
+      {
+        'title': 'Tiara Package',
+        'image': 'assets/images/Packages-Page/Tiara_Package.png',
+        'description': 'This package offers a light and insightful reading perfect for quick guidance.'
+      },
+      {
+        'title': 'Coronet Package',
+        'image': 'assets/images/Packages-Page/Coronet_Package.png',
+        'description': 'A medium-depth reading that dives into your current challenges and opportunities.'
+      },
+      {
+        'title': 'Crown Package',
+        'image': 'assets/images/Packages-Page/Crown_Package.png',
+        'description': 'Our most comprehensive reading, revealing deeper spiritual insights and future pathways.'
+      },
+    ];
+
     return Scaffold(
       backgroundColor: const Color(0xFF420309),
       appBar: AppBar(
@@ -36,27 +54,75 @@ class PackagesPage extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               'Choose your package',
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontFamily: 'PlayfairDisplay', 
-                fontSize: 35,                   
-                color: Color(0xFFE5A94E),       
+                fontFamily: 'PlayfairDisplay',
+                fontSize: 28,
+                color: Color(0xFFE5A94E),
               ),
             ),
-            const SizedBox(height: 30),
-
-            // Package images stacked
-            Image.asset('assets/images/Packages-Page/Tiara_Package.png'),
             const SizedBox(height: 20),
-            Image.asset('assets/images/Packages-Page/Coronet_Package.png'),
-            const SizedBox(height: 20),
-            Image.asset('assets/images/Packages-Page/Crown_Package.png'),
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 3 / 4,
+              children: packages.map((package) {
+                return GestureDetector(
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      backgroundColor: const Color(0xFF420309),
+                      title: Text(
+                        package['title']!,
+                        style: TextStyle(
+                          color: gold,
+                          fontFamily: 'PlayfairDisplay',
+                        ),
+                      ),
+                      content: Text(
+                        package['description']!,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Close', style: TextStyle(color: Colors.amber)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 100,
+                        child: Image.asset(
+                          package['image']!,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        package['title']!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: gold,
+                          fontFamily: 'PlayfairDisplay',
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
           ],
         ),
       ),

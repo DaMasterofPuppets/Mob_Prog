@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:intl/intl.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/calendar/v3.dart' as calendar;
+import 'package:http/http.dart' as http;
+import 'package:googleapis_auth/auth_io.dart';
+import 'package:tarot_app/flutter/google_auth.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({super.key});
@@ -8,15 +14,24 @@ class AppointmentPage extends StatefulWidget {
   State<AppointmentPage> createState() => _AppointmentPageState();
 }
 
+//The Defaults
 class _AppointmentPageState extends State<AppointmentPage> {
   DateTime selectedDate = DateTime.now();
   String selectedTime = '';
   String selectedPackage = 'Tiara';
 
-  final List<String> times = ['10:00 a.m', '11:00 a.m', '01:00 p.m', '04:00 p.m'];
+  //String Available Time Placeholders
+  final List<String> times = [
+    '10:00 a.m',
+    '11:00 a.m',
+    '01:00 p.m',
+    '04:00 p.m',
+  ];
+
+  //String Available Package Choices
   final List<String> packages = ['Tiara', 'Coronet', 'Crown'];
 
-  //This week (To be used in available time section) (Placeholder for testing)
+  //Checks if the input is within this week (To be used in available time section) (Placeholder for testing purposes)
   bool isThisWeek(DateTime date) {
     final now = DateTime.now();
     final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
@@ -25,6 +40,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
         date.isBefore(endOfWeek.add(const Duration(days: 1)));
   }
 
+  //Opens a date picker
   void _pickDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -33,6 +49,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 
+    // Clears the current selection if theres a new input
     if (picked != null) {
       setState(() {
         selectedDate = picked;
@@ -41,12 +58,14 @@ class _AppointmentPageState extends State<AppointmentPage> {
     }
   }
 
+  //Opens a time picker
   void _pickTime() async {
     final picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(DateTime.now()),
     );
 
+    // Clears the current selection if theres a new input
     if (picked != null) {
       setState(() {
         selectedTime = picked.format(context);
@@ -59,6 +78,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
     //Background Colors
     final Color maroon = const Color(0xFF420309);
     final Color gold = const Color(0xFFF1B24A);
+
+    //Generates 4 days (today + the next three days) for the mini date view
     final days = List.generate(4, (i) => selectedDate.add(Duration(days: i)));
 
     return Scaffold(
@@ -91,6 +112,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
         ),
       ),
 
+      //layout
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -116,12 +138,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: days.map((date) {
-                        final isSelected = date.day == selectedDate.day &&
+                        final isSelected =
+                            date.day == selectedDate.day &&
                             date.month == selectedDate.month;
                         return Column(
                           children: [
                             CircleAvatar(
-                              backgroundColor: isSelected ? maroon : Colors.white,
+                              backgroundColor: isSelected
+                                  ? maroon
+                                  : Colors.white,
                               child: Text(
                                 '${date.day}',
                                 style: TextStyle(
@@ -181,11 +206,17 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     style: TextStyle(color: Colors.white),
                   ),
             const SizedBox(height: 24),
-            _infoTile(Icons.access_time,
-                'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}', _pickTime),
+            _infoTile(
+              Icons.access_time,
+              'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}',
+              _pickTime,
+            ),
             const SizedBox(height: 8),
-            _infoTile(Icons.calendar_today,
-                'Date: ${DateFormat.yMMMMd().format(selectedDate)}', _pickDate),
+            _infoTile(
+              Icons.calendar_today,
+              'Date: ${DateFormat.yMMMMd().format(selectedDate)}',
+              _pickDate,
+            ),
             const SizedBox(height: 8),
             _infoTile(Icons.check_box, 'Status: Available'),
             const SizedBox(height: 12),
@@ -209,7 +240,10 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 items: packages.map((p) {
                   return DropdownMenuItem<String>(
                     value: p,
-                    child: Text('Package: $p', style: const TextStyle(color: Colors.black)),
+                    child: Text(
+                      'Package: $p',
+                      style: const TextStyle(color: Colors.black),
+                    ),
                   );
                 }).toList(),
               ),
@@ -217,28 +251,97 @@ class _AppointmentPageState extends State<AppointmentPage> {
             const SizedBox(height: 24),
             ElevatedButton(
               //When "Book now" is pressed
-              onPressed: () {
-              if (selectedTime.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Please select a time first')),
-              );
-              } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(
-        'Appointment booked on ${DateFormat.yMMMMd().format(selectedDate)} at $selectedTime')),
-        );
-                    }
+              onPressed: () async {
+                if (selectedTime.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please select a time first')),
+                  );
+                } else {
+                //   final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+                //  final account = await googleSignIn.signInWithPrompt();
+
+                //   if (account == null) {
+                //     print('User cancelled sign in');
+                //     return;
+                //   }
+
+                //   final authHeaders = await account.authHeaders;
+                //   final authenticateClient = GoogleAuthClient(authHeaders);
+                //   var calendarApi = calendar.CalendarApi(authenticateClient);
+
+                //   // Parse selected time into DateTime
+                //   final timeParts = selectedTime.split(' ');
+                //   final timeOfDay = timeParts[0].split(':');
+                //   int hour = int.parse(timeOfDay[0]);
+                //   final int minute = int.parse(timeOfDay[1]);
+
+                //   if (timeParts[1].toLowerCase() == 'p.m' && hour != 12) {
+                //     hour += 12;
+                //   } else if (timeParts[1].toLowerCase() == 'a.m' &&
+                //       hour == 12) {
+                //     hour = 0;
+                //   }
+
+                //   final startDateTime = DateTime(
+                //     selectedDate.year,
+                //     selectedDate.month,
+                //     selectedDate.day,
+                //     hour,
+                //     minute,
+                //   );
+
+                //   final endDateTime = startDateTime.add(
+                //     const Duration(hours: 1),
+                //   );
+
+                //   var event = calendar.Event(
+                //     summary: 'Appointment: $selectedPackage Package',
+                //     description:
+                //         'Your scheduled appointment for the $selectedPackage package.',
+                //     start: calendar.EventDateTime(
+                //       dateTime: startDateTime,
+                //       timeZone: "Asia/Manila",
+                //     ),
+                //     end: calendar.EventDateTime(
+                //       dateTime: endDateTime,
+                //       timeZone: "Asia/Manila",
+                //     ),
+                //     attendees: [
+                //       calendar.EventAttendee(
+                //         email: 'c202301021@iacademy.edu.ph',
+                //       ),
+                //     ],
+                //   );
+
+                //   await calendarApi.events.insert(event, "primary");
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Appointment booked on ${DateFormat.yMMMMd().format(selectedDate)} at $selectedTime',
+                      ),
+                    ),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: gold,
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
               child: const Text(
                 'BOOK NOW',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -259,7 +362,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
           children: [
             Icon(icon, color: Colors.black, size: 20),
             const SizedBox(width: 8),
-            Expanded(child: Text(text, style: const TextStyle(color: Colors.black))),
+            Expanded(
+              child: Text(text, style: const TextStyle(color: Colors.black)),
+            ),
           ],
         ),
       ),
