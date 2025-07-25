@@ -36,6 +36,7 @@ flutter:
     - assets/images/hermione.png
     - assets/images/chubi.png
     - assets/images/The_Reader_Face.png
+    - assets/images/ryan_gosling.jpg
 
   fonts:
     - family: LuxScript
