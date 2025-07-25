@@ -31,6 +31,9 @@ flutter:
     - assets/images/Packages-Page/Crown_Package.png
     - assets/images/Packages-Page/Coronet_Package.png
     - assets/images/Packages-Page/Tiara_Package.png
+    - assets/images/Packages-Page/tiara_asset.png
+    - assets/images/Packages-Page/coronet_asset.png
+    - assets/images/Packages-Page/crown_asset.png
 
     - assets/images/Testimonies-Page/Banner.jpeg
     - assets/images/Testimonies-Page/User1-Ava.png
