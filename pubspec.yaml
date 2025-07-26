@@ -43,6 +43,8 @@ flutter:
     - assets/images/Testimonies-Page/User4-Hermione.png
     - assets/images/Testimonies-Page/User5-Chubi.png
 
+    - assets/images/Settings.png
+
   fonts:
     - family: LuxScript
       fonts:

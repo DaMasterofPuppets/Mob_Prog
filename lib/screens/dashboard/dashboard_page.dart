@@ -3,6 +3,8 @@ import 'package:tarot_app/screens/dashboard/appointment_page.dart';
 import 'package:tarot_app/screens/dashboard/packages.dart';
 import 'package:tarot_app/screens/dashboard/testimonials.dart';
 import 'package:tarot_app/screens/dashboard/the_reader.dart';
+import 'package:tarot_app/screens/settings/account_information.dart';
+import 'package:tarot_app/screens/login/load_screen.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -27,7 +29,46 @@ class DashboardPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(height: 24),
+              // TOP BAR WITH BACK AND SETTINGS
+Padding(
+  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      // Back Button
+      Row(
+        children: [
+          CircleAvatar(
+  backgroundColor: Colors.black,
+  child: IconButton(
+    icon: const Icon(Icons.arrow_back, color: Colors.amber),
+    onPressed: () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const LoadScreen()),
+      );
+    },
+  ),
+),
+const SizedBox(width: 16),
+        ],
+      ),
+
+      // Settings Button
+      GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/acc_info');
+        },
+        child: Image.asset(
+          'assets/images/Settings.png',
+          width: 40,
+          height: 40,
+        ),
+      ),
+    ],
+  ),
+),
+
 
               // LOGO IMAGE
               Image.asset(

@@ -57,15 +57,21 @@ class AccountInformation extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             buildButton(
-              context, 
-              'Edit Profile', 
-              () => Navigator.pushNamed(context, '/change_prof'),
+              context,
+              'Edit Username',
+              () => Navigator.pushNamed(context, '/edit_username'),
             ),
             const SizedBox(height: 16),
             buildButton(
-              context, 
-              'Edit Email & Password', 
-              () => Navigator.pushNamed(context, '/change_emailpass'),
+              context,
+              'Edit Email',
+              () => Navigator.pushNamed(context, '/edit_email'),
+            ),
+            const SizedBox(height: 16),
+            buildButton(
+              context,
+              'Edit Password',
+              () => Navigator.pushNamed(context, '/edit_password'),
             ),
             const SizedBox(height: 16),
             buildButton(

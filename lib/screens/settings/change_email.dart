@@ -6,9 +6,9 @@ class ChangeEmailPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Change Email & Password')),
-      body: const Center(
-        child: Text('This is the Change Email & Password screen.'),
+      // Add your widget tree here
+      body: Center(
+        child: Text('Change Email and Password'),
       ),
     );
   }
