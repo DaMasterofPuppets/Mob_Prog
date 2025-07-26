@@ -1,7 +1,27 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class AccountInformation extends StatelessWidget {
+class AccountInformation extends StatefulWidget {
   const AccountInformation({super.key});
+
+  @override
+  State<AccountInformation> createState() => _AccountInformationState();
+}
+
+class _AccountInformationState extends State<AccountInformation> {
+  File? _image; // Holds selected image temporarily
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      setState(() {
+        _image = File(picked.path); // Update state with new image
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +53,32 @@ class AccountInformation extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/images/ryan_gosling.jpg'),
+
+            // 👤 Profile picture with edit button
+            Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                CircleAvatar(
+                  radius: 50,
+                  backgroundImage: _image != null
+                      ? FileImage(_image!)
+                      : const AssetImage('assets/images/ryan_gosling.jpg') as ImageProvider,
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: GestureDetector(
+                    onTap: _pickImage,
+                    child: Image.asset(
+                      'assets/images/Edit_Button.png',
+                      width: 28,
+                      height: 28,
+                    ),
+                  ),
+                ),
+              ],
             ),
+
             const SizedBox(height: 16),
             const Text(
               'Ryan_Gosling',
@@ -56,29 +98,15 @@ class AccountInformation extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32),
-            buildButton(
-              context,
-              'Edit Username',
-              () => Navigator.pushNamed(context, '/edit_username'),
-            ),
+
+            // 🔘 Action buttons
+            buildButton(context, 'Edit Username', () => Navigator.pushNamed(context, '/edit_username')),
             const SizedBox(height: 16),
-            buildButton(
-              context,
-              'Edit Email',
-              () => Navigator.pushNamed(context, '/edit_email'),
-            ),
+            buildButton(context, 'Edit Email', () => Navigator.pushNamed(context, '/edit_email')),
             const SizedBox(height: 16),
-            buildButton(
-              context,
-              'Edit Password',
-              () => Navigator.pushNamed(context, '/edit_password'),
-            ),
+            buildButton(context, 'Edit Password', () => Navigator.pushNamed(context, '/edit_password')),
             const SizedBox(height: 16),
-            buildButton(
-              context,
-              'Delete Account',
-              () => Navigator.pushNamed(context, '/acc_delete'),
-            ),
+            buildButton(context, 'Delete Account', () => Navigator.pushNamed(context, '/acc_delete')),
           ],
         ),
       ),
