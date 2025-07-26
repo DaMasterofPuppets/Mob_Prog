@@ -86,14 +86,15 @@ class PackagesPage extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 16),
-            Text(
-              'Packages',
-              style: TextStyle(
-                fontSize: 32,
-                fontFamily: 'PlayfairDisplay',
-                color: gold,
-              ),
-            ),
+Text(
+                      'Packages',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'PlayfairDisplay',
+                        color: gold,
+                      ),
+                    ),
           ],
         ),
       ),

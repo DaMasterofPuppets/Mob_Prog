@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+//Setting Pages
+import 'package:tarot_app/screens/settings/account_deleted_success.dart';
+import 'package:tarot_app/screens/settings/account_information.dart';
+import 'package:tarot_app/screens/settings/change_email.dart';
+import 'package:tarot_app/screens/settings/change_profile.dart';
+import 'package:tarot_app/screens/settings/delete_account.dart';
+
 import 'screens/login/fp_resetpass.dart';
 import 'screens/login/fp_verify.dart';
 import 'screens/login/load_screen.dart';
@@ -33,6 +40,11 @@ class EmpressReadsApp extends StatelessWidget {
         '/forgot_pass': (context) => const ForgotPassword(),
         '/fpverify': (context) => const ForgotPassVerify(),
         '/fp_resetpass': (context) => const ForgotPassReset(),
+        '/acc_info': (context) => const AccountInformation(),
+        '/acc_delete': (context) => const DeleteAccount(),
+        '/acc_delete_succ': (context) => const AccountDeletedSuccess(),
+        '/change_prof': (context) => const ChangeProfile(),
+        '/change_emailpass': (context) => const ChangeEmailPassword(),
       },
     );
   }

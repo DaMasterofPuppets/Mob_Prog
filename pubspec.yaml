@@ -27,6 +27,7 @@ flutter:
     - assets/images/TheReader.png
     - assets/images/TheTestimonies.png
     - assets/images/The_Reader_Face.png
+    - assets/images/ryan_gosling.jpg
 
     - assets/images/Packages-Page/Crown_Package.png
     - assets/images/Packages-Page/Coronet_Package.png
@@ -41,6 +42,8 @@ flutter:
     - assets/images/Testimonies-Page/User3-Binky.png
     - assets/images/Testimonies-Page/User4-Hermione.png
     - assets/images/Testimonies-Page/User5-Chubi.png
+
+    - assets/images/Settings.png
 
   fonts:
     - family: LuxScript
