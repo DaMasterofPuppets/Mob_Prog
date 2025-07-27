@@ -5,6 +5,10 @@ import 'package:tarot_app/screens/settings/account_information.dart';
 import 'package:tarot_app/screens/settings/change_email.dart';
 import 'package:tarot_app/screens/settings/change_profile.dart';
 import 'package:tarot_app/screens/settings/delete_account.dart';
+import 'package:tarot_app/screens/settings/change_email_confirmation_code.dart';
+import 'package:tarot_app/screens/settings/change_email_success.dart';
+import 'package:tarot_app/screens/settings/change_password.dart';
+import 'package:tarot_app/screens/settings/change_password_success.dart';
 
 import 'screens/login/fp_resetpass.dart';
 import 'screens/login/fp_verify.dart';
@@ -44,7 +48,11 @@ class EmpressReadsApp extends StatelessWidget {
         '/acc_delete': (context) => const DeleteAccount(),
         '/acc_delete_succ': (context) => const AccountDeletedSuccess(),
         '/change_prof': (context) => const ChangeProfile(),
-        '/change_emailpass': (context) => const ChangeEmailPassword(),
+        '/change_email': (context) => const EditEmailPage(),
+        '/change_email_code': (context) => const ChangeEmailConfirmationCodePage(),
+        '/change_email_success': (context) => const EmailSuccessPage(),
+        '/change_password': (_) => const ChangePasswordPage(),
+        '/password_changed': (_) => const PasswordChangedPage(),
       },
     );
   }

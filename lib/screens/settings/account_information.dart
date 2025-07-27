@@ -102,9 +102,9 @@ class _AccountInformationState extends State<AccountInformation> {
             // 🔘 Action buttons
             buildButton(context, 'Edit Username', () => Navigator.pushNamed(context, '/edit_username')),
             const SizedBox(height: 16),
-            buildButton(context, 'Edit Email', () => Navigator.pushNamed(context, '/edit_email')),
+            buildButton(context, 'Edit Email', () => Navigator.pushNamed(context, '/change_email')),
             const SizedBox(height: 16),
-            buildButton(context, 'Edit Password', () => Navigator.pushNamed(context, '/edit_password')),
+            buildButton(context, 'Edit Password', () => Navigator.pushNamed(context, '/change_password')),
             const SizedBox(height: 16),
             buildButton(context, 'Delete Account', () => Navigator.pushNamed(context, '/acc_delete')),
           ],
