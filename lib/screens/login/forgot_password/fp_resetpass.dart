@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'load_screen.dart';
+import 'package:tarot_app/screens/login/load_screen.dart';
 
 class ForgotPassReset extends StatefulWidget {
   const ForgotPassReset({super.key});

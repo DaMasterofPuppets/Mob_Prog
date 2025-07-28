@@ -117,7 +117,7 @@ Text(
             GestureDetector(
               onTap: () => _showPackageInfo(
                 context,
-                'assets/images/Packages-Page/tiara_asset.png',
+                'assets/images/packages_page/tiara_asset.png',
                 'Tiara Package',
                 'Php 100',
                 'Short, sweet, and powerfully clear. '
@@ -126,7 +126,7 @@ Text(
                 'Great for beginners or those seeking fast clarity. 🌟💭',
               ),
               child: Image.asset(
-                'assets/images/Packages-Page/Tiara_Package.png',
+                'assets/images/packages_page/tiara_package.png',
                 width: imageWidth,
               ),
             ),
@@ -135,7 +135,7 @@ Text(
             GestureDetector(
               onTap: () => _showPackageInfo(
                 context,
-                'assets/images/Packages-Page/coronet_asset.png',
+                'assets/images/packages_page/coronet_asset.png',
                 'Coronet Package',
                 'Php 150',
                 'For matters of the heart and alignment. '
@@ -145,7 +145,7 @@ Text(
                 'Because your intuition deserves validation. 💖🔮',
               ),
               child: Image.asset(
-                'assets/images/Packages-Page/Coronet_Package.png',
+                'assets/images/packages_page/coronet_package.png',
                 width: imageWidth,
               ),
             ),
@@ -154,7 +154,7 @@ Text(
             GestureDetector(
               onTap: () => _showPackageInfo(
                 context,
-                'assets/images/Packages-Page/crown_asset.png',
+                'assets/images/packages_page/crown_asset.png',
                 'Crown Package',
                 'Php 250',
                 'Unveil the mysteries of your soul. '
@@ -164,7 +164,7 @@ Text(
                 'Let the Empress herself guide your destiny. 🌙✨',
               ),
               child: Image.asset(
-                'assets/images/Packages-Page/Crown_Package.png',
+                'assets/images/packages_page/crown_package.png',
                 width: imageWidth,
               ),
             ),

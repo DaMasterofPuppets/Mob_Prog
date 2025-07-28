@@ -113,7 +113,7 @@ class _AccountInformationState extends State<AccountInformation> {
                   radius: 50,
                   backgroundImage: _image != null
                       ? FileImage(_image!)
-                      : const AssetImage('assets/images/ryan_gosling.jpg') as ImageProvider,
+                      : const AssetImage('assets/images/settings_page/ryan_gosling.jpg') as ImageProvider,
                 ),
                 Positioned(
                   bottom: 0,
@@ -121,7 +121,7 @@ class _AccountInformationState extends State<AccountInformation> {
                   child: GestureDetector(
                     onTap: _pickImage,
                     child: Image.asset(
-                      'assets/images/Edit_Button.png',
+                      'assets/images/settings_page/edit_button.png',
                       width: 28,
                       height: 28,
                     ),
