@@ -25,29 +25,36 @@ flutter:
 
   assets:
     - assets/images/logo.png
-    - assets/images/TheAppointments.png
-    - assets/images/ThePackages.png
-    - assets/images/TheReader.png
-    - assets/images/TheTestimonies.png
-    - assets/images/The_Reader_Face.png
-    - assets/images/ryan_gosling.jpg
 
-    - assets/images/Packages-Page/Crown_Package.png
-    - assets/images/Packages-Page/Coronet_Package.png
-    - assets/images/Packages-Page/Tiara_Package.png
-    - assets/images/Packages-Page/tiara_asset.png
-    - assets/images/Packages-Page/coronet_asset.png
-    - assets/images/Packages-Page/crown_asset.png
+    #dashboard_page
+    - assets/images/dashboard_page/the_appointments.png
+    - assets/images/dashboard_page/the_packages.png
+    - assets/images/dashboard_page/the_reader.png
+    - assets/images/dashboard_page/the_testimonies.png
 
-    - assets/images/Testimonies-Page/Banner.jpeg
-    - assets/images/Testimonies-Page/User1-Ava.png
-    - assets/images/Testimonies-Page/User2-Sammy.png
-    - assets/images/Testimonies-Page/User3-Binky.png
-    - assets/images/Testimonies-Page/User4-Hermione.png
-    - assets/images/Testimonies-Page/User5-Chubi.png
+    #reader_page
+    - assets/images/reader_page/the_reader_face.png
 
-    - assets/images/Settings.png
-    - assets/images/Edit_Button.png
+    #packages_page
+    - assets/images/packages_page/crown_package.png
+    - assets/images/packages_page/coronet_package.png
+    - assets/images/packages_page/tiara_package.png
+    - assets/images/packages_page/tiara_asset.png
+    - assets/images/packages_page/coronet_asset.png
+    - assets/images/packages_page/crown_asset.png
+
+    #testimonies_page
+    - assets/images/testimonies_page/banner.jpeg
+    - assets/images/testimonies_page/user1_ava.png
+    - assets/images/testimonies_page/user2_sammy.png
+    - assets/images/testimonies_page/user3_binky.png
+    - assets/images/testimonies_page/user4_hermione.png
+    - assets/images/testimonies_page/user5_chubi.png
+
+    #settings_page
+    - assets/images/settings_page/settings.png
+    - assets/images/settings_page/edit_button.png
+    - assets/images/settings_page/ryan_gosling.jpg
 
   fonts:
     - family: LuxScript

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tarot_app/screens/dashboard/appointment_page.dart';
-import 'package:tarot_app/screens/dashboard/packages.dart';
-import 'package:tarot_app/screens/dashboard/testimonials.dart';
-import 'package:tarot_app/screens/dashboard/the_reader.dart';
-import 'package:tarot_app/screens/settings/account_information.dart';
+import 'package:tarot_app/screens/dashboard/packages_page.dart';
+import 'package:tarot_app/screens/dashboard/testimonials_page.dart';
+import 'package:tarot_app/screens/dashboard/reader_page.dart';
 import 'package:tarot_app/screens/login/load_screen.dart';
+import 'package:tarot_app/screens/settings/settings_dashboard.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -19,8 +19,6 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color backgroundColor = const Color(0xFF420309);
-    final Color gold = const Color(0xFFFFB84D);
-    final double cardWidth = MediaQuery.of(context).size.width * 0.4;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -57,10 +55,13 @@ const SizedBox(width: 16),
       // Settings Button
       GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/acc_info');
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AccountInformation()),
+          );
         },
         child: Image.asset(
-          'assets/images/Settings.png',
+          'assets/images/settings_page/settings.png',
           width: 40,
           height: 40,
         ),
@@ -103,10 +104,10 @@ const SizedBox(width: 16),
                   childAspectRatio: 0.72,
                   physics: const NeverScrollableScrollPhysics(),
                   children: [
-                    _cardButton(context, 'assets/images/TheReader.png', const TheReaderPage()),
-                    _cardButton(context, 'assets/images/ThePackages.png', const PackagesPage()),
-                    _cardButton(context, 'assets/images/TheAppointments.png', const AppointmentPage()),
-                    _cardButton(context, 'assets/images/TheTestimonies.png', const TestimonialsPage()),
+                    _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const TheReaderPage()),
+                    _cardButton(context, 'assets/images/dashboard_page/the_packages.png', const PackagesPage()),
+                    _cardButton(context, 'assets/images/dashboard_page/the_appointments.png', const AppointmentPage()),
+                    _cardButton(context, 'assets/images/dashboard_page/the_testimonies.png', const TestimonialsPage()),
                   ],
                 ),
               ),
