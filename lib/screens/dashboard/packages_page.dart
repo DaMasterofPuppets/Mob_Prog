@@ -140,8 +140,7 @@ Text(
                 'Php 150',
                 'For matters of the heart and alignment. '
                 'This package blends the clarity of 5 tarot cards with the divine wisdom of 3 oracle cards to offer a harmonious reading. '
-                'Ideal for relationship dynamics, career moves, or finding your true path. '
-                'The Coronet Package offers both insight and affirmation — a beautiful balance of grounded logic and spiritual whisper. '
+                'The Coronet Package offers both insight and affirmation, a beautiful balance of grounded logic and spiritual whisper. '
                 'Because your intuition deserves validation. 💖🔮',
               ),
               child: Image.asset(
