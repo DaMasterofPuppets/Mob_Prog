@@ -11,7 +11,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Hardcoded credentials
+  // Hardcoded Credentials
   final String _hardcodedUsername = 'group4';
   final String _hardcodedPassword = 'masterofpuppets';
 
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.only(top: 50),
                   child: IconButton(
                     icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () => Navigator.pushReplacementNamed(context, '/'),
                     style: IconButton.styleFrom(
                       backgroundColor: Colors.black,
                       shape: const CircleBorder(),

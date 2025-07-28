@@ -1,7 +1,53 @@
 import 'package:flutter/material.dart';
 
-class EditEmailPage extends StatelessWidget {
+class EditEmailPage extends StatefulWidget {
   const EditEmailPage({super.key});
+
+  @override
+  State<EditEmailPage> createState() => _EditEmailPageState();
+}
+
+class _EditEmailPageState extends State<EditEmailPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  final String correctPassword = 'masterofpuppets';
+
+  bool _isValidEmail(String email) {
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    return emailRegex.hasMatch(email);
+  }
+
+// If/Else to check if the email is valid and the password is correct
+  void _validateAndProceed() {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+
+    if (!_isValidEmail(email)) {
+      _showError('Please enter a valid email.');
+    } else if (password != correctPassword) {
+      _showError('Incorrect password.');
+    } else {
+      // Both are valid and pressing next
+      Navigator.pushNamed(context, '/change_email_code');
+    }
+  }
+
+  void _showError(String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Validation Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +60,12 @@ class EditEmailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                        backgroundColor: Colors.black,
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.amber),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ),
+                backgroundColor: Colors.black,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
               const SizedBox(height: 20),
               const Center(
                 child: Text(
@@ -50,6 +96,7 @@ class EditEmailPage extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               TextField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   hintText: 'Enter New Email',
                   hintStyle: const TextStyle(fontWeight: FontWeight.bold),
@@ -60,6 +107,7 @@ class EditEmailPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextField(
+                controller: _passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'Password',
@@ -72,9 +120,7 @@ class EditEmailPage extends StatelessWidget {
               const SizedBox(height: 30),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/change_email_code');
-                  },
+                  onPressed: _validateAndProceed,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFE1A948),
                     foregroundColor: Colors.black,

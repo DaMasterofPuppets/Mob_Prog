@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
 
-class ChangePasswordPage extends StatelessWidget {
+class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
+
+  @override
+  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
+}
+
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
+  final TextEditingController oldPasswordController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController reenterPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
+    reenterPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +54,35 @@ class ChangePasswordPage extends StatelessWidget {
                 const SizedBox(height: 30),
                 Image.asset('assets/images/logo.png', height: 130),
                 const SizedBox(height: 30),
-                _buildTextField('Enter Old Password'),
-                _buildTextField('Enter New Password'),
-                _buildTextField('Re-Enter New Password'),
+
+                // Password fields
+                _buildTextField('Enter Old Password', oldPasswordController),
+                _buildTextField('Enter New Password', newPasswordController),
+                _buildTextField('Re-Enter New Password', reenterPasswordController),
+
                 const SizedBox(height: 24),
+
+                // Next button with validation
                 _buildButton('NEXT', () {
+                  final oldPassword = oldPasswordController.text.trim();
+                  final newPassword = newPasswordController.text.trim();
+                  final reentered = reenterPasswordController.text.trim();
+
+                  if (oldPassword != 'masterofpuppets') {
+                    _showError('Old password is incorrect.');
+                    return;
+                  }
+
+                  if (newPassword != reentered) {
+                    _showError('New passwords do not match.');
+                    return;
+                  }
+
+                  if (newPassword.isEmpty || reentered.isEmpty) {
+                    _showError('New password cannot be empty.');
+                    return;
+                  }
+
                   Navigator.pushNamed(context, '/password_changed');
                 }),
               ],
@@ -52,10 +93,11 @@ class ChangePasswordPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String hint) {
+  Widget _buildTextField(String hint, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: TextField(
+        controller: controller,
         obscureText: true,
         decoration: InputDecoration(
           hintText: hint,
@@ -77,6 +119,15 @@ class ChangePasswordPage extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Text(text),
+    );
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
     );
   }
 }

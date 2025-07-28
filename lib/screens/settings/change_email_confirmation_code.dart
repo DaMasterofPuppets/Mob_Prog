@@ -111,18 +111,20 @@ class _ChangeEmailConfirmationCodePageState
               const SizedBox(height: 30),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    String code = _controllers.map((c) => c.text).join();
-                    if (code.length == 4) {
-                      Navigator.pushNamed(context, '/change_email_success');
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Please enter the full 4-digit code.'),
-                        ),
-                      );
-                    }
-                  },
+                onPressed: () {
+                  String code = _controllers.map((c) => c.text).join();
+                  bool isAllDigits = RegExp(r'^\d{4}$').hasMatch(code);
+
+                  if (isAllDigits) {
+                    Navigator.pushNamed(context, '/change_email_success');
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please enter a valid 4-digit numeric code.'),
+                      ),
+                    );
+                  }
+                },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFE1A948),
                     foregroundColor: Colors.black,

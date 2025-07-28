@@ -11,6 +11,7 @@ class AccountInformation extends StatefulWidget {
 
 class _AccountInformationState extends State<AccountInformation> {
   File? _image; // Holds selected image temporarily
+  String _username = 'Ryan_Gosling'; // Holds the current username
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -21,6 +22,56 @@ class _AccountInformationState extends State<AccountInformation> {
         _image = File(picked.path); // Update state with new image
       });
     }
+  }
+
+  // Show dialog to edit username
+  void _showEditUsernameDialog() {
+    final TextEditingController _controller = TextEditingController(text: _username);
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF2C2C2C),
+          title: const Text(
+            'Edit Username',
+            style: TextStyle(
+              color: Color(0xFFFFD700),
+              fontFamily: 'PlayfairDisplay',
+            ),
+          ),
+          content: TextField(
+            controller: _controller,
+            style: const TextStyle(color: Colors.white),
+            decoration: const InputDecoration(
+              hintText: 'Enter new username',
+              hintStyle: TextStyle(color: Colors.grey),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Color(0xFFFFD700)),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _username = _controller.text.trim();
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text('Save', style: TextStyle(color: Color(0xFFFFD700))),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -80,9 +131,9 @@ class _AccountInformationState extends State<AccountInformation> {
             ),
 
             const SizedBox(height: 16),
-            const Text(
-              'Ryan_Gosling',
-              style: TextStyle(
+            Text(
+              _username,
+              style: const TextStyle(
                 fontFamily: 'PlayfairDisplay',
                 fontSize: 22,
                 color: Color(0xFFFFD700),
@@ -100,7 +151,7 @@ class _AccountInformationState extends State<AccountInformation> {
             const SizedBox(height: 32),
 
             // 🔘 Action buttons
-            buildButton(context, 'Edit Username', () => Navigator.pushNamed(context, '/edit_username')),
+            buildButton(context, 'Edit Username', _showEditUsernameDialog),
             const SizedBox(height: 16),
             buildButton(context, 'Edit Email', () => Navigator.pushNamed(context, '/change_email')),
             const SizedBox(height: 16),

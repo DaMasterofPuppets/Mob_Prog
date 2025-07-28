@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tarot_app/screens/settings/account_deleted_success.dart';
 import 'package:tarot_app/screens/settings/account_information.dart';
 import 'package:tarot_app/screens/settings/change_email.dart';
-import 'package:tarot_app/screens/settings/change_profile.dart';
 import 'package:tarot_app/screens/settings/delete_account.dart';
 import 'package:tarot_app/screens/settings/change_email_confirmation_code.dart';
 import 'package:tarot_app/screens/settings/change_email_success.dart';
@@ -35,6 +34,7 @@ class EmpressReadsApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'Inter'),
       initialRoute: '/',
       routes: {
+        //Login
         '/': (context) => const LoadScreen(),
         '/create': (context) => const CreateAccountScreen(),
         '/confirm': (context) => const ConfirmationScreen(),
@@ -44,10 +44,10 @@ class EmpressReadsApp extends StatelessWidget {
         '/forgot_pass': (context) => const ForgotPassword(),
         '/fpverify': (context) => const ForgotPassVerify(),
         '/fp_resetpass': (context) => const ForgotPassReset(),
+        //Settings
         '/acc_info': (context) => const AccountInformation(),
         '/acc_delete': (context) => const DeleteAccount(),
         '/acc_delete_succ': (context) => const AccountDeletedSuccess(),
-        '/change_prof': (context) => const ChangeProfile(),
         '/change_email': (context) => const EditEmailPage(),
         '/change_email_code': (context) => const ChangeEmailConfirmationCodePage(),
         '/change_email_success': (context) => const EmailSuccessPage(),
