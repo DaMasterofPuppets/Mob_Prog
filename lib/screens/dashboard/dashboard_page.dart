@@ -93,7 +93,7 @@ const SizedBox(width: 16),
 
               const SizedBox(height: 30),
 
-              // CARD GRID
+              // CARD GRID for 4 card view UI
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GridView.count(

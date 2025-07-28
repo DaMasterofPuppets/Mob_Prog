@@ -44,7 +44,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     'Create',
                     style: TextStyle(
                       fontSize: 48,
-                      color: Color(0xFFFFD700),
+                      color: Color(0xFFE1A948),
                       fontFamily: 'PlayfairDisplay',
                       fontWeight: FontWeight.bold,
                     ),
@@ -53,7 +53,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     'Account',
                     style: TextStyle(
                       fontSize: 48,
-                      color: Color(0xFFFFD700),
+                      color: Color(0xFFE1A948),
                       fontFamily: 'PlayfairDisplay',
                       fontWeight: FontWeight.bold,
                     ),
@@ -87,26 +87,59 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                     activeColor: Colors.amber,
                   ),
                 ),
-                const Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 5),
-                    child: Text.rich(
-                      TextSpan(
-                        text: 'By making an account you acknowledge \nour ',
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                        children: [
-                          TextSpan(
-                            text: 'Terms and Services',
-                            style: TextStyle(
-                              color: Colors.amber,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+Expanded(
+  child: Padding(
+    padding: const EdgeInsets.only(top: 5),
+    child: GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              //TERMS AND SERVICE
+              title: const Text('Terms and Services'),
+              content: const SingleChildScrollView(
+                child: Text(
+                  'By creating an account, you agree to abide by all guidelines set forth by the application. Any violations may cause to account termination and a police report.'
+                  'By agreeing, you acknowledge that any misuse of the app, such as sharing disinformation, spamming, or hacking, may result in account suspension or termination. '
+                  'Your data will be stolen by us. We have the right to modify these terms at any time.',
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text(
+                    'Agree',
+                    style: TextStyle(color: Colors.amber),
                   ),
                 ),
+              ],
+            );
+          },
+        );
+      },
+      child: RichText(
+        text: const TextSpan(
+          text: 'By making an account you acknowledge \nour ',
+          style: TextStyle(color: Colors.white, fontSize: 12),
+          children: [
+            TextSpan(
+              text: 'Terms and Services',
+              style: TextStyle(
+                color: Colors.amber,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  ),
+),
+
               ],
             ),
 

@@ -24,7 +24,7 @@ class _AccountInformationState extends State<AccountInformation> {
     }
   }
 
-  // Show dialog to edit username
+  // EDIT USERNAME
   void _showEditUsernameDialog() {
     final TextEditingController _controller = TextEditingController(text: _username);
 
@@ -105,7 +105,7 @@ class _AccountInformationState extends State<AccountInformation> {
             ),
             const SizedBox(height: 24),
 
-            // 👤 Profile picture with edit button
+            // Profile picture with edit button
             Stack(
               alignment: Alignment.bottomRight,
               children: [
@@ -150,7 +150,7 @@ class _AccountInformationState extends State<AccountInformation> {
             ),
             const SizedBox(height: 32),
 
-            // 🔘 Action buttons
+            // Action buttons
             buildButton(context, 'Edit Username', _showEditUsernameDialog),
             const SizedBox(height: 16),
             buildButton(context, 'Edit Email', () => Navigator.pushNamed(context, '/change_email')),
