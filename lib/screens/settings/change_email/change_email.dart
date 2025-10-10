@@ -62,7 +62,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
               CircleAvatar(
                 backgroundColor: Colors.black,
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                  icon: const Icon(Icons.arrow_back,color: Color(0xFFE1A948)),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),

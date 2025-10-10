@@ -27,7 +27,7 @@ class PackagesPage extends StatelessWidget {
                 title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  color: Color(0xFFFFB84D),
+                  color: Color(0xFFE1A948),
                   fontFamily: 'LuxuriousScript',
                   fontSize: 60,
                 ),
@@ -67,7 +67,7 @@ class PackagesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color gold = const Color(0xFFFFB84D);
+    final Color gold = const Color(0xFFE1A948);
     final double imageWidth = MediaQuery.of(context).size.width / 1.25;
 
     return Scaffold(
@@ -81,7 +81,7 @@ class PackagesPage extends StatelessWidget {
             CircleAvatar(
               backgroundColor: Colors.black,
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
@@ -109,7 +109,7 @@ Text(
               style: TextStyle(
                 fontFamily: 'LuxuriousScript',
                 fontSize: 60,
-                color: Color(0xFFE5A94E),
+                color: Color(0xFFE1A948),
               ),
             ),
             const SizedBox(height: 20),

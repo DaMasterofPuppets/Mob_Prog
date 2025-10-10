@@ -60,7 +60,7 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
   @override
   Widget build(BuildContext context) {
     final Color maroon = const Color(0xFF420309);
-    final Color gold = const Color(0xFFFFB84D);
+    final Color gold = const Color(0xFFE1A948);
 
     return Scaffold(
       backgroundColor: maroon,
@@ -78,7 +78,7 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
                       CircleAvatar(
                         backgroundColor: Colors.black,
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                          icon: Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
                           onPressed: () => Navigator.pop(context),
                         ),
                       ),
@@ -223,7 +223,7 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
                 ),
                 child: IconButton(
                   iconSize: 28,
-                  icon: const Icon(Icons.arrow_back_ios, color: Colors.amber),
+                  icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFE1A948)),
                   onPressed: _previousPage,
                 ),
               ),
@@ -245,7 +245,7 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
                 ),
                 child: IconButton(
                   iconSize: 28,
-                  icon: const Icon(Icons.arrow_forward_ios, color: Colors.amber),
+                  icon: const Icon(Icons.arrow_forward_ios, color: Color(0xFFE1A948)),
                   onPressed: _nextPage,
                 ),
               ),

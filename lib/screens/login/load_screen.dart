@@ -27,7 +27,7 @@ class LoadScreen extends StatelessWidget {
                   'Empress',
                   style: TextStyle(
                     fontSize: 100,
-                    color: Color(0xFFFFB84D),
+                    color: Color(0xFFE1A948),
                     fontFamily: 'LuxScript',
                     height: 0.8,
                   ),
@@ -38,7 +38,7 @@ class LoadScreen extends StatelessWidget {
                     'Reads',
                     style: TextStyle(
                       fontSize: 100,
-                      color: Color(0xFFFFB84D),
+                      color: Color(0xFFE1A948),
                       fontFamily: 'LuxScript',
                       height: 0.8,
                      ),
@@ -53,7 +53,7 @@ class LoadScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/login'); // This should go to a Login Page
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFFFB84D),
+                backgroundColor: Color(0xFFE1A948),
                 shape: StadiumBorder(),
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
               ),

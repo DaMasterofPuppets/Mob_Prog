@@ -32,7 +32,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
             Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Color(0xFFFFD700)),
+                icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
                 onPressed: () => Navigator.pushReplacementNamed(context, '/acc_info'),
                 style: IconButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -46,7 +46,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
               style: TextStyle(
                 fontFamily: 'PlayfairDisplay',
                 fontSize: 34,
-                color: Color(0xFFFFD700),
+                color: Color(0xFFE1A948),
               ),
             ),
             const SizedBox(height: 32),
@@ -60,7 +60,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
               style: TextStyle(
                 fontFamily: 'PlayfairDisplay',
                 fontSize: 32,
-                color: Color(0xFFFFD700),
+                color: Color(0xFFE1A948),
               ),
             ),
             const SizedBox(height: 16),
@@ -70,14 +70,14 @@ class _DeleteAccountState extends State<DeleteAccount> {
               style: TextStyle(
                 fontFamily: 'PlayfairDisplay',
                 fontSize: 20,
-                color: Color(0xFFFFD700),
+                color: Color(0xFFE1A948),
               ),
             ),
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: _isDeleting ? null : _handleDelete,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFFC857),
+                backgroundColor: const Color(0xFFE1A948),
                 padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
               ),
               child: const Text(
@@ -93,7 +93,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
             if (_isDeleting)
               const LinearProgressIndicator(
                 backgroundColor: Colors.white24,
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFFFC857)),
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFE1A948)),
               ),
           ],
         ),
