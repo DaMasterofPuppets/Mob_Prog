@@ -84,7 +84,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                       });
                     },
                     checkColor: Colors.black,
-                    activeColor: Colors.amber,
+                    activeColor: const Color(0xFFE1A948),
                   ),
                 ),
 Expanded(
@@ -112,7 +112,7 @@ Expanded(
                   onPressed: () => Navigator.pop(context),
                   child: const Text(
                     'Agree',
-                    style: TextStyle(color: Colors.amber),
+                    style: TextStyle(color: Color(0xFFE1A948)),
                   ),
                 ),
               ],
@@ -128,7 +128,7 @@ Expanded(
             TextSpan(
               text: 'Terms and Services',
               style: TextStyle(
-                color: Colors.amber,
+                color: Color(0xFFE1A948),
                 fontWeight: FontWeight.bold,
                 decoration: TextDecoration.underline,
               ),
@@ -154,7 +154,7 @@ Expanded(
                       ? () => Navigator.pushNamed(context, '/confirm')
                       : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFC860),
+                    backgroundColor: const Color(0xFFE1A948),
                     shape: const StadiumBorder(),
                     padding: const EdgeInsets.symmetric(vertical: 15),
                   ),

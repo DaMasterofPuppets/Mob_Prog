@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1064428991363",
+    "project_id": "empress-reads",
+    "storage_bucket": "empress-reads.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064428991363:android:7a194a81776641ec30fcb6",
+        "android_client_info": {
+          "package_name": "empress.reads"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPnnR8bHk-0T09QVfa5FAIbBHDwlhCuiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
