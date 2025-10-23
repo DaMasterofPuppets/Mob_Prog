@@ -24,13 +24,13 @@ class AccountDeletedSuccess extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: 'PlayfairDisplay',
                   fontSize: 20,
-                  color: Color(0xFFFFD700),
+                  color: Color(0xFFE1A948),
                 ),
               ),
               const SizedBox(height: 40),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFFFC857),
+                  backgroundColor: const Color(0xFFE1A948),
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                 ),
                 onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false),

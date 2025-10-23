@@ -47,7 +47,7 @@ class _AccountInformationState extends State<AccountInformation> {
               hintText: 'Enter new username',
               hintStyle: TextStyle(color: Colors.grey),
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xFFFFD700)),
+                borderSide: BorderSide(color: Color(0xFFE1A948)),
               ),
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
@@ -66,7 +66,7 @@ class _AccountInformationState extends State<AccountInformation> {
                 });
                 Navigator.of(context).pop();
               },
-              child: const Text('Save', style: TextStyle(color: Color(0xFFFFD700))),
+              child: const Text('Save', style: TextStyle(color: Color(0xFFE1A948))),
             ),
           ],
         );

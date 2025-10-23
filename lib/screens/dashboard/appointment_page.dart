@@ -246,7 +246,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   }
 
   Widget _infoTile(IconData icon, String text, [VoidCallback? onTap]) {
-    final gold = const Color(0xFFF1B24A);
+    final gold = const Color(0xFFE1A948);
     return GestureDetector(
       onTap: onTap,
       child: Container(

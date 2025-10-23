@@ -60,7 +60,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 34,
-                color: Color(0xFFFFD700),
+                color: Color(0xFFE1A948),
                 fontFamily: 'PlayfairDisplay',
                 fontWeight: FontWeight.bold,
               ),
@@ -70,7 +70,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
               'Input the 4 digit number we have sent to your email',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xFFFFD700),
+                color: Color(0xFFE1A948),
                 fontFamily: 'PlayfairDisplay',
                 fontSize: 21,
               ),
@@ -123,7 +123,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                     if (code.length < 4 || code.contains(RegExp(r'[^0-9]'))) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          backgroundColor: const Color(0xFFFFC860),
+                          backgroundColor: const Color(0xFFE1A948),
                           content: const Text(
                             'Please enter all 4 digits.',
                             style: TextStyle(color: Colors.black),
@@ -136,7 +136,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                     Navigator.pushReplacementNamed(context, '/acc_created');
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFC860),
+                    backgroundColor: const Color(0xFFE1A948),
                     shape: const StadiumBorder(),
                     padding: const EdgeInsets.symmetric(vertical: 15),
                   ),

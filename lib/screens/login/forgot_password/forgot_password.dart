@@ -97,7 +97,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     'Account\nRecovery',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFFFC76A),
+                      color: Color(0xFFE1A948),
                       fontSize: 38,
                       fontFamily: 'PlayfairDisplay',
                       fontWeight: FontWeight.bold,
@@ -111,7 +111,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     'Enter email linked to that\naccount to receive a\nverification code',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xFFFFC76A),
+                      color: Color(0xFFE1A948),
                       fontSize: 16,
                       fontFamily: 'PlayfairDisplay',
                       height: 1.4,
@@ -141,7 +141,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       : ElevatedButton(
                           onPressed: _onConfirm,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFFFC76A),
+                            backgroundColor: const Color(0xFFE1A948),
                             foregroundColor: Colors.black,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 40, vertical: 14),

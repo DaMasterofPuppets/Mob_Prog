@@ -6,7 +6,7 @@ class TheReaderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color maroon = const Color(0xFF420309);
-    final Color gold = const Color(0xFFE5A94E);
+    final Color gold = Color(0xFFE1A948);
 
     return Scaffold(
       backgroundColor: maroon,
@@ -23,7 +23,7 @@ class TheReaderPage extends StatelessWidget {
                     CircleAvatar(
                       backgroundColor: Colors.black,
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.amber),
+                        icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
                         onPressed: () => Navigator.pop(context),
                       ),
                     ),

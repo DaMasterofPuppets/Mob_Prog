@@ -14,7 +14,7 @@ class AccountCreatedPage extends StatelessWidget {
             const Text(
               'Congrats! ✅',
               style: TextStyle(
-                color: Color(0xFFFFD700),
+                color: Color(0xFFE1A948),
                 fontSize: 48,
                 fontFamily: 'PlayfairDisplay',
                 fontWeight: FontWeight.bold,
@@ -25,7 +25,7 @@ class AccountCreatedPage extends StatelessWidget {
               'Your account has\nbeen created\nsuccessfully!',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xFFFFD700),
+                color: Color(0xFFE1A948),
                 fontFamily: 'PlayfairDisplay',
                 fontSize: 24,
               ),

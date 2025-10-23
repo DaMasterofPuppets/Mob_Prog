@@ -86,7 +86,7 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
                   'Account\nRecovery',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color(0xFFFFC76A),
+                    color: Color(0xFFE1A948),
                     fontSize: 38,
                     fontFamily: 'PlayfairDisplay',
                     fontWeight: FontWeight.bold,
@@ -101,7 +101,7 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
                     Text(
                       'SUCCESS!',
                       style: TextStyle(
-                        color: Color(0xFFFFD700),
+                        color: Color(0xFFE1A948),
                         fontSize: 36,
                         fontFamily: 'PlayfairDisplay',
                         fontWeight: FontWeight.w900,
@@ -113,7 +113,7 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
                       'Enter the 4-digit code to reset\naccount password.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(0xFFFFC76A),
+                        color: Color(0xFFE1A948),
                         fontFamily: 'PlayfairDisplay',
                         fontSize: 16,
                         height: 1.4,
@@ -132,7 +132,7 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
                 child: ElevatedButton(
                   onPressed: _onConfirm,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFFC76A),
+                    backgroundColor: const Color(0xFFE1A948),
                     foregroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 14),
