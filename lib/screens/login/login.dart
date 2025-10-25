@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//supabase
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -8,40 +11,56 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Hardcoded Credentials
-  final String _hardcodedUsername = 'group4';
-  final String _hardcodedPassword = 'masterofpuppets';
+  Future<void> _login(BuildContext context) async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
 
-  void _login(BuildContext context) {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-
-    if (username == _hardcodedUsername && password == _hardcodedPassword) {
-      Navigator.pushNamed(context, '/dashboard');
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Login Failed'),
-          content: const Text('Incorrect username or password.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
+    if (email.isEmpty || password.isEmpty) {
+      _showErrorDialog(context, 'Please enter both email and password.');
+      return;
     }
+
+    try {
+      final supabase = Supabase.instance.client;
+
+      final response = await supabase.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
+
+      if (response.user != null) {
+        Navigator.pushReplacementNamed(context, '/dashboard');
+      } else {
+        _showErrorDialog(context, 'Invalid email or password.');
+      }
+    } catch (e) {
+      _showErrorDialog(context, 'Error: ${e.toString()}');
+    }
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Login Failed'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF420309),
+      backgroundColor: const Color(0xFF470000),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 40),
@@ -66,18 +85,15 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 10),
               Center(
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  height: 320,
-                ),
+                child: Image.asset('assets/images/logo.png', height: 320),
               ),
               const SizedBox(height: 10),
               TextField(
-                controller: _usernameController,
+                controller: _emailController,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
-                  hintText: 'Username',
+                  hintText: 'Email',
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
                 ),
               ),
