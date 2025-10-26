@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'packages_page.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({super.key});
@@ -141,82 +142,91 @@ class _AppointmentPageState extends State<AppointmentPage> {
               ),
             ),
 
-            //Available Time
-            const SizedBox(height: 24),
-            const Text(
-              'Available Time',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.amber,
-              ),
-            ),
-            const SizedBox(height: 12),
-            isThisWeek(selectedDate)
-                ? Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 12,
-                    runSpacing: 12,
-                    children: times.map((time) {
-                      final isSelected = time == selectedTime;
-                      return ChoiceChip(
-                        label: Text(time),
-                        selected: isSelected,
-                        onSelected: (_) {
-                          setState(() {
-                            selectedTime = time;
-                          });
-                        },
-                        selectedColor: Colors.black,
-                        labelStyle: TextStyle(
-                          color: isSelected ? Colors.white : maroon,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        backgroundColor: gold,
-                      );
-                    }).toList(),
-                  )
-                : const Text(
-                    'Schedule not yet set by the reader',
-                    style: TextStyle(color: Colors.white),
-                  ),
-            const SizedBox(height: 24),
-            _infoTile(Icons.access_time,
-                'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}', _pickTime),
-            const SizedBox(height: 8),
+            const SizedBox(height: 30),
+
+//time
             _infoTile(Icons.calendar_today,
                 'Date: ${DateFormat.yMMMMd().format(selectedDate)}', _pickDate),
             const SizedBox(height: 8),
+
+//Date
+            _infoTile(Icons.access_time,
+                'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}', _pickTime),
+            const SizedBox(height: 8),
+
+//status
             _infoTile(Icons.check_box, 'Status: Available'),
             const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                color: gold,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: DropdownButton<String>(
-                value: selectedPackage,
-                dropdownColor: gold,
-                underline: const SizedBox(),
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() {
-                      selectedPackage = value;
-                    });
-                  }
-                },
-                items: packages.map((p) {
-                  return DropdownMenuItem<String>(
-                    value: p,
-                    child: Text('Package: $p', style: const TextStyle(color: Colors.black)),
-                  );
-                }).toList(),
-              ),
-            ),
+
+
+// package + question mark button
+Center(
+  child: Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: gold,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: DropdownButton<String>(
+          value: selectedPackage,
+          dropdownColor: gold,
+          underline: const SizedBox(),
+          onChanged: (value) {
+            if (value != null) {
+              setState(() {
+                selectedPackage = value;
+              });
+            }
+          },
+          items: packages.map((p) {
+            return DropdownMenuItem<String>(
+              value: p,
+              child: Text('Package: $p',
+                  style: const TextStyle(color: Colors.black)),
+            );
+          }).toList(),
+        ),
+      ),
+      const SizedBox(width: 8),
+      IconButton(
+        icon: const Icon(Icons.help_outline, color: Colors.white),
+onPressed: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => const PackagesPage()),
+  );
+},
+
+      ),
+    ],
+  ),
+),
+
             const SizedBox(height: 24),
+
+// Optional message text box
+TextField(
+  maxLines: 3,
+  decoration: InputDecoration(
+    hintText: 'Optional message (e.g., special requests, notes, etc.)',
+    filled: true,
+    fillColor: Colors.white,
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide.none,
+    ),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+  ),
+  style: const TextStyle(color: Colors.black),
+),
+
+const SizedBox(height: 24),
+
+//When "Book now" is pressed
             ElevatedButton(
-              //When "Book now" is pressed
               onPressed: () {
               if (selectedTime.isEmpty) {
               ScaffoldMessenger.of(context).showSnackBar(

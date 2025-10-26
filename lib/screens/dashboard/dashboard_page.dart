@@ -23,95 +23,99 @@ class DashboardPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // TOP BAR WITH BACK AND SETTINGS
-Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      // Back Button
-      Row(
-        children: [
-          CircleAvatar(
-  backgroundColor: Colors.black,
-  child: IconButton(
-    icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-    onPressed: () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const LoadScreen()),
-      );
-    },
-  ),
-),
-const SizedBox(width: 16),
-        ],
-      ),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // TOP BAR WITH BACK AND SETTINGS
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Back Button
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.black,
+                            child: IconButton(
+                              icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
+                              onPressed: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => const LoadScreen()),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                        ],
+                      ),
 
-      // Settings Button
-      GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const AccountInformation()),
-          );
-        },
-        child: Image.asset(
-          'assets/images/settings_page/settings.png',
-          width: 40,
-          height: 40,
-        ),
-      ),
-    ],
-  ),
-),
-
-
-              // LOGO IMAGE
-              Image.asset(
-                'assets/images/logo.png',
-                width: 150,
-                height: 150,
-              ),
-
-              const SizedBox(height: 5),
-
-              // PICK A CARD TEXT
-              const Text(
-                'Pick a card...',
-                style: TextStyle(
-                  fontFamily: 'PlayfairDisplay',
-                  fontSize: 42,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                      // Settings Button
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const AccountInformation()),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/images/settings_page/settings.png',
+                          width: 40,
+                          height: 40,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 30),
-
-              // CARD GRID for 4 card view UI
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: GridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  childAspectRatio: 0.72,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const TheReaderPage()),
-                    _cardButton(context, 'assets/images/dashboard_page/the_packages.png', const PackagesPage()),
-                    _cardButton(context, 'assets/images/dashboard_page/the_appointments.png', const AppointmentPage()),
-                    _cardButton(context, 'assets/images/dashboard_page/the_testimonies.png', const TestimonialsPage()),
-                  ],
+                // LOGO IMAGE
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 130,
+                  height: 130,
                 ),
-              ),
-            ],
+
+                const SizedBox(height: 0),
+
+                // PICK A CARD TEXT
+                const Text(
+                  'Pick a card...',
+                  style: TextStyle(
+                    fontFamily: 'PlayfairDisplay',
+                    fontSize: 35,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 25),
+
+                // CARD GRID
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 20,
+                    childAspectRatio: 0.72,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const TheReaderPage()),
+                      _cardButton(context, 'assets/images/dashboard_page/the_packages.png', const PackagesPage()),
+                      _cardButton(context, 'assets/images/dashboard_page/the_appointments.png', const AppointmentPage()),
+                      _cardButton(context, 'assets/images/dashboard_page/the_testimonies.png', const TestimonialsPage()),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
@@ -123,6 +127,8 @@ const SizedBox(width: 16),
       onTap: () => navigateTo(context, page),
       child: Image.asset(
         asset,
+        width: 100,
+        height: 100,
         fit: BoxFit.contain,
       ),
     );

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tarot_app/screens/login/forgot_password/fp_verify.dart';
 
+//supabase time
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
 
@@ -40,34 +44,62 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return null;
   }
 
-  void _onConfirm() {
-    final validationMessage = validateEmail(_emailController.text);
+void _onConfirm() async {
+  final email = _emailController.text.trim();
+  final validationMessage = validateEmail(email);
 
-    if (validationMessage != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(validationMessage),
-          backgroundColor: const Color(0xFFE1A948),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-    } else {
-      setState(() {
-        isLoading = true;
-      });
-
-      Future.delayed(const Duration(seconds: 3), () {
-        setState(() {
-          isLoading = false;
-        });
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const ForgotPassVerify()),  // this is the redirect route
-        );
-      });
-    }
+  if (validationMessage != null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(validationMessage),
+        backgroundColor: const Color(0xFFE1A948),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+    return;
   }
+
+  setState(() => isLoading = true);
+
+  try {
+    await Supabase.instance.client.auth.resetPasswordForEmail(
+      email,
+      redirectTo: 'https://your-app-url.com/reset-password', // change if needed
+    );
+
+    setState(() => isLoading = false);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Password reset link sent! Check your email.'),
+        backgroundColor: Color(0xFFE1A948),
+      ),
+    );
+
+    // Optionally navigate to verify screen (if you want to simulate verification)
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ForgotPassVerify()),
+    );
+  } on AuthException catch (e) {
+    setState(() => isLoading = false);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(e.message),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } catch (e) {
+    setState(() => isLoading = false);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Something went wrong. Please try again.'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {

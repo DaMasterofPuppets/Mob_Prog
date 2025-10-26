@@ -67,142 +67,147 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
       body: SafeArea(
         child: Stack(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Back + title
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.black,
-                        child: IconButton(
-                          icon: Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-                          onPressed: () => Navigator.pop(context),
+            SingleChildScrollView( // ✅ Added to prevent vertical overflow
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Back + title
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Colors.black,
+                          child: IconButton(
+                            icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
+                            onPressed: () => Navigator.pop(context),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Text(
-                        'Testimonials',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'PlayfairDisplay',
-                          color: gold,
+                        const SizedBox(width: 16),
+                        Text(
+                          'Testimonials',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'PlayfairDisplay',
+                            color: gold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                // Bigger banner
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.28,
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/testimonies_page/banner.jpeg'),
-                      fit: BoxFit.cover,
+                      ],
                     ),
                   ),
-                ),
 
-                const SizedBox(height: 10),
+                  const SizedBox(height: 10),
 
-                // Carousel
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: PageView.builder(
-                      controller: _pageController,
-                      itemCount: testimonials.length,
-                      onPageChanged: (index) {
-                        setState(() => _currentIndex = index);
-                      },
-                      itemBuilder: (context, index) {
-                        final item = testimonials[index];
-                        return AnimatedBuilder(
-                          animation: _pageController,
-                          builder: (context, child) {
-                            double scale = 1.0;
-                            if (!_pageController.hasClients || !_pageController.position.haveDimensions) {
-                              scale = 1.0;
-                            } else {
-                              scale = (_pageController.page! - index).abs();
-                              scale = (1 - (scale * 0.2)).clamp(0.85, 1.0);
-                            }
-                            return Transform.scale(
-                              scale: scale,
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
-                                padding: const EdgeInsets.all(20),
-                                decoration: BoxDecoration(
-                                  color: gold,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (item['image'] != null)
-                                      CircleAvatar(
-                                        radius: 80,
-                                        backgroundImage: AssetImage(item['image']!),
-                                        backgroundColor: Colors.transparent,
-                                      ),
-                                    const SizedBox(height: 18),
-                                    Text(
-                                      item['name']!,
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'PlayfairDisplay',
-                                        color: maroon,
-                                      ),
+                  // Bigger banner
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.28,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/testimonies_page/banner.jpeg'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  // Carousel
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.50, // ✅ bounded height so it doesn't overflow
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: PageView.builder(
+                        controller: _pageController,
+                        itemCount: testimonials.length,
+                        onPageChanged: (index) {
+                          setState(() => _currentIndex = index);
+                        },
+                        itemBuilder: (context, index) {
+                          final item = testimonials[index];
+                          return AnimatedBuilder(
+                            animation: _pageController,
+                            builder: (context, child) {
+                              double scale = 1.0;
+                              if (!_pageController.hasClients || !_pageController.position.haveDimensions) {
+                                scale = 1.0;
+                              } else {
+                                scale = (_pageController.page! - index).abs();
+                                scale = (1 - (scale * 0.2)).clamp(0.85, 1.0);
+                              }
+                              return Transform.scale(
+                                scale: scale,
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    color: gold,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: SingleChildScrollView( // ✅ added to handle long text inside card
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        if (item['image'] != null)
+                                          CircleAvatar(
+                                            radius: 80,
+                                            backgroundImage: AssetImage(item['image']!),
+                                            backgroundColor: Colors.transparent,
+                                          ),
+                                        const SizedBox(height: 18),
+                                        Text(
+                                          item['name']!,
+                                          style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'PlayfairDisplay',
+                                            color: maroon,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 14),
+                                        Text(
+                                          item['desc']!,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: 'PlayfairDisplay',
+                                            color: maroon,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(height: 14),
-                                    Text(
-                                      item['desc']!,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontFamily: 'PlayfairDisplay',
-                                        color: maroon,
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+
+                  // Dots indicator
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 14, top: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: testimonials.asMap().entries.map((entry) {
+                        return Container(
+                          width: 10,
+                          height: 10,
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _currentIndex == entry.key
+                                ? Colors.white
+                                : Colors.white.withOpacity(0.4),
+                          ),
                         );
-                      },
+                      }).toList(),
                     ),
                   ),
-                ),
-
-                // Dots indicator
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 14, top: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: testimonials.asMap().entries.map((entry) {
-                      return Container(
-                        width: 10,
-                        height: 10,
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _currentIndex == entry.key
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.4),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
 
             // Arrows wrapped in circle
@@ -217,7 +222,7 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.4),
                       blurRadius: 4,
-                      offset: Offset(2, 2),
+                      offset: const Offset(2, 2),
                     )
                   ],
                 ),
@@ -239,7 +244,7 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.4),
                       blurRadius: 4,
-                      offset: Offset(2, 2),
+                      offset: const Offset(2, 2),
                     )
                   ],
                 ),
