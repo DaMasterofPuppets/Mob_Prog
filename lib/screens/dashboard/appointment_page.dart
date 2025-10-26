@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'packages_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter/foundation.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({super.key});
@@ -10,6 +12,14 @@ class AppointmentPage extends StatefulWidget {
 }
 
 class _AppointmentPageState extends State<AppointmentPage> {
+  final TextEditingController _messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    _messageController.dispose();
+    super.dispose();
+  }
+  
   DateTime selectedDate = DateTime.now();
   String selectedTime = '';
   String selectedPackage = 'Tiara';
@@ -191,6 +201,8 @@ Center(
         ),
       ),
       const SizedBox(width: 8),
+    
+//question mark
       IconButton(
         icon: const Icon(Icons.help_outline, color: Colors.white),
 onPressed: () {
@@ -199,7 +211,6 @@ onPressed: () {
     MaterialPageRoute(builder: (context) => const PackagesPage()),
   );
 },
-
       ),
     ],
   ),
@@ -209,6 +220,7 @@ onPressed: () {
 
 // Optional message text box
 TextField(
+  controller: _messageController,
   maxLines: 3,
   decoration: InputDecoration(
     hintText: 'Optional message (e.g., special requests, notes, etc.)',
@@ -223,32 +235,67 @@ TextField(
   style: const TextStyle(color: Colors.black),
 ),
 
+
 const SizedBox(height: 24),
 
-//When "Book now" is pressed
-            ElevatedButton(
-              onPressed: () {
-              if (selectedTime.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Please select a time first')),
-              );
-              } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(
-        'Appointment booked on ${DateFormat.yMMMMd().format(selectedDate)} at $selectedTime')),
+// When "Book now" is pressed
+const SizedBox(height: 24),
+
+// When "Book now" is pressed
+SizedBox(
+  width: double.infinity,
+  child: ElevatedButton(
+    onPressed: () async {
+      print('[BOOK] pressed');
+
+      if (selectedTime.isEmpty) {
+        print('[BOOK] missing time');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select a time first')),
         );
-                    }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: gold,
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              child: const Text(
-                'BOOK NOW',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-              ),
-            )
+        return;
+      }
+
+      final message = _messageController.text.trim();
+      final formattedDate = DateFormat.yMMMMd().format(selectedDate);
+
+      try {
+        print('[BOOK] invoking function...');
+        await Supabase.instance.client.functions.invoke(
+  'send-booking-email',
+  body: {
+    'time': selectedTime,
+    'date': formattedDate,
+    'message': message,
+  },
+);
+
+
+        print('[BOOK] success');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Booking email sent successfully!')),
+        );
+      } catch (e, st) {
+        print('[BOOK] error: $e');
+        print('[BOOK] stack: $st');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to send email: $e')),
+        );
+      }
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: gold,
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    ),
+    child: const Text(
+      'BOOK NOW',
+      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+    ),
+  ),
+),
+
+
           ],
         ),
       ),
@@ -276,3 +323,4 @@ const SizedBox(height: 24),
     );
   }
 }
+
