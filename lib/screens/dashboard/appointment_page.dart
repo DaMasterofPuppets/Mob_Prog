@@ -27,15 +27,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
   final List<String> times = ['10:00 a.m', '11:00 a.m', '01:00 p.m', '04:00 p.m'];
   final List<String> packages = ['Tiara', 'Coronet', 'Crown'];
 
-  //This week (To be used in available time section) (Placeholder for testing)
-  bool isThisWeek(DateTime date) {
-    final now = DateTime.now();
-    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-    final endOfWeek = startOfWeek.add(const Duration(days: 6));
-    return date.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
-        date.isBefore(endOfWeek.add(const Duration(days: 1)));
-  }
-
   void _pickDate() async {
     final picked = await showDatePicker(
       context: context,
@@ -164,11 +155,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}', _pickTime),
             const SizedBox(height: 8),
 
-//status
-            _infoTile(Icons.check_box, 'Status: Available'),
-            const SizedBox(height: 12),
-
-
 // package + question mark button
 Center(
   child: Row(
@@ -262,14 +248,14 @@ SizedBox(
       try {
         print('[BOOK] invoking function...');
         await Supabase.instance.client.functions.invoke(
-  'send-booking-email',
-  body: {
-    'time': selectedTime,
-    'date': formattedDate,
-    'message': message,
-  },
-);
-
+          'send-booking-email',
+          body: {
+            'time': selectedTime,
+            'date': formattedDate,
+            'message': message,
+            'email': Supabase.instance.client.auth.currentUser?.email, // 👈 add this
+          },
+        );
 
         print('[BOOK] success');
         ScaffoldMessenger.of(context).showSnackBar(
