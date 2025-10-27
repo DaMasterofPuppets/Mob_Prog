@@ -96,7 +96,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            //Tapping the Yellow rectangle Container triggers this which opens a date picker
             GestureDetector(
               onTap: _pickDate,
               child: Container(
@@ -254,7 +253,6 @@ SizedBox(
       final formattedDate = DateFormat.yMMMMd().format(selectedDate);
 
 try {
-  // 👇 Add this new block RIGHT BEFORE invoke
   final payload = {
     'time': selectedTime,
     'date': formattedDate,
@@ -263,7 +261,6 @@ try {
     'package': selectedPackage,
   };
 
-  // ✅ This print is what we mean by “right before invoke”
   print('[BOOK] payload to send: $payload');
 
   print('[BOOK] invoking function...');
