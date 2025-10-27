@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'packages_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({super.key});
@@ -10,21 +11,20 @@ class AppointmentPage extends StatefulWidget {
 }
 
 class _AppointmentPageState extends State<AppointmentPage> {
+  final TextEditingController _messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    _messageController.dispose();
+    super.dispose();
+  }
+  
   DateTime selectedDate = DateTime.now();
   String selectedTime = '';
-  String selectedPackage = 'Tiara';
+  String? selectedPackage;
 
   final List<String> times = ['10:00 a.m', '11:00 a.m', '01:00 p.m', '04:00 p.m'];
   final List<String> packages = ['Tiara', 'Coronet', 'Crown'];
-
-  //This week (To be used in available time section) (Placeholder for testing)
-  bool isThisWeek(DateTime date) {
-    final now = DateTime.now();
-    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
-    final endOfWeek = startOfWeek.add(const Duration(days: 6));
-    return date.isAfter(startOfWeek.subtract(const Duration(days: 1))) &&
-        date.isBefore(endOfWeek.add(const Duration(days: 1)));
-  }
 
   void _pickDate() async {
     final picked = await showDatePicker(
@@ -96,7 +96,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            //Tapping the Yellow rectangle Container triggers this which opens a date picker
             GestureDetector(
               onTap: _pickDate,
               child: Container(
@@ -154,11 +153,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}', _pickTime),
             const SizedBox(height: 8),
 
-//status
-            _infoTile(Icons.check_box, 'Status: Available'),
-            const SizedBox(height: 12),
-
-
 // package + question mark button
 Center(
   child: Row(
@@ -172,6 +166,10 @@ Center(
         ),
         child: DropdownButton<String>(
           value: selectedPackage,
+          hint: const Text(
+            'Package: Choose',
+            style: TextStyle(color: Colors.black),
+          ),
           dropdownColor: gold,
           underline: const SizedBox(),
           onChanged: (value) {
@@ -191,6 +189,8 @@ Center(
         ),
       ),
       const SizedBox(width: 8),
+    
+//question mark
       IconButton(
         icon: const Icon(Icons.help_outline, color: Colors.white),
 onPressed: () {
@@ -199,7 +199,6 @@ onPressed: () {
     MaterialPageRoute(builder: (context) => const PackagesPage()),
   );
 },
-
       ),
     ],
   ),
@@ -209,6 +208,7 @@ onPressed: () {
 
 // Optional message text box
 TextField(
+  controller: _messageController,
   maxLines: 3,
   decoration: InputDecoration(
     hintText: 'Optional message (e.g., special requests, notes, etc.)',
@@ -223,32 +223,77 @@ TextField(
   style: const TextStyle(color: Colors.black),
 ),
 
-const SizedBox(height: 24),
 
-//When "Book now" is pressed
-            ElevatedButton(
-              onPressed: () {
-              if (selectedTime.isEmpty) {
-              ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Please select a time first')),
-              );
-              } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(
-        'Appointment booked on ${DateFormat.yMMMMd().format(selectedDate)} at $selectedTime')),
+const SizedBox(height: 48),
+
+// When "Book now" is pressed
+SizedBox(
+  width: double.infinity,
+  child: ElevatedButton(
+    onPressed: () async {
+      print('[BOOK] pressed');
+
+      if (selectedTime.isEmpty) {
+        print('[BOOK] missing time');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select a time first')),
         );
-                    }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: gold,
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-              child: const Text(
-                'BOOK NOW',
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-              ),
-            )
+        return;
+      }
+
+  if (selectedPackage == null) {
+    print('[BOOK] missing package');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please choose a package first')),
+    );
+    return;
+  }
+
+      final message = _messageController.text.trim();
+      final formattedDate = DateFormat.yMMMMd().format(selectedDate);
+
+try {
+  final payload = {
+    'time': selectedTime,
+    'date': formattedDate,
+    'message': message,
+    'email': Supabase.instance.client.auth.currentUser?.email,
+    'package': selectedPackage,
+  };
+
+  print('[BOOK] payload to send: $payload');
+
+  print('[BOOK] invoking function...');
+  await Supabase.instance.client.functions.invoke(
+    'send-booking-email',
+    body: payload,
+  );
+
+        print('[BOOK] success');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Booking email sent successfully!')),
+        );
+      } catch (e, st) {
+        print('[BOOK] error: $e');
+        print('[BOOK] stack: $st');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to send email: $e')),
+        );
+      }
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: gold,
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    ),
+    child: const Text(
+      'BOOK NOW',
+      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+    ),
+  ),
+),
+
+
           ],
         ),
       ),
@@ -276,3 +321,4 @@ const SizedBox(height: 24),
     );
   }
 }
+
