@@ -23,7 +23,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
   String selectedTime = '';
   String? selectedPackage;
 
-  final List<String> times = ['10:00 a.m', '11:00 a.m', '01:00 p.m', '04:00 p.m'];
   final List<String> packages = ['Tiara', 'Coronet', 'Crown'];
 
   void _pickDate() async {
@@ -60,6 +59,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
     //Background Colors
     final Color maroon = const Color(0xFF420309);
     final Color gold = const Color(0xFFF1B24A);
+
     final days = List.generate(4, (i) => selectedDate.add(Duration(days: i)));
 
     return Scaffold(
@@ -67,6 +67,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
       appBar: AppBar(
         backgroundColor: maroon,
         elevation: 0,
+
         //Back Button
         automaticallyImplyLeading: false,
         title: Row(
@@ -78,7 +79,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 onPressed: () => Navigator.pop(context),
               ),
             ),
+
             const SizedBox(width: 16),
+            
             Text(
               'Appointment',
               style: TextStyle(
@@ -143,62 +146,62 @@ class _AppointmentPageState extends State<AppointmentPage> {
 
             const SizedBox(height: 30),
 
-//time
+            //time
             _infoTile(Icons.calendar_today,
                 'Date: ${DateFormat.yMMMMd().format(selectedDate)}', _pickDate),
             const SizedBox(height: 8),
 
-//Date
+            //Date
             _infoTile(Icons.access_time,
                 'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}', _pickTime),
             const SizedBox(height: 8),
 
-// package + question mark button
-Center(
-  child: Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          color: gold,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: DropdownButton<String>(
-          value: selectedPackage,
-          hint: const Text(
-            'Package: Choose',
-            style: TextStyle(color: Colors.black),
-          ),
-          dropdownColor: gold,
-          underline: const SizedBox(),
-          onChanged: (value) {
-            if (value != null) {
-              setState(() {
-                selectedPackage = value;
-              });
-            }
-          },
-          items: packages.map((p) {
-            return DropdownMenuItem<String>(
-              value: p,
-              child: Text('Package: $p',
-                  style: const TextStyle(color: Colors.black)),
-            );
-          }).toList(),
-        ),
-      ),
-      const SizedBox(width: 8),
+            // package + question mark button
+            Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      color: gold,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: DropdownButton<String>(
+                      value: selectedPackage,
+                      hint: const Text(
+                        'Package: Choose',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      dropdownColor: gold,
+                      underline: const SizedBox(),
+                      onChanged: (value) {
+                        if (value != null) {
+                          setState(() {
+                            selectedPackage = value;
+                          });
+                        }
+                      },
+                      items: packages.map((p) {
+                        return DropdownMenuItem<String>(
+                          value: p,
+                          child: Text('Package: $p',
+                              style: const TextStyle(color: Colors.black)),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
     
-//question mark
+      //question mark
       IconButton(
         icon: const Icon(Icons.help_outline, color: Colors.white),
-onPressed: () {
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const PackagesPage()),
-  );
-},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const PackagesPage()),
+          );
+        },
       ),
     ],
   ),
@@ -211,7 +214,7 @@ TextField(
   controller: _messageController,
   maxLines: 3,
   decoration: InputDecoration(
-    hintText: 'Optional message (e.g., special requests, notes, etc.)',
+    hintText: 'Optional message',
     filled: true,
     fillColor: Colors.white,
     border: OutlineInputBorder(
@@ -231,10 +234,8 @@ SizedBox(
   width: double.infinity,
   child: ElevatedButton(
     onPressed: () async {
-      print('[BOOK] pressed');
 
       if (selectedTime.isEmpty) {
-        print('[BOOK] missing time');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please select a time first')),
         );
@@ -242,7 +243,6 @@ SizedBox(
       }
 
   if (selectedPackage == null) {
-    print('[BOOK] missing package');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Please choose a package first')),
     );
@@ -253,27 +253,22 @@ SizedBox(
       final formattedDate = DateFormat.yMMMMd().format(selectedDate);
 
 try {
-  final payload = {
-    'time': selectedTime,
-    'date': formattedDate,
-    'message': message,
-    'email': Supabase.instance.client.auth.currentUser?.email,
-    'package': selectedPackage,
-  };
-
-  print('[BOOK] payload to send: $payload');
-
-  print('[BOOK] invoking function...');
   await Supabase.instance.client.functions.invoke(
     'send-booking-email',
-    body: payload,
+    body: {
+      'time': selectedTime,
+      'date': formattedDate,
+      'message': message,
+      'email': Supabase.instance.client.auth.currentUser?.email,
+      'package': selectedPackage,
+    },
   );
 
-        print('[BOOK] success');
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Booking email sent successfully!')),
-        );
-      } catch (e, st) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(content: Text('Booking email sent successfully!')),
+  );
+} catch (e, st) {
+
         print('[BOOK] error: $e');
         print('[BOOK] stack: $st');
         ScaffoldMessenger.of(context).showSnackBar(
@@ -281,17 +276,17 @@ try {
         );
       }
     },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: gold,
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-    ),
-    child: const Text(
-      'BOOK NOW',
-      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-    ),
-  ),
-),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: gold,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            child: const Text(
+              'BOOK NOW',
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+            ),
+          ),
+        ),
 
 
           ],
@@ -321,4 +316,3 @@ try {
     );
   }
 }
-
