@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'packages_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter/foundation.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({super.key});
@@ -222,10 +221,7 @@ TextField(
 ),
 
 
-const SizedBox(height: 24),
-
-// When "Book now" is pressed
-const SizedBox(height: 24),
+const SizedBox(height: 48),
 
 // When "Book now" is pressed
 SizedBox(
@@ -253,7 +249,7 @@ SizedBox(
             'time': selectedTime,
             'date': formattedDate,
             'message': message,
-            'email': Supabase.instance.client.auth.currentUser?.email, // 👈 add this
+            'email': Supabase.instance.client.auth.currentUser?.email,
           },
         );
 
