@@ -21,7 +21,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   
   DateTime selectedDate = DateTime.now();
   String selectedTime = '';
-  String selectedPackage = 'Tiara';
+  String? selectedPackage;
 
   final List<String> times = ['10:00 a.m', '11:00 a.m', '01:00 p.m', '04:00 p.m'];
   final List<String> packages = ['Tiara', 'Coronet', 'Crown'];
@@ -167,6 +167,10 @@ Center(
         ),
         child: DropdownButton<String>(
           value: selectedPackage,
+          hint: const Text(
+            'Package: Choose',
+            style: TextStyle(color: Colors.black),
+          ),
           dropdownColor: gold,
           underline: const SizedBox(),
           onChanged: (value) {
@@ -238,20 +242,35 @@ SizedBox(
         return;
       }
 
+  if (selectedPackage == null) {
+    print('[BOOK] missing package');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please choose a package first')),
+    );
+    return;
+  }
+
       final message = _messageController.text.trim();
       final formattedDate = DateFormat.yMMMMd().format(selectedDate);
 
-      try {
-        print('[BOOK] invoking function...');
-        await Supabase.instance.client.functions.invoke(
-          'send-booking-email',
-          body: {
-            'time': selectedTime,
-            'date': formattedDate,
-            'message': message,
-            'email': Supabase.instance.client.auth.currentUser?.email,
-          },
-        );
+try {
+  // 👇 Add this new block RIGHT BEFORE invoke
+  final payload = {
+    'time': selectedTime,
+    'date': formattedDate,
+    'message': message,
+    'email': Supabase.instance.client.auth.currentUser?.email,
+    'package': selectedPackage,
+  };
+
+  // ✅ This print is what we mean by “right before invoke”
+  print('[BOOK] payload to send: $payload');
+
+  print('[BOOK] invoking function...');
+  await Supabase.instance.client.functions.invoke(
+    'send-booking-email',
+    body: payload,
+  );
 
         print('[BOOK] success');
         ScaffoldMessenger.of(context).showSnackBar(
