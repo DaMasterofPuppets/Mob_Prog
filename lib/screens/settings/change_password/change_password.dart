@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -12,12 +13,69 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController reenterPasswordController = TextEditingController();
 
+  bool _loading = false;
+
+  SupabaseClient get supabase => Supabase.instance.client;
+
   @override
   void dispose() {
     oldPasswordController.dispose();
     newPasswordController.dispose();
     reenterPasswordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleChangePassword() async {
+    final oldPassword = oldPasswordController.text.trim();
+    final newPassword = newPasswordController.text.trim();
+    final reentered = reenterPasswordController.text.trim();
+
+    // Basic validations
+    if (newPassword.isEmpty || reentered.isEmpty || oldPassword.isEmpty) {
+      _showError('All fields are required.');
+      return;
+    }
+    if (newPassword != reentered) {
+      _showError('New passwords do not match.');
+      return;
+    }
+    if (newPassword.length < 6) {
+      // Supabase requires 6+ chars by default
+      _showError('New password must be at least 6 characters.');
+      return;
+    }
+
+    final user = supabase.auth.currentUser;
+    if (user == null || user.email == null) {
+      _showError('Not signed in. Please log in again.');
+      if (mounted) Navigator.pushReplacementNamed(context, '/login');
+      return;
+    }
+
+    setState(() => _loading = true);
+
+    try {
+      await supabase.auth.signInWithPassword(
+        email: user.email!,
+        password: oldPassword,
+      );
+
+      await supabase.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+
+      if (!mounted) return;
+
+      Navigator.pushNamed(context, '/password_changed');
+    } on AuthException catch (e) {
+
+      _showError(e.message);
+    } catch (e) {
+
+      _showError('Something went wrong. Please try again.');
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
   }
 
   @override
@@ -55,38 +113,25 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 Image.asset('assets/images/logo.png', height: 130),
                 const SizedBox(height: 30),
 
-                // Password fields
                 _buildTextField('Enter Old Password', oldPasswordController),
                 _buildTextField('Enter New Password', newPasswordController),
                 _buildTextField('Re-Enter New Password', reenterPasswordController),
 
                 const SizedBox(height: 24),
 
-                // Next button with validation
-                _buildButton('NEXT', () {
-                  final oldPassword = oldPasswordController.text.trim();
-                  final newPassword = newPasswordController.text.trim();
-                  final reentered = reenterPasswordController.text.trim();
-
-                  if (oldPassword != 'masterofpuppets') {
-                    _showError('Old password is incorrect.');
-                    return;
-                  }
-
-                  if (newPassword != reentered) {
-                    _showError('New passwords do not match.');
-                    return;
-                  }
-
-                  if (newPassword.isEmpty || reentered.isEmpty) {
-                    _showError('New password cannot be empty.');
-                    return;
-                  }
-
-                  Navigator.pushNamed(context, '/password_changed');
-                }),
+                _buildButton(
+                  _loading ? 'PROCESSING...' : 'NEXT',
+                  _loading ? null : _handleChangePassword,
+                ),
               ],
             ),
+
+            if (_loading)
+              Container(
+                color: Colors.black.withOpacity(0.25),
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(),
+              ),
           ],
         ),
       ),
@@ -99,6 +144,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       child: TextField(
         controller: controller,
         obscureText: true,
+        enableSuggestions: false,
+        autocorrect: false,
         decoration: InputDecoration(
           hintText: hint,
           filled: true,
@@ -109,7 +156,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     );
   }
 
-  Widget _buildButton(String text, VoidCallback onPressed) {
+  Widget _buildButton(String text, VoidCallback? onPressed) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xFFE1A948),
