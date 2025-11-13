@@ -1,6 +1,5 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AccountInformation extends StatefulWidget {
   const AccountInformation({super.key});
@@ -10,17 +9,20 @@ class AccountInformation extends StatefulWidget {
 }
 
 class _AccountInformationState extends State<AccountInformation> {
-  File? _image; // Holds selected image temporarily
+  String? _email;
 
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final picked = await picker.pickImage(source: ImageSource.gallery);
+  @override
+  void initState() {
+    super.initState();
+    final user = Supabase.instance.client.auth.currentUser;
+    _email = user?.email ?? 'Not signed in';
 
-    if (picked != null) {
+    Supabase.instance.client.auth.onAuthStateChange.listen((_) {
+      final u = Supabase.instance.client.auth.currentUser;
       setState(() {
-        _image = File(picked.path); // Update state with new image
+        _email = u?.email ?? 'Not signed in';
       });
-    }
+    });
   }
 
   @override
@@ -43,7 +45,9 @@ class _AccountInformationState extends State<AccountInformation> {
                 ),
               ),
             ),
+
             const SizedBox(height: 10),
+
             const Text(
               'Account Settings',
               style: TextStyle(
@@ -52,54 +56,54 @@ class _AccountInformationState extends State<AccountInformation> {
                 color: Color(0xFFFFD700),
               ),
             ),
+
             const SizedBox(height: 24),
 
-            // Profile picture with edit button
-            Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: _image != null
-                      ? FileImage(_image!)
-                      : const AssetImage('assets/images/settings_page/ryan_gosling.jpg') as ImageProvider,
+            Center(
+              child: Text(
+                'Email:',
+                style: const TextStyle(
+                  fontFamily: 'PlayfairDisplay',
+                  fontSize: 20,
+                  color: Color(0xFFFFD700),
+                  fontWeight: FontWeight.w600,
                 ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: GestureDetector(
-                    onTap: _pickImage,
-                    child: Image.asset(
-                      'assets/images/settings_page/edit_button.png',
-                      width: 28,
-                      height: 28,
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            Center(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF2A0A07),
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black54,
+                      offset: const Offset(0, 6),
+                      blurRadius: 12,
                     ),
+                  ],
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Center(
+                  child: Text(
+                    _email ?? 'Not signed in',
+                    style: const TextStyle(
+                      fontFamily: 'PlayfairDisplay',
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ],
+              ),
             ),
 
-            const SizedBox(height: 16),
-            const Text(
-              'Ryan_Gosling',
-              style: TextStyle(
-                fontFamily: 'PlayfairDisplay',
-                fontSize: 22,
-                color: Color(0xFFFFD700),
-              ),
-            ),
-            const SizedBox(height: 4),
-            const Text(
-              'literally.me@gmail.com',
-              style: TextStyle(
-                fontFamily: 'PlayfairDisplay',
-                fontSize: 14,
-                color: Colors.white,
-              ),
-            ),
             const SizedBox(height: 32),
 
-            // Action buttons
             buildButton(context, 'Edit Email', () => Navigator.pushNamed(context, '/change_email')),
             const SizedBox(height: 16),
             buildButton(context, 'Edit Password', () => Navigator.pushNamed(context, '/change_password')),
