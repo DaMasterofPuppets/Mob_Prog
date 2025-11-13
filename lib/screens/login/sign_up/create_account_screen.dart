@@ -11,7 +11,6 @@ class CreateAccountScreen extends StatefulWidget {
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   bool tosAgreed = false;
 
-  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
@@ -43,7 +42,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             ),
             const SizedBox(height: 90),
 
-            // Title
             Center(
               child: Column(
                 children: const [
@@ -70,15 +68,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             ),
             const SizedBox(height: 30),
 
-            // Input fields
-            _buildInputField('Username', controller: _usernameController),
             _buildInputField('Email', controller: _emailController),
             _buildInputField('Password', controller: _passwordController, obscureText: true),
             _buildInputField('Reconfirm Password', controller: _confirmPasswordController, obscureText: true),
 
             const SizedBox(height: 15),
 
-            // TOS Checkbox + Text
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -150,7 +145,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             ),
             const SizedBox(height: 10),
 
-            // Register Button
             Center(
               child: SizedBox(
                 width: 200,
@@ -174,7 +168,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
   }
 
-  // Input field widget
   Widget _buildInputField(String hint,
       {bool obscureText = false, TextEditingController? controller}) {
     return Padding(
@@ -192,7 +185,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
   }
 
-//Input decoration
   InputDecoration _inputDecoration(String hint) {
     return InputDecoration(
       hintText: hint,
@@ -202,14 +194,12 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
   }
 
-//Register
   void _registerUser() async {
-    final username = _usernameController.text.trim();
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
     final confirmPassword = _confirmPasswordController.text.trim();
 
-    if (username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
       _showDialog('Please fill in all fields.');
       return;
     }
@@ -221,10 +211,10 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
 
     try {
       final supabase = Supabase.instance.client;
+
       final response = await supabase.auth.signUp(
         email: email,
         password: password,
-        data: {'username': username}, //for username (wala pa)
       );
 
       if (response.user != null) {
@@ -239,7 +229,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     }
   }
 
-//for dialog
   void _showDialog(String message, {VoidCallback? onOk}) {
     showDialog(
       context: context,
