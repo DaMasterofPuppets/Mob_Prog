@@ -10,6 +10,8 @@ class CreateAccountScreen extends StatefulWidget {
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   bool tosAgreed = false;
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -69,8 +71,30 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             const SizedBox(height: 30),
 
             _buildInputField('Email', controller: _emailController),
-            _buildInputField('Password', controller: _passwordController, obscureText: true),
-            _buildInputField('Reconfirm Password', controller: _confirmPasswordController, obscureText: true),
+            _buildInputField(
+              'Password',
+              controller: _passwordController,
+              obscureText: true,
+              isPassword: true,
+              isVisible: _isPasswordVisible,
+              onToggleVisibility: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            ),
+            _buildInputField(
+              'Reconfirm Password',
+              controller: _confirmPasswordController,
+              obscureText: true,
+              isPassword: true,
+              isVisible: _isConfirmPasswordVisible,
+              onToggleVisibility: () {
+                setState(() {
+                  _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                });
+              },
+            ),
 
             const SizedBox(height: 15),
 
@@ -168,8 +192,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
     );
   }
 
-  Widget _buildInputField(String hint,
-      {bool obscureText = false, TextEditingController? controller}) {
+  Widget _buildInputField(
+    String hint, {
+    bool obscureText = false,
+    TextEditingController? controller,
+    bool isPassword = false,
+    bool isVisible = false,
+    VoidCallback? onToggleVisibility,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Center(
@@ -177,20 +207,39 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
           width: 320,
           child: TextField(
             controller: controller,
-            obscureText: obscureText,
-            decoration: _inputDecoration(hint),
+            obscureText: obscureText && !isVisible,
+            decoration: _inputDecoration(
+              hint,
+              isPassword: isPassword,
+              isVisible: isVisible,
+              onToggleVisibility: onToggleVisibility,
+            ),
           ),
         ),
       ),
     );
   }
 
-  InputDecoration _inputDecoration(String hint) {
+  InputDecoration _inputDecoration(
+    String hint, {
+    bool isPassword = false,
+    bool isVisible = false,
+    VoidCallback? onToggleVisibility,
+  }) {
     return InputDecoration(
       hintText: hint,
       filled: true,
       fillColor: Colors.white,
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      suffixIcon: isPassword
+          ? IconButton(
+              icon: Icon(
+                isVisible ? Icons.visibility : Icons.visibility_off,
+                color: Colors.grey,
+              ),
+              onPressed: onToggleVisibility,
+            )
+          : null,
     );
   }
 
