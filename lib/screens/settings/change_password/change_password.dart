@@ -30,7 +30,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     final newPassword = newPasswordController.text.trim();
     final reentered = reenterPasswordController.text.trim();
 
-    // Basic validations
     if (newPassword.isEmpty || reentered.isEmpty || oldPassword.isEmpty) {
       _showError('All fields are required.');
       return;
@@ -40,7 +39,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       return;
     }
     if (newPassword.length < 6) {
-      // Supabase requires 6+ chars by default
       _showError('New password must be at least 6 characters.');
       return;
     }
@@ -68,10 +66,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
       Navigator.pushNamed(context, '/password_changed');
     } on AuthException catch (e) {
-
       _showError(e.message);
     } catch (e) {
-
       _showError('Something went wrong. Please try again.');
     } finally {
       if (mounted) setState(() => _loading = false);
@@ -81,50 +77,58 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF4B0000),
+      backgroundColor: const Color(0xFF420309),
       body: SafeArea(
         child: Stack(
           children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Align(
+            SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 70),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Align(
                     alignment: Alignment.topLeft,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-                        onPressed: () => Navigator.pop(context),
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back, color: Color(0xFFFFD700)),
+                      onPressed: () => Navigator.pop(context),
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: const CircleBorder(),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Edit: Password',
-                  style: TextStyle(
-                    fontFamily: 'PlayfairDisplay',
-                    fontSize: 30,
-                    color: Color(0xFFE1A948),
+
+                  const SizedBox(height: 10),
+
+                  const Text(
+                    'Edit: Password',
+                    style: TextStyle(
+                      fontFamily: 'PlayfairDisplay',
+                      fontSize: 30,
+                      color: Color(0xFFFFD700),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                Image.asset('assets/images/logo.png', height: 130),
-                const SizedBox(height: 30),
 
-                _buildTextField('Enter Old Password', oldPasswordController),
-                _buildTextField('Enter New Password', newPasswordController),
-                _buildTextField('Re-Enter New Password', reenterPasswordController),
+                  const SizedBox(height: 30),
+                  Image.asset('assets/images/logo.png', height: 130),
+                  const SizedBox(height: 30),
 
-                const SizedBox(height: 24),
+                  _buildTextField('Enter Old Password', oldPasswordController),
+                  _buildTextField('Enter New Password', newPasswordController),
+                  _buildTextField('Re-Enter New Password', reenterPasswordController),
 
-                _buildButton(
-                  _loading ? 'PROCESSING...' : 'NEXT',
-                  _loading ? null : _handleChangePassword,
-                ),
-              ],
+                  const SizedBox(height: 24),
+
+                  _buildButton(
+                    _loading ? 'PROCESSING...' : 'NEXT',
+                    _loading ? null : _handleChangePassword,
+                  ),
+                ],
+              ),
             ),
+          ),
+
 
             if (_loading)
               Container(
