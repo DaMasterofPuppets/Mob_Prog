@@ -105,105 +105,126 @@ class _EditEmailPageState extends State<EditEmailPage> {
       body: SafeArea(
         child: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.black,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  const Center(
-                    child: Text(
-                      'Edit: Email',
-                      style: TextStyle(
-                        fontFamily: 'PlayfairDisplay',
-                        fontSize: 30,
-                        color: Color(0xFFE1A948),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  Center(
-                    child: Image.asset('assets/images/logo.png', height: 130),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  Center(
-                    child: Text(
-                      "Current Email:\n$currentEmail",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontFamily: 'PlayfairDisplay',
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
-
-                  TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      hintText: "Enter New Email",
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  TextField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      hintText: "Password",
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: _loading ? null : _changeEmail,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFE1A948),
-                        foregroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 40,
-                          vertical: 14,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 70),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Color(0xFFFFD700)),
+                        onPressed: () => Navigator.pop(context),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: const CircleBorder(),
                         ),
                       ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    const Center(
                       child: Text(
-                        _loading ? "PROCESSING..." : "NEXT",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        'Edit: Email',
+                        style: TextStyle(
+                          fontFamily: 'PlayfairDisplay',
+                          fontSize: 30,
+                          color: Color(0xFFFFD700),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+
+                    const SizedBox(height: 30),
+
+                    Center(
+                      child: Image.asset('assets/images/logo.png', height: 130),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF2A0A07),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black54,
+                            offset: const Offset(0, 6),
+                            blurRadius: 12,
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      child: Center(
+                        child: Text(
+                          "Current Email:\n$currentEmail",
+                          style: const TextStyle(
+                            fontFamily: 'PlayfairDisplay',
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 40),
+
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        hintText: "Enter New Email",
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    TextField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        hintText: "Password",
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: _loading ? null : _changeEmail,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFE1A948),
+                          foregroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 40,
+                            vertical: 14,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        child: Text(
+                          _loading ? "PROCESSING..." : "NEXT",
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
 
