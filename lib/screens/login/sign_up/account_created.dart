@@ -12,7 +12,7 @@ class AccountCreatedPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Congrats! ✅',
+              'Welcome!',
               style: TextStyle(
                 color: Color(0xFFE1A948),
                 fontSize: 48,

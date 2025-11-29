@@ -12,20 +12,61 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
   final List<TextEditingController> _controllers =
       List.generate(4, (_) => TextEditingController());
 
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  void _showDialog(String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF470000),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: 'PlayfairDisplay',
+            fontSize: 20,
+            color: Color(0xFFE1A948),
+          ),
+        ),
+        content: Text(
+          message,
+          style: const TextStyle(
+            fontFamily: 'PlayfairDisplay',
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text(
+              'OK',
+              style: TextStyle(
+                color: Color(0xFFE1A948),
+                fontWeight: FontWeight.bold,
+                fontFamily: 'PlayfairDisplay',
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _onConfirm() {
     String code = _controllers.map((c) => c.text).join();
     if (code.length < 4 || code.contains(RegExp(r'[^0-9]'))) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter a valid 4-digit code.'),
-          backgroundColor: Color(0xFFE1A948),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      _showDialog('Invalid Code', 'Please enter a valid 4-digit code.');
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ForgotPassReset()), // this is the redirect route
+        MaterialPageRoute(builder: (context) => const ForgotPassReset()),
       );
     }
   }
@@ -49,6 +90,7 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
           fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide.none,
           ),
         ),
         onChanged: (value) {
@@ -63,94 +105,99 @@ class _ForgotPassVerifyState extends State<ForgotPassVerify> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF450003),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: const CircleBorder(),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              const SizedBox(height: 40),
-              const Center(
-                child: Text(
-                  'Account\nRecovery',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(0xFFE1A948),
-                    fontSize: 38,
-                    fontFamily: 'PlayfairDisplay',
-                    fontWeight: FontWeight.bold,
-                    height: 1.2,
+      backgroundColor: const Color(0xFF470000),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
+                  onPressed: () => Navigator.pop(context),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(12),
+                    fixedSize: const Size(48, 48),
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
-              const Center(
-                child: Column(
-                  children: [
-                    Text(
-                      'SUCCESS!',
-                      style: TextStyle(
-                        color: Color(0xFFE1A948),
-                        fontSize: 36,
-                        fontFamily: 'PlayfairDisplay',
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    Text(
-                      'Enter the 4-digit code to reset\naccount password.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFFE1A948),
-                        fontFamily: 'PlayfairDisplay',
-                        fontSize: 16,
-                        height: 1.4,
-                      ),
-                    ),
-                  ],
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: Image.asset('assets/images/logo.png', height: 170),
+            ),
+            const SizedBox(height: 10),
+            const Center(
+              child: Text(
+                'Password \nRecovery',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFFE1A948),
+                  fontSize: 42,
+                  fontFamily: 'PlayfairDisplay',
+                  fontWeight: FontWeight.bold,
+                  height: 1.2,
                 ),
               ),
-              const SizedBox(height: 30),
-              Row(
+            ),
+            const SizedBox(height: 30),
+            const Center(
+              child: Column(
+                children: [
+                  SizedBox(height: 12),
+                  Text(
+                    'Enter the 4-digit code to reset\nyour account password.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'PlayfairDisplay',
+                      fontSize: 20,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(4, _buildCodeBox),
               ),
-              const SizedBox(height: 30),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _onConfirm,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFE1A948),
-                    foregroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: _onConfirm,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFE1A948),
+                  foregroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 50,
+                    vertical: 15,
                   ),
-                  child: const Text(
-                    'CONFIRM',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.2,
-                    ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  elevation: 4,
+                ),
+                child: const Text(
+                  'CONFIRM',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                    fontSize: 16,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 40),
+          ],
         ),
       ),
     );
