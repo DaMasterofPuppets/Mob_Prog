@@ -65,7 +65,7 @@ class LoadScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/create');
               },
               child: Text(
-                "Don't have an account yet? Sign Up",
+                "Don't have an account yet?",
                 style: TextStyle(color: Colors.white),
               ),
             ),

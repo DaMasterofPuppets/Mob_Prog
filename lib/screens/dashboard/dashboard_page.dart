@@ -19,6 +19,8 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color backgroundColor = const Color(0xFF420309);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth >= 600;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -31,7 +33,10 @@ class DashboardPage extends StatelessWidget {
               children: [
                 // TOP BAR WITH BACK AND SETTINGS
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isTablet ? 32.0 : 16.0,
+                    vertical: isTablet ? 16 : 8,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -39,9 +44,14 @@ class DashboardPage extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
+                            radius: isTablet ? 24 : 20,
                             backgroundColor: Colors.black,
                             child: IconButton(
-                              icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: Color(0xFFE1A948),
+                                size: isTablet ? 28 : 24,
+                              ),
                               onPressed: () {
                                 Navigator.pushReplacement(
                                   context,
@@ -50,7 +60,7 @@ class DashboardPage extends StatelessWidget {
                               },
                             ),
                           ),
-                          const SizedBox(width: 16),
+                          SizedBox(width: isTablet ? 20 : 16),
                         ],
                       ),
 
@@ -64,8 +74,8 @@ class DashboardPage extends StatelessWidget {
                         },
                         child: Image.asset(
                           'assets/images/settings_page/settings.png',
-                          width: 40,
-                          height: 40,
+                          width: isTablet ? 50 : 40,
+                          height: isTablet ? 50 : 40,
                         ),
                       ),
                     ],
@@ -75,45 +85,47 @@ class DashboardPage extends StatelessWidget {
                 // LOGO IMAGE
                 Image.asset(
                   'assets/images/logo.png',
-                  width: 130,
-                  height: 130,
+                  width: isTablet ? 180 : 130,
+                  height: isTablet ? 180 : 130,
                 ),
 
-                const SizedBox(height: 0),
+                SizedBox(height: isTablet ? 10 : 0),
 
                 // PICK A CARD TEXT
-                const Text(
+                Text(
                   'Pick a card...',
                   style: TextStyle(
                     fontFamily: 'PlayfairDisplay',
-                    fontSize: 35,
+                    fontSize: isTablet ? 45 : 35,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
 
-                const SizedBox(height: 25),
+                SizedBox(height: isTablet ? 35 : 25),
 
                 // CARD GRID
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isTablet ? screenWidth * 0.15 : 20,
+                  ),
                   child: GridView.count(
                     shrinkWrap: true,
                     crossAxisCount: 2,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                    childAspectRatio: 0.72,
+                    crossAxisSpacing: isTablet ? 30 : 20,
+                    mainAxisSpacing: isTablet ? 30 : 20,
+                    childAspectRatio: isTablet ? 0.75 : 0.72,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const TheReaderPage()),
-                      _cardButton(context, 'assets/images/dashboard_page/the_packages.png', const PackagesPage()),
-                      _cardButton(context, 'assets/images/dashboard_page/the_appointments.png', const AppointmentPage()),
-                      _cardButton(context, 'assets/images/dashboard_page/the_testimonies.png', const TestimonialsPage()),
+                      _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const TheReaderPage(), isTablet),
+                      _cardButton(context, 'assets/images/dashboard_page/the_packages.png', const PackagesPage(), isTablet),
+                      _cardButton(context, 'assets/images/dashboard_page/the_appointments.png', const AppointmentPage(), isTablet),
+                      _cardButton(context, 'assets/images/dashboard_page/the_testimonies.png', const TestimonialsPage(), isTablet),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: isTablet ? 40 : 20),
               ],
             ),
           ),
@@ -122,14 +134,26 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _cardButton(BuildContext context, String asset, Widget page) {
+  Widget _cardButton(BuildContext context, String asset, Widget page, bool isTablet) {
     return GestureDetector(
       onTap: () => navigateTo(context, page),
-      child: Image.asset(
-        asset,
-        width: 100,
-        height: 100,
-        fit: BoxFit.contain,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: isTablet
+              ? [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  ),
+                ]
+              : null,
+        ),
+        child: Image.asset(
+          asset,
+          fit: BoxFit.contain,
+        ),
       ),
     );
   }
