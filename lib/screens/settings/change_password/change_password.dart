@@ -90,7 +90,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: Color(0xFFFFD700)),
+                      icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
                       onPressed: () => Navigator.pop(context),
                       style: IconButton.styleFrom(
                         backgroundColor: Colors.black,

@@ -114,7 +114,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Color(0xFFFFD700)),
+                        icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
                         onPressed: () => Navigator.pop(context),
                         style: IconButton.styleFrom(
                           backgroundColor: Colors.black,
@@ -131,7 +131,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                         style: TextStyle(
                           fontFamily: 'PlayfairDisplay',
                           fontSize: 30,
-                          color: Color(0xFFFFD700),
+                          color: Color(0xFFE1A948),
                           fontWeight: FontWeight.bold,
                         ),
                       ),

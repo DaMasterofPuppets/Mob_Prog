@@ -37,7 +37,7 @@ class _AccountInformationState extends State<AccountInformation> {
             Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Color(0xFFFFD700)),
+                icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
                 onPressed: () => Navigator.pop(context),
                 style: IconButton.styleFrom(
                   backgroundColor: Colors.black,
@@ -53,7 +53,7 @@ class _AccountInformationState extends State<AccountInformation> {
               style: TextStyle(
                 fontFamily: 'PlayfairDisplay',
                 fontSize: 34,
-                color: Color(0xFFFFD700),
+                color: Color(0xFFE1A948),
               ),
             ),
 
@@ -65,7 +65,7 @@ class _AccountInformationState extends State<AccountInformation> {
                 style: const TextStyle(
                   fontFamily: 'PlayfairDisplay',
                   fontSize: 20,
-                  color: Color(0xFFFFD700),
+                  color: Color(0xFFE1A948),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -133,7 +133,7 @@ class _AccountInformationState extends State<AccountInformation> {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFFFC857),
+          backgroundColor: const Color(0xFFE1A948),
           padding: const EdgeInsets.symmetric(vertical: 14),
         ),
         child: Text(

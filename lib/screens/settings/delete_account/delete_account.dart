@@ -60,7 +60,8 @@ class _DeleteAccountState extends State<DeleteAccount> {
               style: TextStyle(
                 fontFamily: 'PlayfairDisplay',
                 fontSize: 32,
-                color: Color(0xFFE1A948),
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 16),
@@ -70,7 +71,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
               style: TextStyle(
                 fontFamily: 'PlayfairDisplay',
                 fontSize: 20,
-                color: Color(0xFFE1A948),
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 40),
