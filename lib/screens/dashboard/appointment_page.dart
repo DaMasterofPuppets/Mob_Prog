@@ -35,9 +35,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: Color(0xFF420309), // maroon
-              onPrimary: Color(0xFFF1B24A), // gold text
-              onSurface: Color(0xFF420309), // maroon text
+              primary: Color(0xFF420309),
+              onPrimary: Color(0xFFF1B24A),
+              onSurface: Color(0xFF420309),
               surface: Colors.white,
             ),
             textTheme: const TextTheme(
@@ -71,9 +71,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: Color(0xFF420309), // maroon
-              onPrimary: Color(0xFFF1B24A), // gold text
-              onSurface: Color(0xFF420309), // maroon text
+              primary: Color(0xFF420309),
+              onPrimary: Color(0xFFF1B24A),
+              onSurface: Color(0xFF420309),
               surface: Colors.white,
             ),
             textTheme: const TextTheme(
@@ -111,6 +111,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
     final Color gold = const Color(0xFFF1B24A);
     final message = _messageController.text.trim();
     final formattedDate = DateFormat.yMMMMd().format(selectedDate);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth >= 600;
 
     showDialog(
       context: context,
@@ -124,21 +126,21 @@ class _AppointmentPageState extends State<AppointmentPage> {
               color: gold,
               fontWeight: FontWeight.bold,
               fontFamily: 'PlayfairDisplay',
-              fontSize: 22,
+              fontSize: isTablet ? 26 : 22,
             ),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildDetailRow('Date:', formattedDate, gold),
-              const SizedBox(height: 12),
-              _buildDetailRow('Time:', selectedTime, gold),
-              const SizedBox(height: 12),
-              _buildDetailRow('Package:', selectedPackage ?? '', gold),
+              _buildDetailRow('Date:', formattedDate, gold, isTablet),
+              SizedBox(height: isTablet ? 16 : 12),
+              _buildDetailRow('Time:', selectedTime, gold, isTablet),
+              SizedBox(height: isTablet ? 16 : 12),
+              _buildDetailRow('Package:', selectedPackage ?? '', gold, isTablet),
               if (message.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                _buildDetailRow('Message:', message, gold),
+                SizedBox(height: isTablet ? 16 : 12),
+                _buildDetailRow('Message:', message, gold, isTablet),
               ],
             ],
           ),
@@ -150,6 +152,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.7),
                   fontFamily: 'PlayfairDisplay',
+                  fontSize: isTablet ? 17 : 15,
                 ),
               ),
             ),
@@ -159,17 +162,22 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isTablet ? 24 : 16,
+                  vertical: isTablet ? 14 : 12,
+                ),
               ),
               onPressed: () {
                 Navigator.pop(context);
                 _proceedWithBooking();
               },
-              child: const Text(
+              child: Text(
                 'Confirm',
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'PlayfairDisplay',
+                  fontSize: isTablet ? 17 : 15,
                 ),
               ),
             ),
@@ -179,7 +187,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
     );
   }
 
-  Widget _buildDetailRow(String label, String value, Color gold) {
+  Widget _buildDetailRow(String label, String value, Color gold, bool isTablet) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -188,7 +196,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           style: TextStyle(
             color: gold,
             fontWeight: FontWeight.bold,
-            fontSize: 15,
+            fontSize: isTablet ? 17 : 15,
             fontFamily: 'PlayfairDisplay',
           ),
         ),
@@ -196,9 +204,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
         Expanded(
           child: Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
-              fontSize: 15,
+              fontSize: isTablet ? 17 : 15,
               fontFamily: 'PlayfairDisplay',
             ),
           ),
@@ -212,6 +220,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
     final Color gold = const Color(0xFFF1B24A);
     final message = _messageController.text.trim();
     final formattedDate = DateFormat.yMMMMd().format(selectedDate);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth >= 600;
 
     try {
       await Supabase.instance.client.functions.invoke(
@@ -236,7 +246,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
             title: Icon(
               Icons.check_circle_outline,
               color: gold,
-              size: 64,
+              size: isTablet ? 80 : 64,
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
@@ -245,18 +255,18 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   'Booking Confirmed!',
                   style: TextStyle(
                     color: gold,
-                    fontSize: 24,
+                    fontSize: isTablet ? 28 : 24,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'PlayfairDisplay',
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 12),
-                const Text(
+                SizedBox(height: isTablet ? 16 : 12),
+                Text(
                   'Your appointment has been successfully booked. Check your email for confirmation details.',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: isTablet ? 17 : 15,
                     fontFamily: 'PlayfairDisplay',
                   ),
                   textAlign: TextAlign.center,
@@ -268,22 +278,25 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: gold,
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isTablet ? 40 : 32,
+                      vertical: isTablet ? 16 : 12,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   onPressed: () {
-                    Navigator.pop(context); // Close dialog
+                    Navigator.pop(context);
                     Navigator.pushReplacementNamed(context, '/dashboard');
                   },
-                  child: const Text(
+                  child: Text(
                     'OK',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'PlayfairDisplay',
-                      fontSize: 16,
+                      fontSize: isTablet ? 18 : 16,
                     ),
                   ),
                 ),
@@ -303,9 +316,10 @@ class _AppointmentPageState extends State<AppointmentPage> {
 
   @override
   Widget build(BuildContext context) {
-    //Background Colors
     final Color maroon = const Color(0xFF420309);
     final Color gold = const Color(0xFFF1B24A);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth >= 600;
 
     final days = List.generate(4, (i) => selectedDate.add(Duration(days: i)));
 
@@ -314,40 +328,48 @@ class _AppointmentPageState extends State<AppointmentPage> {
       appBar: AppBar(
         backgroundColor: maroon,
         elevation: 0,
-
-        //Back Button
         automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: Colors.black,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.amber),
-                onPressed: () => Navigator.pop(context),
+        title: Padding(
+          padding: EdgeInsets.symmetric(horizontal: isTablet ? 16.0 : 0),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: isTablet ? 24 : 20,
+                backgroundColor: Colors.black,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.amber,
+                    size: isTablet ? 28 : 24,
+                  ),
+                  onPressed: () => Navigator.pop(context),
+                ),
               ),
-            ),
-
-            const SizedBox(width: 16),
-            
-            Text(
-              'Appointment',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'PlayfairDisplay',
-                color: gold,
+              SizedBox(width: isTablet ? 20 : 16),
+              Text(
+                'Appointment',
+                style: TextStyle(
+                  fontSize: isTablet ? 42 : 32,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PlayfairDisplay',
+                  color: gold,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
 
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(
+            horizontal: isTablet ? screenWidth * 0.15 : 16,
+            vertical: 16,
+          ),
           child: Column(
             children: [
-              const SizedBox(height: 20),
+              SizedBox(height: isTablet ? 30 : 20),
+              
               // Calendar widget
               GestureDetector(
                 onTap: _pickDate,
@@ -364,19 +386,22 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       ),
                     ],
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                  padding: EdgeInsets.symmetric(
+                    vertical: isTablet ? 24 : 16,
+                    horizontal: isTablet ? 20 : 12,
+                  ),
                   child: Column(
                     children: [
                       Text(
                         DateFormat('MMMM yyyy').format(selectedDate),
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          fontSize: isTablet ? 22 : 18,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF420309),
                           fontFamily: 'PlayfairDisplay',
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: isTablet ? 18 : 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: days.map((date) {
@@ -385,8 +410,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           return Column(
                             children: [
                               Container(
-                                width: 50,
-                                height: 50,
+                                width: isTablet ? 65 : 50,
+                                height: isTablet ? 65 : 50,
                                 decoration: BoxDecoration(
                                   color: isSelected ? maroon : Colors.white,
                                   shape: BoxShape.circle,
@@ -406,19 +431,19 @@ class _AppointmentPageState extends State<AppointmentPage> {
                                     style: TextStyle(
                                       color: isSelected ? gold : maroon,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                                      fontSize: isTablet ? 22 : 18,
                                       fontFamily: 'PlayfairDisplay',
                                     ),
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 6),
+                              SizedBox(height: isTablet ? 8 : 6),
                               Text(
                                 DateFormat('E').format(date),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: 'PlayfairDisplay',
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 13,
+                                  fontSize: isTablet ? 15 : 13,
                                 ),
                               ),
                             ],
@@ -430,17 +455,25 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
 
-              const SizedBox(height: 32),
+              SizedBox(height: isTablet ? 40 : 32),
 
-              //Date
-              _infoTile(Icons.calendar_today,
-                  'Date: ${DateFormat.yMMMMd().format(selectedDate)}', _pickDate),
-              const SizedBox(height: 16),
+              // Date
+              _infoTile(
+                Icons.calendar_today,
+                'Date: ${DateFormat.yMMMMd().format(selectedDate)}',
+                _pickDate,
+                isTablet,
+              ),
+              SizedBox(height: isTablet ? 20 : 16),
 
-              //Time
-              _infoTile(Icons.access_time,
-                  'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}', _pickTime),
-              const SizedBox(height: 16),
+              // Time
+              _infoTile(
+                Icons.access_time,
+                'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}',
+                _pickTime,
+                isTablet,
+              ),
+              SizedBox(height: isTablet ? 20 : 16),
 
               // Package + question mark button
               Container(
@@ -459,21 +492,29 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isTablet ? 20 : 16,
+                          vertical: 4,
+                        ),
                         child: DropdownButton<String>(
                           value: selectedPackage,
-                          hint: const Text(
+                          hint: Text(
                             'Package: Choose',
                             style: TextStyle(
                               color: Colors.black,
                               fontFamily: 'PlayfairDisplay',
                               fontWeight: FontWeight.w600,
+                              fontSize: isTablet ? 17 : 15,
                             ),
                           ),
                           dropdownColor: gold,
                           underline: const SizedBox(),
                           isExpanded: true,
-                          icon: const Icon(Icons.arrow_drop_down, color: Colors.black),
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Colors.black,
+                            size: isTablet ? 28 : 24,
+                          ),
                           onChanged: (value) {
                             if (value != null) {
                               setState(() {
@@ -486,10 +527,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                               value: p,
                               child: Text(
                                 'Package: $p',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'PlayfairDisplay',
                                   fontWeight: FontWeight.w600,
+                                  fontSize: isTablet ? 17 : 15,
                                 ),
                               ),
                             );
@@ -504,7 +546,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                         ),
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.help_outline, color: Color(0xFF420309)),
+                        icon: Icon(
+                          Icons.help_outline,
+                          color: Color(0xFF420309),
+                          size: isTablet ? 28 : 24,
+                        ),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -517,7 +563,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
 
-              const SizedBox(height: 28),
+              SizedBox(height: isTablet ? 35 : 28),
 
               // Optional message text box
               Container(
@@ -533,16 +579,17 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
                 child: TextField(
                   controller: _messageController,
-                  maxLines: 4,
-                  style: const TextStyle(
+                  maxLines: isTablet ? 5 : 4,
+                  style: TextStyle(
                     fontFamily: 'PlayfairDisplay',
-                    fontSize: 15,
+                    fontSize: isTablet ? 17 : 15,
                   ),
                   decoration: InputDecoration(
                     hintText: 'Optional message...',
                     hintStyle: TextStyle(
                       fontFamily: 'PlayfairDisplay',
                       color: Colors.grey[600],
+                      fontSize: isTablet ? 17 : 15,
                     ),
                     filled: true,
                     fillColor: Colors.white,
@@ -550,17 +597,20 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: isTablet ? 20 : 16,
+                      vertical: isTablet ? 18 : 14,
+                    ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 36),
+              SizedBox(height: isTablet ? 45 : 36),
 
               // Book now button
               Container(
                 width: double.infinity,
-                height: 55,
+                height: isTablet ? 65 : 55,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [gold, gold.withOpacity(0.85)],
@@ -601,12 +651,12 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'BOOK NOW',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: isTablet ? 20 : 18,
                       fontFamily: 'PlayfairDisplay',
                       letterSpacing: 1.2,
                     ),
@@ -614,7 +664,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
 
-              const SizedBox(height: 40),
+              SizedBox(height: isTablet ? 50 : 40),
             ],
           ),
         ),
@@ -622,12 +672,12 @@ class _AppointmentPageState extends State<AppointmentPage> {
     );
   }
 
-  Widget _infoTile(IconData icon, String text, [VoidCallback? onTap]) {
+  Widget _infoTile(IconData icon, String text, VoidCallback? onTap, bool isTablet) {
     final gold = const Color(0xFFE1A948);
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: EdgeInsets.all(isTablet ? 18 : 14),
         decoration: BoxDecoration(
           color: gold,
           borderRadius: BorderRadius.circular(12),
@@ -641,16 +691,16 @@ class _AppointmentPageState extends State<AppointmentPage> {
         ),
         child: Row(
           children: [
-            Icon(icon, color: Colors.black, size: 22),
-            const SizedBox(width: 12),
+            Icon(icon, color: Colors.black, size: isTablet ? 26 : 22),
+            SizedBox(width: isTablet ? 16 : 12),
             Expanded(
               child: Text(
                 text,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'PlayfairDisplay',
                   fontWeight: FontWeight.w600,
-                  fontSize: 15,
+                  fontSize: isTablet ? 17 : 15,
                 ),
               ),
             ),

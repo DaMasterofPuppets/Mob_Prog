@@ -83,95 +83,118 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF450003),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(
+      backgroundColor: const Color(0xFF470000),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
                   icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
+                  onPressed: () => Navigator.pop(context),
                   style: IconButton.styleFrom(
                     backgroundColor: Colors.black,
                     shape: const CircleBorder(),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                const SizedBox(height: 40),
-                const Center(
-                  child: Text(
-                    'Account\nRecovery',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFFE1A948),
-                      fontSize: 38,
-                      fontFamily: 'PlayfairDisplay',
-                      fontWeight: FontWeight.bold,
-                      height: 1.2,
-                    ),
+                    padding: const EdgeInsets.all(12),
+                    fixedSize: const Size(48, 48),
                   ),
                 ),
-                const SizedBox(height: 45),
-                const Center(
-                  child: Text(
-                    'Enter email linked to that account\nto receive a verification code',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFFE1A948),
-                      fontSize: 16,
-                      height: 1.4,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 40),
-                TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  style: const TextStyle(color: Colors.black),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Enter your email',
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14.0, horizontal: 16.0),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                Center(
-                  child: isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : ElevatedButton(
-                          onPressed: _onConfirm,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFE1A948),
-                            foregroundColor: Colors.black,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
+              ),
+            ),
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 600),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      Image.asset('assets/images/logo.png', height: 150),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Account\nRecovery',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFFE1A948),
+                          fontSize: 42,
+                          fontFamily: 'PlayfairDisplay',
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Enter email linked to your account\nto receive a verification code',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontFamily: 'PlayfairDisplay',
+                          height: 1.4,
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          style: const TextStyle(
+                            color: Colors.black,
                           ),
-                          child: const Text(
-                            'CONFIRM',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: 'Enter your email',
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0,
+                              horizontal: 16.0,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none,
                             ),
                           ),
                         ),
+                      ),
+                      const SizedBox(height: 40),
+                      isLoading
+                          ? const CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFE1A948)),
+                            )
+                          : ElevatedButton(
+                              onPressed: _onConfirm,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFE1A948),
+                                foregroundColor: Colors.black,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 50,
+                                  vertical: 15,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                elevation: 4,
+                              ),
+                              child: const Text(
+                                'CONFIRM',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.2,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                      const SizedBox(height: 40),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 40),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
