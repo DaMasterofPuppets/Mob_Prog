@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tarot_app/screens/login/forgot_password/fp_verify.dart';
-
-//supabase time
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -17,89 +13,72 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
-  final List<String> allowedDomains = [
-    'gmail.com',
-    'yahoo.com',
-    'outlook.com',
-    'hotmail.com',
-    'icloud.com',
-    'protonmail.com',
-  ];
-
   String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email is required';
     }
 
-    final emailRegex = RegExp(r'^[\w\.-]+@([\w-]+\.)+[\w-]{2,4}$');
+    final emailRegex = RegExp(r'^[\w\.-]+@([\w-]+\.)+[\w-]{2,}$');
     if (!emailRegex.hasMatch(value)) {
       return 'Enter a valid email address';
-    }
-
-    final domain = value.split('@').last.toLowerCase();
-    if (!allowedDomains.contains(domain)) {
-      return 'Unsupported email domain';
     }
 
     return null;
   }
 
-void _onConfirm() async {
-  final email = _emailController.text.trim();
-  final validationMessage = validateEmail(email);
+  Future<void> _onConfirm() async {
+    final email = _emailController.text.trim();
+    final validationMessage = validateEmail(email);
 
-  if (validationMessage != null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(validationMessage),
-        backgroundColor: const Color(0xFFE1A948),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-    return;
+    if (validationMessage != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(validationMessage),
+          backgroundColor: const Color(0xFFE1A948),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      await Supabase.instance.client.auth.resetPasswordForEmail(
+        email,
+        redirectTo: 'https://your-app-url.com/reset-password',
+      );
+
+      setState(() => isLoading = false);
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => EmailConfirmationDialog(
+          onBackToMenu: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+        ),
+      );
+    } on AuthException catch (e) {
+      setState(() => isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.message),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } catch (e) {
+      setState(() => isLoading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Something went wrong. Please try again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
-
-  setState(() => isLoading = true);
-
-  try {
-    await Supabase.instance.client.auth.resetPasswordForEmail(
-      email,
-      redirectTo: 'https://your-app-url.com/reset-password', // change if needed
-    );
-
-    setState(() => isLoading = false);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Password reset link sent! Check your email.'),
-        backgroundColor: Color(0xFFE1A948),
-      ),
-    );
-
-    // Optionally navigate to verify screen (if you want to simulate verification)
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ForgotPassVerify()),
-    );
-  } on AuthException catch (e) {
-    setState(() => isLoading = false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(e.message),
-        backgroundColor: Colors.red,
-      ),
-    );
-  } catch (e) {
-    setState(() => isLoading = false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Something went wrong. Please try again.'),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -137,15 +116,14 @@ void _onConfirm() async {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 45),
                 const Center(
                   child: Text(
-                    'Enter email linked to that\naccount to receive a\nverification code',
+                    'Enter email linked to that account\nto receive a verification code',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFFE1A948),
                       fontSize: 16,
-                      fontFamily: 'PlayfairDisplay',
                       height: 1.4,
                     ),
                   ),
@@ -194,6 +172,113 @@ void _onConfirm() async {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class EmailConfirmationDialog extends StatelessWidget {
+  final VoidCallback onBackToMenu;
+  const EmailConfirmationDialog({required this.onBackToMenu, super.key});
+
+  static const Color brown = Color(0xFF6B3E26);
+  static const Color accent = Color(0xFFE1A948);
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+        decoration: BoxDecoration(
+          color: Color(0xFF450003),
+          borderRadius: BorderRadius.circular(16.0),
+          border: Border.all(color: accent, width: 3.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.25),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+
+            Image.asset(
+              'assets/images/logo.png',
+              height: 64,
+              fit: BoxFit.contain,
+            ),
+
+            const SizedBox(height: 12),
+
+            const Text(
+              'Email Confirmation Sent',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFFE1A948),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'PlayfairDisplay',
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  height: 1.4,
+                ),
+                children: [
+                  const TextSpan(
+                    text: 'Please check your email for instructions on how to change your ',
+                  ),
+                  const TextSpan(
+                    text: 'password',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const TextSpan(text: '.'),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: onBackToMenu,
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: accent,
+                  foregroundColor: Colors.black,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  side: const BorderSide(color: accent),
+                ),
+                child: const Text(
+                  'BACK TO MENU',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
