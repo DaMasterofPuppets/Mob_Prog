@@ -15,6 +15,9 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
+  // NEW: track whether a login request is in progress
+  bool _isLoading = false;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -23,6 +26,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _login(BuildContext context) async {
+    // Prevent duplicate requests
+    if (_isLoading) return;
+
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
@@ -32,6 +38,8 @@ class _LoginPageState extends State<LoginPage> {
       }
       return;
     }
+
+    setState(() => _isLoading = true);
 
     try {
       final supabase = Supabase.instance.client;
@@ -45,53 +53,110 @@ class _LoginPageState extends State<LoginPage> {
         if (mounted) {
           Navigator.pushReplacementNamed(context, '/dashboard');
         }
+        // success -> page is replaced; finally block will clear _isLoading only if mounted
+        return;
       } else {
         if (mounted) {
-          _showErrorDialog(context, 'Invalid email or password.');
+          _showErrorDialog(
+            context,
+            'Invalid username or password. Please try again.',
+          );
         }
       }
     } catch (e) {
       if (mounted) {
-        _showErrorDialog(context, 'Error: ${e.toString()}');
+        _showErrorDialog(
+          context,
+          'Invalid username or password. Please try again.',
+        );
+      }
+    } finally {
+      // Only update state if still mounted (safe if navigation already happened)
+      if (mounted) {
+        setState(() => _isLoading = false);
       }
     }
   }
 
   void _showErrorDialog(BuildContext context, String message) {
+    const Color accent = Color(0xFFE1A948);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF470000),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: const Text(
-          'Login Failed',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontFamily: 'PlayfairDisplay',
-            fontSize: 20,
-            color: Color(0xFFE1A948),
-          ),
-        ),
-        content: Text(
-          message,
-          style: const TextStyle(
-            fontFamily: 'PlayfairDisplay',
-            color: Colors.white,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'OK',
-              style: TextStyle(
-                color: Color(0xFFE1A948),
-                fontWeight: FontWeight.bold,
-                fontFamily: 'PlayfairDisplay',
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+          decoration: BoxDecoration(
+            color: const Color(0xFF450003),
+            borderRadius: BorderRadius.circular(16.0),
+            border: Border.all(color: accent, width: 3.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
               ),
-            ),
+            ],
           ),
-        ],
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/logo.png',
+                height: 64,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Login Failed',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFFE1A948),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: accent,
+                    foregroundColor: Colors.black,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    side: const BorderSide(color: accent),
+                  ),
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -128,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     children: [
                       const SizedBox(height: 10),
-                      Image.asset('assets/images/logo.png', height: 320),
+                      Image.asset('assets/images/logo.png', height: 250),
                       const SizedBox(height: 10),
                       TextField(
                         controller: _emailController,
@@ -164,7 +229,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                              _isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
                               color: Colors.grey,
                             ),
                             onPressed: () {
@@ -183,16 +250,41 @@ class _LoginPageState extends State<LoginPage> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                           elevation: 4,
                         ),
-                        onPressed: () => _login(context),
-                        child: const Text(
-                          'LOG-IN',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
-                            fontSize: 16,
-                          ),
-                        ),
+                        // Disable button when loading to prevent spam
+                        onPressed: _isLoading ? null : () => _login(context),
+                        child: _isLoading
+                            ? Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: const [
+                                  SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2.2,
+                                      valueColor: AlwaysStoppedAnimation(Color(0xFF470000)),
+                                    ),
+                                  ),
+                                  SizedBox(width: 12),
+                                  Text(
+                                    'LOGGING IN...',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 1.2,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : const Text(
+                                'LOG-IN',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.2,
+                                  fontSize: 16,
+                                ),
+                              ),
                       ),
                       const SizedBox(height: 40),
                     ],

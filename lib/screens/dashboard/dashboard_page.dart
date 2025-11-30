@@ -3,7 +3,6 @@ import 'package:tarot_app/screens/dashboard/appointment_page.dart';
 import 'package:tarot_app/screens/dashboard/packages_page.dart';
 import 'package:tarot_app/screens/dashboard/testimonials_page.dart';
 import 'package:tarot_app/screens/dashboard/reader_page.dart';
-import 'package:tarot_app/screens/login/load_screen.dart';
 import 'package:tarot_app/screens/settings/settings_dashboard.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -31,40 +30,14 @@ class DashboardPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // TOP BAR WITH BACK AND SETTINGS
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: isTablet ? 32.0 : 16.0,
                     vertical: isTablet ? 16 : 8,
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      // Back Button
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: isTablet ? 24 : 20,
-                            backgroundColor: Colors.black,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back,
-                                color: Color(0xFFE1A948),
-                                size: isTablet ? 28 : 24,
-                              ),
-                              onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(builder: (_) => const LoadScreen()),
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(width: isTablet ? 20 : 16),
-                        ],
-                      ),
-
-                      // Settings Button
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -82,7 +55,6 @@ class DashboardPage extends StatelessWidget {
                   ),
                 ),
 
-                // LOGO IMAGE
                 Image.asset(
                   'assets/images/logo.png',
                   width: isTablet ? 180 : 130,
@@ -91,9 +63,8 @@ class DashboardPage extends StatelessWidget {
 
                 SizedBox(height: isTablet ? 10 : 0),
 
-                // PICK A CARD TEXT
                 Text(
-                  'Pick a card...',
+                  'Pick A Card',
                   style: TextStyle(
                     fontFamily: 'PlayfairDisplay',
                     fontSize: isTablet ? 45 : 35,
@@ -104,7 +75,6 @@ class DashboardPage extends StatelessWidget {
 
                 SizedBox(height: isTablet ? 35 : 25),
 
-                // CARD GRID
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: isTablet ? screenWidth * 0.15 : 20,
