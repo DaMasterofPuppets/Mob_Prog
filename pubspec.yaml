@@ -36,9 +36,11 @@ flutter:
     - assets/images/dashboard_page/the_packages.png
     - assets/images/dashboard_page/the_reader.png
     - assets/images/dashboard_page/the_testimonies.png
+    - assets/images/dashboard_page/settings.png
 
     #reader_page
     - assets/images/reader_page/the_reader_face.png
+    - assets/images/reader_page/reader_art.png
 
     #packages_page
     - assets/images/packages_page/crown_package.png

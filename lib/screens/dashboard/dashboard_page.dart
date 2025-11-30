@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tarot_app/screens/dashboard/appointment_page.dart';
 import 'package:tarot_app/screens/dashboard/packages_page.dart';
-import 'package:tarot_app/screens/dashboard/testimonials_page.dart';
 import 'package:tarot_app/screens/dashboard/reader_page.dart';
 import 'package:tarot_app/screens/settings/settings_dashboard.dart';
 
@@ -30,72 +29,49 @@ class DashboardPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isTablet ? 32.0 : 16.0,
-                    vertical: isTablet ? 16 : 8,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => const AccountInformation()),
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/images/settings_page/settings.png',
-                          width: isTablet ? 50 : 40,
-                          height: isTablet ? 50 : 40,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                SizedBox(height: isTablet ? 30 : 20),
 
                 Image.asset(
                   'assets/images/logo.png',
-                  width: isTablet ? 180 : 130,
-                  height: isTablet ? 180 : 130,
+                  width: isTablet ? 240 : 180,
+                  height: isTablet ? 240 : 180,
                 ),
 
-                SizedBox(height: isTablet ? 10 : 0),
+                SizedBox(height: isTablet ? 20 : 10),
 
                 Text(
-                  'Pick A Card',
+                  'Pick A Card...',
                   style: TextStyle(
                     fontFamily: 'PlayfairDisplay',
-                    fontSize: isTablet ? 45 : 35,
+                    fontSize: isTablet ? 52 : 40,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
 
-                SizedBox(height: isTablet ? 35 : 25),
+                SizedBox(height: isTablet ? 40 : 30),
 
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: isTablet ? screenWidth * 0.15 : 20,
+                    horizontal: isTablet ? screenWidth * 0.1 : 16,
                   ),
                   child: GridView.count(
                     shrinkWrap: true,
                     crossAxisCount: 2,
-                    crossAxisSpacing: isTablet ? 30 : 20,
-                    mainAxisSpacing: isTablet ? 30 : 20,
+                    crossAxisSpacing: isTablet ? 35 : 25,
+                    mainAxisSpacing: isTablet ? 35 : 25,
                     childAspectRatio: isTablet ? 0.75 : 0.72,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const TheReaderPage(), isTablet),
                       _cardButton(context, 'assets/images/dashboard_page/the_packages.png', const PackagesPage(), isTablet),
                       _cardButton(context, 'assets/images/dashboard_page/the_appointments.png', const AppointmentPage(), isTablet),
-                      _cardButton(context, 'assets/images/dashboard_page/the_testimonies.png', const TestimonialsPage(), isTablet),
+                      _cardButton(context, 'assets/images/dashboard_page/settings.png', const AccountInformation(), isTablet),
                     ],
                   ),
                 ),
 
-                SizedBox(height: isTablet ? 40 : 20),
+                SizedBox(height: isTablet ? 20 : 10),
               ],
             ),
           ),
