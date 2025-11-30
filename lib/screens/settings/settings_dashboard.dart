@@ -109,6 +109,18 @@ class _AccountInformationState extends State<AccountInformation> {
             buildButton(context, 'Edit Password', () => Navigator.pushNamed(context, '/change_password')),
             const SizedBox(height: 16),
             buildButton(context, 'Delete Account', () => Navigator.pushNamed(context, '/acc_delete')),
+            const SizedBox(height: 16),
+
+            buildButton(context, 'Log Out', () async {
+              await Supabase.instance.client.auth.signOut();
+
+              if (context.mounted) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,'/',
+                  (route) => false,
+                );
+              }
+            }),
           ],
         ),
       ),
