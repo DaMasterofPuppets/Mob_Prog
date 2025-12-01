@@ -18,17 +18,18 @@ class _AppointmentPageState extends State<AppointmentPage> {
     _messageController.dispose();
     super.dispose();
   }
-  
-  DateTime selectedDate = DateTime.now();
+
+  DateTime? selectedDate;
   String selectedTime = '';
   String? selectedPackage;
 
   final List<String> packages = ['Tiara', 'Coronet', 'Crown'];
 
   void _pickDate() async {
+    final initial = selectedDate ?? DateTime.now();
     final picked = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: initial,
       firstDate: DateTime.now().subtract(const Duration(days: 1)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
       builder: (context, child) {
@@ -106,88 +107,223 @@ class _AppointmentPageState extends State<AppointmentPage> {
     }
   }
 
+  void _showWarningDialog(String message) {
+    final Color maroon = const Color(0xFF420309);
+    final Color gold = const Color(0xFFF1B24A);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth >= 600;
+
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.symmetric(
+            horizontal: isTablet ? 80 : 40,
+            vertical: isTablet ? 40 : 24,
+          ),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            decoration: BoxDecoration(
+              color: maroon,
+              borderRadius: BorderRadius.circular(16.0),
+              border: Border.all(color: gold, width: 3.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.25),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  height: isTablet ? 72 : 56,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(height: isTablet ? 12 : 10),
+                Text(
+                  'Notice',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: gold,
+                    fontSize: isTablet ? 20 : 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'PlayfairDisplay',
+                  ),
+                ),
+                SizedBox(height: isTablet ? 10 : 8),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: isTablet ? 15 : 14,
+                    fontFamily: 'PlayfairDisplay',
+                    height: 1.4,
+                  ),
+                ),
+                SizedBox(height: isTablet ? 16 : 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: gold,
+                      foregroundColor: Colors.black,
+                      padding: EdgeInsets.symmetric(vertical: isTablet ? 14 : 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      side: BorderSide(color: gold),
+                    ),
+                    child: Text(
+                      'OK',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'PlayfairDisplay',
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void _showConfirmationDialog() {
     final Color maroon = const Color(0xFF420309);
     final Color gold = const Color(0xFFF1B24A);
     final message = _messageController.text.trim();
-    final formattedDate = DateFormat.yMMMMd().format(selectedDate);
+    final formattedDate =
+        selectedDate != null ? DateFormat.yMMMMd().format(selectedDate!) : 'Not selected';
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth >= 600;
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: maroon,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          title: Text(
-            'Confirm Booking Details',
-            style: TextStyle(
-              color: gold,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'PlayfairDisplay',
-              fontSize: isTablet ? 26 : 22,
-            ),
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: EdgeInsets.symmetric(
+            horizontal: isTablet ? 80 : 40,
+            vertical: isTablet ? 40 : 24,
           ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildDetailRow('Date:', formattedDate, gold, isTablet),
-              SizedBox(height: isTablet ? 16 : 12),
-              _buildDetailRow('Time:', selectedTime, gold, isTablet),
-              SizedBox(height: isTablet ? 16 : 12),
-              _buildDetailRow('Package:', selectedPackage ?? '', gold, isTablet),
-              if (message.isNotEmpty) ...[
-                SizedBox(height: isTablet ? 16 : 12),
-                _buildDetailRow('Message:', message, gold, isTablet),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            decoration: BoxDecoration(
+              color: maroon,
+              borderRadius: BorderRadius.circular(16.0),
+              border: Border.all(color: gold, width: 3.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.25),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
               ],
-            ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  height: isTablet ? 72 : 56,
+                  fit: BoxFit.contain,
+                ),
+                SizedBox(height: isTablet ? 14 : 10),
+                Text(
+                  'Confirm Booking Details',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: gold,
+                    fontSize: isTablet ? 20 : 18,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'PlayfairDisplay',
+                  ),
+                ),
+                SizedBox(height: isTablet ? 12 : 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _dialogDetailRow('Date:', formattedDate, gold, isTablet),
+                    SizedBox(height: isTablet ? 12 : 8),
+                    _dialogDetailRow('Time:', selectedTime.isEmpty ? 'Not selected' : selectedTime, gold, isTablet),
+                    SizedBox(height: isTablet ? 12 : 8),
+                    _dialogDetailRow('Package:', selectedPackage ?? '', gold, isTablet),
+                    if (message.isNotEmpty) ...[
+                      SizedBox(height: isTablet ? 12 : 8),
+                      _dialogDetailRow('Message:', message, gold, isTablet),
+                    ],
+                  ],
+                ),
+                SizedBox(height: isTablet ? 18 : 14),
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: gold.withOpacity(0.0),
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: isTablet ? 14 : 12),
+                          side: BorderSide(color: gold),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.9),
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'PlayfairDisplay',
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          _proceedWithBooking();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: gold,
+                          foregroundColor: Colors.black,
+                          padding: EdgeInsets.symmetric(vertical: isTablet ? 14 : 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'Confirm',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'PlayfairDisplay',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(
-                'Cancel',
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.7),
-                  fontFamily: 'PlayfairDisplay',
-                  fontSize: isTablet ? 17 : 15,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: gold,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: EdgeInsets.symmetric(
-                  horizontal: isTablet ? 24 : 16,
-                  vertical: isTablet ? 14 : 12,
-                ),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-                _proceedWithBooking();
-              },
-              child: Text(
-                'Confirm',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'PlayfairDisplay',
-                  fontSize: isTablet ? 17 : 15,
-                ),
-              ),
-            ),
-          ],
         );
       },
     );
   }
 
-  Widget _buildDetailRow(String label, String value, Color gold, bool isTablet) {
+  Widget _dialogDetailRow(String label, String value, Color gold, bool isTablet) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -196,7 +332,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           style: TextStyle(
             color: gold,
             fontWeight: FontWeight.bold,
-            fontSize: isTablet ? 17 : 15,
+            fontSize: isTablet ? 15 : 13,
             fontFamily: 'PlayfairDisplay',
           ),
         ),
@@ -206,7 +342,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
             value,
             style: TextStyle(
               color: Colors.white,
-              fontSize: isTablet ? 17 : 15,
+              fontSize: isTablet ? 15 : 13,
               fontFamily: 'PlayfairDisplay',
             ),
           ),
@@ -219,7 +355,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
     final Color maroon = const Color(0xFF420309);
     final Color gold = const Color(0xFFF1B24A);
     final message = _messageController.text.trim();
-    final formattedDate = DateFormat.yMMMMd().format(selectedDate);
+    final formattedDate =
+        selectedDate != null ? DateFormat.yMMMMd().format(selectedDate!) : 'Not selected';
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth >= 600;
 
@@ -235,82 +372,96 @@ class _AppointmentPageState extends State<AppointmentPage> {
         },
       );
 
-      // Show success dialog
+      // Success dialog (logo intentionally removed; only check icon is shown)
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: maroon,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            title: Icon(
-              Icons.check_circle_outline,
-              color: gold,
-              size: isTablet ? 80 : 64,
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: EdgeInsets.symmetric(
+              horizontal: isTablet ? 80 : 40,
+              vertical: isTablet ? 40 : 24,
             ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Booking Confirmed!',
-                  style: TextStyle(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              decoration: BoxDecoration(
+                color: maroon,
+                borderRadius: BorderRadius.circular(16.0),
+                border: Border.all(color: gold, width: 3.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.25),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.check_circle_outline,
                     color: gold,
-                    fontSize: isTablet ? 28 : 24,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'PlayfairDisplay',
+                    size: isTablet ? 80 : 64,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: isTablet ? 16 : 12),
-                Text(
-                  'Your appointment has been successfully booked. Check your email for confirmation details.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: isTablet ? 17 : 15,
-                    fontFamily: 'PlayfairDisplay',
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-            actions: [
-              Center(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: gold,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isTablet ? 40 : 32,
-                      vertical: isTablet ? 16 : 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pushReplacementNamed(context, '/dashboard');
-                  },
-                  child: Text(
-                    'OK',
+                  SizedBox(height: isTablet ? 10 : 8),
+                  Text(
+                    'Booking Confirmed!',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.black,
+                      color: gold,
+                      fontSize: isTablet ? 22 : 20,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'PlayfairDisplay',
-                      fontSize: isTablet ? 18 : 16,
                     ),
                   ),
-                ),
+                  SizedBox(height: isTablet ? 12 : 10),
+                  Text(
+                    'Your appointment has been successfully booked. We will contact you by email with the details.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: isTablet ? 15 : 14,
+                      fontFamily: 'PlayfairDisplay',
+                      height: 1.4,
+                    ),
+                  ),
+                  SizedBox(height: isTablet ? 18 : 14),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: gold,
+                        padding: EdgeInsets.symmetric(vertical: isTablet ? 14 : 12),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pushReplacementNamed(context, '/dashboard');
+                      },
+                      child: Text(
+                        'OK',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'PlayfairDisplay',
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           );
         },
       );
     } catch (e, st) {
       print('[BOOK] error: $e');
       print('[BOOK] stack: $st');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to send email: $e')),
-      );
+      _showWarningDialog('Failed to send email: $e');
     }
   }
 
@@ -321,7 +472,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     final isTablet = screenWidth >= 600;
 
-    final days = List.generate(4, (i) => selectedDate.add(Duration(days: i)));
+    final baseDate = DateTime.now();
+    final days = List.generate(4, (i) => baseDate.add(Duration(days: i)));
 
     return Scaffold(
       backgroundColor: maroon,
@@ -359,7 +511,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
           ),
         ),
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -369,8 +520,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
           child: Column(
             children: [
               SizedBox(height: isTablet ? 30 : 20),
-              
-              // Calendar widget
+
               GestureDetector(
                 onTap: _pickDate,
                 child: Container(
@@ -393,7 +543,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   child: Column(
                     children: [
                       Text(
-                        DateFormat('MMMM yyyy').format(selectedDate),
+                        selectedDate != null
+                            ? DateFormat('MMMM yyyy').format(selectedDate!)
+                            : 'Select date',
                         style: TextStyle(
                           fontSize: isTablet ? 22 : 18,
                           fontWeight: FontWeight.bold,
@@ -405,8 +557,10 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: days.map((date) {
-                          final isSelected = date.day == selectedDate.day &&
-                              date.month == selectedDate.month;
+                          final isSelected = selectedDate != null &&
+                              date.day == selectedDate!.day &&
+                              date.month == selectedDate!.month &&
+                              date.year == selectedDate!.year;
                           return Column(
                             children: [
                               Container(
@@ -455,42 +609,193 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
 
-              SizedBox(height: isTablet ? 40 : 32),
-
-              // Date
-              _infoTile(
-                Icons.calendar_today,
-                'Date: ${DateFormat.yMMMMd().format(selectedDate)}',
-                _pickDate,
-                isTablet,
-              ),
-              SizedBox(height: isTablet ? 20 : 16),
-
-              // Time
-              _infoTile(
-                Icons.access_time,
-                'Time: ${selectedTime.isEmpty ? 'Not selected' : selectedTime}',
-                _pickTime,
-                isTablet,
-              ),
-              SizedBox(height: isTablet ? 20 : 16),
-
-              // Package + question mark button
-              Container(
-                decoration: BoxDecoration(
-                  color: gold,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
+              SizedBox(height: isTablet ? 14 : 12),
+              Text(
+                'Tap the controls below to select a date, time, and package for your booking.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.95),
+                  fontFamily: 'PlayfairDisplay',
+                  fontSize: isTablet ? 15 : 13,
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
+              ),
+              SizedBox(height: isTablet ? 28 : 20),
+
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: GestureDetector(
+                      onTap: _pickDate,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: isTablet ? 16 : 12,
+                          horizontal: isTablet ? 16 : 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: gold,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.calendar_today,
+                                color: Colors.black, size: isTablet ? 26 : 22),
+                            SizedBox(width: isTablet ? 12 : 8),
+                            Text(
+                              'Date:',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'PlayfairDisplay',
+                                fontWeight: FontWeight.w600,
+                                fontSize: isTablet ? 17 : 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    flex: 2,
+                    child: GestureDetector(
+                      onTap: _pickDate,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: isTablet ? 16 : 12,
+                          horizontal: isTablet ? 16 : 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: gold,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          selectedDate != null
+                              ? DateFormat.yMMMMd().format(selectedDate!)
+                              : 'Not selected',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'PlayfairDisplay',
+                            fontSize: isTablet ? 16 : 14,
+                            fontWeight: selectedDate != null ? FontWeight.w600 : FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: isTablet ? 16 : 12),
+
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: GestureDetector(
+                      onTap: _pickTime,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: isTablet ? 16 : 12,
+                          horizontal: isTablet ? 16 : 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: gold,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.access_time,
+                                color: Colors.black, size: isTablet ? 26 : 22),
+                            SizedBox(width: isTablet ? 12 : 8),
+                            Text(
+                              'Time:',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'PlayfairDisplay',
+                                fontWeight: FontWeight.w600,
+                                fontSize: isTablet ? 17 : 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    flex: 2,
+                    child: GestureDetector(
+                      onTap: _pickTime,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: isTablet ? 16 : 12,
+                          horizontal: isTablet ? 16 : 12,
+                        ),
+                        decoration: BoxDecoration(
+                          color: gold,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          selectedTime.isNotEmpty ? selectedTime : 'Not selected',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: 'PlayfairDisplay',
+                            fontSize: isTablet ? 16 : 14,
+                            fontWeight: selectedTime.isNotEmpty ? FontWeight.w600 : FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              SizedBox(height: isTablet ? 20 : 16),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: gold,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 4,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: isTablet ? 20 : 16,
@@ -539,33 +844,35 @@ class _AppointmentPageState extends State<AppointmentPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          left: BorderSide(color: maroon.withOpacity(0.3), width: 1),
-                        ),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
+                  ),
+                  SizedBox(width: 12),
+                  Material(
+                    color: gold,
+                    shape: const CircleBorder(),
+                    elevation: 3,
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const PackagesPage()),
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.all(isTablet ? 12 : 10),
+                        child: Icon(
                           Icons.help_outline,
-                          color: Color(0xFF420309),
+                          color: maroon,
                           size: isTablet ? 28 : 24,
                         ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const PackagesPage()),
-                          );
-                        },
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
 
-              SizedBox(height: isTablet ? 35 : 28),
+              SizedBox(height: isTablet ? 28 : 22),
 
-              // Optional message text box
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
@@ -605,9 +912,8 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 ),
               ),
 
-              SizedBox(height: isTablet ? 45 : 36),
+              SizedBox(height: isTablet ? 36 : 30),
 
-              // Book now button
               Container(
                 width: double.infinity,
                 height: isTablet ? 65 : 55,
@@ -629,19 +935,13 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (selectedTime.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please select a time first')),
-                      );
+                      _showWarningDialog('Please select a time first');
                       return;
                     }
-
                     if (selectedPackage == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please choose a package first')),
-                      );
+                      _showWarningDialog('Please choose a package first');
                       return;
                     }
-
                     _showConfirmationDialog();
                   },
                   style: ElevatedButton.styleFrom(
@@ -667,44 +967,6 @@ class _AppointmentPageState extends State<AppointmentPage> {
               SizedBox(height: isTablet ? 50 : 40),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _infoTile(IconData icon, String text, VoidCallback? onTap, bool isTablet) {
-    final gold = const Color(0xFFE1A948);
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(isTablet ? 18 : 14),
-        decoration: BoxDecoration(
-          color: gold,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Icon(icon, color: Colors.black, size: isTablet ? 26 : 22),
-            SizedBox(width: isTablet ? 16 : 12),
-            Expanded(
-              child: Text(
-                text,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'PlayfairDisplay',
-                  fontWeight: FontWeight.w600,
-                  fontSize: isTablet ? 17 : 15,
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
