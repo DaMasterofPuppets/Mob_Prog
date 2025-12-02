@@ -14,28 +14,28 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
   final List<Map<String, String>> testimonials = [
     {
       'name': 'Ava Suarez',
-      'desc': 'I was honestly skeptical at first, but the tarot reading gave me so much clarity. I left feeling lighter and more hopeful.',
+      'desc': 'I love getting readings from her! She is very easy to talk to and answers the follow-up questions I ask. Would get tarot readings from her again!.',
       'image': 'assets/images/testimonies_page/user1_ava.png'
     },
     {
       'name': 'Sam Canlas',
-      'desc': 'Booking through the app was so smooth! It’s like having a spiritual guide right at your fingertips.',
+      'desc': 'I never believed in tarot readings and honestly thought they were a scam, but the things she brought up have already come true and it still shocks me. She’s incredibly accurate, warm, and genuine — I highly recommend her to anyone who needs clarity.',
       'image': 'assets/images/testimonies_page/user2_sammy.png'
     },
     {
-      'name': 'Stinky Binky',
-      'desc': 'The staff made me feel completely at ease. It felt like I was talking to old friends.',
-      'image': 'assets/images/testimonies_page/user3_binky.png'
+      'name': 'Summer Menchavez',
+      'desc': 'One of the best tarot readings I’ve gotten. You can never go wrong with their predictions, almost all readings came true! Even those I didnt think were true, were eventually revealed to be the true later on! 10/10 experience !',
+      'image': 'assets/images/testimonies_page/user3_summer.png'
     },
     {
-      'name': 'Hermione Ching',
-      'desc': 'I’m new to tarot but they explained everything patiently. I left with a new perspective.',
-      'image': 'assets/images/testimonies_page/user4_hermione.png'
+      'name': 'Aaron Ybanez',
+      'desc': 'Her tarot reading service is quite entertaining at the same time very thoughtful and knowledgeable. The service was nothing short of outstanding that I never feel discomfort. Overall excellent tarot reading service would comeback ❤',
+      'image': 'assets/images/testimonies_page/user4_aaron.png'
     },
     {
-      'name': 'Chubi',
-      'desc': 'My reading touched on things I hadn’t voiced out loud. Healing in ways I can’t explain.',
-      'image': 'assets/images/testimonies_page/user5_chubi.png'
+      'name': 'Shawn Dubouzet',
+      'desc': 'Everytime I have had a reading from her lowkey scared me with how accurate she was. The way I gasped when I realized how her readings slowly fell into place. In fact, everything she has mentioned actually did happen this year!',
+      'image': 'assets/images/testimonies_page/user5_shawn.png'
     },
   ];
 
@@ -150,21 +150,22 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
                                       children: [
                                         if (item['image'] != null)
                                           CircleAvatar(
-                                            radius: 80,
+                                            radius: 50,
                                             backgroundImage: AssetImage(item['image']!),
                                             backgroundColor: Colors.transparent,
                                           ),
-                                        const SizedBox(height: 18),
+                                        const SizedBox(height: 7),
                                         Text(
                                           item['name']!,
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            fontSize: 30,
+                                            fontSize: 25,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'PlayfairDisplay',
                                             color: maroon,
                                           ),
                                         ),
-                                        const SizedBox(height: 14),
+                                        const SizedBox(height: 7),
                                         Text(
                                           item['desc']!,
                                           textAlign: TextAlign.center,

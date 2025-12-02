@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'testimonials_page.dart';
 
 class TheReaderPage extends StatelessWidget {
   const TheReaderPage({super.key});
@@ -75,7 +76,6 @@ class TheReaderPage extends StatelessWidget {
               ),
 
               // Name "Deni"
-              SizedBox(height: isTablet ? 10 : 8),
               Center(
                 child: Text(
                   'Deni',
@@ -95,9 +95,6 @@ class TheReaderPage extends StatelessWidget {
                   ),
                 ),
               ),
-
-              // <-- TIGHTENED SPACING HERE -->
-              SizedBox(height: isTablet ? 6 : 6),
 
               // Decorative divider (centered and limited width)
               Padding(
@@ -169,8 +166,84 @@ class TheReaderPage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: isTablet ? 35 : 25),
+                        Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: isTablet ? 500 : 340, 
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
 
-              SizedBox(height: isTablet ? 50 : 40),
+                  // LEFT SIDE — stacked text
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: isTablet ? 220 : 160,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Want to hear from my clients?",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'PlayfairDisplay',
+                            color: Colors.white,
+                            fontSize: isTablet ? 26 : 20,
+                          ),
+                        ),
+                        Text(
+                          "Click here!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'PlayfairDisplay',
+                            color: Colors.white,
+                            fontSize: isTablet ? 26 : 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(width: isTablet ? 30 : 26),
+
+                  // RIGHT SIDE — tarot card image
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TestimonialsPage()),
+                      );
+                    },
+                    child: Container(
+                      height: isTablet ? 205 : 185,
+                      width: isTablet ? 150 : 130,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.4),
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(2),
+                        child: Image.asset(
+                          'assets/images/dashboard_page/the_testimonies.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          SizedBox(height: isTablet ? 25 : 15),
 
               // Hiring Section
               Padding(
@@ -194,7 +267,7 @@ class TheReaderPage extends StatelessWidget {
                       ],
                     ),
                     
-                    SizedBox(height: isTablet ? 35 : 25),
+                    SizedBox(height: isTablet ? 35 : 25), 
                     
                     // Hiring heading
                     Text(

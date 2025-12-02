@@ -106,7 +106,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     style: TextStyle(
                       fontFamily: 'PlayfairDisplay',
                       fontSize: 30,
-                      color: Color(0xFFFFD700),
+                      color: Color(0xFFE1A948),
                     ),
                   ),
 
