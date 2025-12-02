@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   
-  supabase_flutter: ^2.5.0
+  supabase_flutter: ^2.10.2
   
   image_picker: ^1.0.4
 
