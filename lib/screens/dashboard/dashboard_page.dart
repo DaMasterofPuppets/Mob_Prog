@@ -33,17 +33,17 @@ class DashboardPage extends StatelessWidget {
 
                 Image.asset(
                   'assets/images/logo.png',
-                  width: isTablet ? 240 : 180,
-                  height: isTablet ? 240 : 180,
+                  width: isTablet ? 180 : 120,
+                  height: isTablet ? 180 : 120,
                 ),
 
                 SizedBox(height: isTablet ? 20 : 10),
 
                 Text(
-                  'Pick A Card...',
+                  '(Pick A Card)',
                   style: TextStyle(
                     fontFamily: 'PlayfairDisplay',
-                    fontSize: isTablet ? 52 : 40,
+                    fontSize: isTablet ? 42 : 30,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
