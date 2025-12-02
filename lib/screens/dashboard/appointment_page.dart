@@ -126,68 +126,77 @@ class _AppointmentPageState extends State<AppointmentPage> {
             vertical: isTablet ? 40 : 24,
           ),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            padding: EdgeInsets.all(isTablet ? 32 : 24),
             decoration: BoxDecoration(
               color: maroon,
               borderRadius: BorderRadius.circular(16.0),
-              border: Border.all(color: gold, width: 3.0),
+              border: Border.all(color: gold, width: 2.0),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.25),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
+                  color: gold.withOpacity(0.3),
+                  blurRadius: 20,
+                  spreadRadius: 2,
+                  offset: const Offset(0, 0),
                 ),
               ],
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset(
-                  'assets/images/logo.png',
-                  height: isTablet ? 72 : 56,
-                  fit: BoxFit.contain,
+                Container(
+                  padding: EdgeInsets.all(isTablet ? 16 : 12),
+                  decoration: BoxDecoration(
+                    color: gold.withOpacity(0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.info_outline,
+                    color: gold,
+                    size: isTablet ? 48 : 40,
+                  ),
                 ),
-                SizedBox(height: isTablet ? 12 : 10),
+                SizedBox(height: isTablet ? 20 : 16),
                 Text(
                   'Notice',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: gold,
-                    fontSize: isTablet ? 20 : 18,
+                    fontSize: isTablet ? 24 : 20,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'PlayfairDisplay',
                   ),
                 ),
-                SizedBox(height: isTablet ? 10 : 8),
+                SizedBox(height: isTablet ? 12 : 10),
                 Text(
                   message,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: isTablet ? 15 : 14,
+                    fontSize: isTablet ? 16 : 14,
                     fontFamily: 'PlayfairDisplay',
-                    height: 1.4,
+                    height: 1.5,
                   ),
                 ),
-                SizedBox(height: isTablet ? 16 : 12),
+                SizedBox(height: isTablet ? 24 : 20),
                 SizedBox(
                   width: double.infinity,
-                  child: OutlinedButton(
+                  child: ElevatedButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    style: OutlinedButton.styleFrom(
+                    style: ElevatedButton.styleFrom(
                       backgroundColor: gold,
-                      foregroundColor: Colors.black,
-                      padding: EdgeInsets.symmetric(vertical: isTablet ? 14 : 12),
+                      foregroundColor: maroon,
+                      padding: EdgeInsets.symmetric(vertical: isTablet ? 16 : 14),
+                      elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      side: BorderSide(color: gold),
                     ),
                     child: Text(
                       'OK',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontFamily: 'PlayfairDisplay',
+                        fontSize: isTablet ? 17 : 15,
                       ),
                     ),
                   ),
@@ -217,16 +226,17 @@ class _AppointmentPageState extends State<AppointmentPage> {
           backgroundColor: Colors.transparent,
           insetPadding: EdgeInsets.symmetric(horizontal: isTablet ? 80 : 40, vertical: isTablet ? 40 : 24),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            padding: EdgeInsets.all(isTablet ? 32 : 24),
             decoration: BoxDecoration(
               color: maroon,
               borderRadius: BorderRadius.circular(16.0),
-              border: Border.all(color: gold, width: 3.0),
+              border: Border.all(color: gold, width: 2.0),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.25),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
+                  color: gold.withOpacity(0.3),
+                  blurRadius: 20,
+                  spreadRadius: 2,
+                  offset: const Offset(0, 0),
                 ),
               ],
             ),
@@ -235,58 +245,72 @@ class _AppointmentPageState extends State<AppointmentPage> {
               children: [
                 Image.asset(
                   'assets/images/logo.png',
-                  height: isTablet ? 72 : 56,
+                  height: isTablet ? 80 : 64,
                   fit: BoxFit.contain,
                 ),
-                SizedBox(height: isTablet ? 14 : 10),
+                SizedBox(height: isTablet ? 20 : 16),
                 Text(
                   'Confirm Booking Details',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: gold,
-                    fontSize: isTablet ? 20 : 18,
+                    fontSize: isTablet ? 24 : 20,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'PlayfairDisplay',
                   ),
                 ),
-                SizedBox(height: isTablet ? 12 : 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _dialogDetailRow('Date:', formattedDate, gold, isTablet),
-                    SizedBox(height: isTablet ? 12 : 8),
-                    _dialogDetailRow('Time:', selectedTime.isEmpty ? 'Not selected' : selectedTime, gold, isTablet),
-                    SizedBox(height: isTablet ? 12 : 8),
-                    _dialogDetailRow('Package:', selectedPackage ?? '', gold, isTablet),
-                    SizedBox(height: isTablet ? 12 : 8),
-                    _dialogDetailRow('Reader:', selectedReader ?? '', gold, isTablet),
-                    if (message.isNotEmpty) ...[
-                      SizedBox(height: isTablet ? 12 : 8),
-                      _dialogDetailRow('Message:', message, gold, isTablet),
+                SizedBox(height: isTablet ? 24 : 20),
+                Container(
+                  padding: EdgeInsets.all(isTablet ? 20 : 16),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: gold.withOpacity(0.3)),
+                  ),
+                  child: Column(
+                    children: [
+                      _dialogDetailRow('Date', formattedDate, maroon, gold, isTablet),
+                      SizedBox(height: isTablet ? 14 : 12),
+                      Divider(color: gold.withOpacity(0.2), height: 1),
+                      SizedBox(height: isTablet ? 14 : 12),
+                      _dialogDetailRow('Time', selectedTime.isEmpty ? 'Not selected' : selectedTime, maroon, gold, isTablet),
+                      SizedBox(height: isTablet ? 14 : 12),
+                      Divider(color: gold.withOpacity(0.2), height: 1),
+                      SizedBox(height: isTablet ? 14 : 12),
+                      _dialogDetailRow('Package', selectedPackage ?? '', maroon, gold, isTablet),
+                      SizedBox(height: isTablet ? 14 : 12),
+                      Divider(color: gold.withOpacity(0.2), height: 1),
+                      SizedBox(height: isTablet ? 14 : 12),
+                      _dialogDetailRow('Reader', selectedReader ?? '', maroon, gold, isTablet),
+                      if (message.isNotEmpty) ...[
+                        SizedBox(height: isTablet ? 14 : 12),
+                        Divider(color: gold.withOpacity(0.2), height: 1),
+                        SizedBox(height: isTablet ? 14 : 12),
+                        _dialogDetailRow('Message', message, maroon, gold, isTablet),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
-                SizedBox(height: isTablet ? 18 : 14),
+                SizedBox(height: isTablet ? 24 : 20),
                 Row(
                   children: [
                     Expanded(
                       child: OutlinedButton(
                         onPressed: () => Navigator.of(context).pop(),
                         style: OutlinedButton.styleFrom(
-                          backgroundColor: gold.withOpacity(0.0),
-                          foregroundColor: Colors.white,
-                          padding: EdgeInsets.symmetric(vertical: isTablet ? 14 : 12),
-                          side: BorderSide(color: gold),
+                          foregroundColor: gold,
+                          padding: EdgeInsets.symmetric(vertical: isTablet ? 16 : 14),
+                          side: BorderSide(color: gold, width: 2),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
                         child: Text(
                           'Cancel',
                           style: TextStyle(
-                            color: Colors.white.withOpacity(0.9),
                             fontWeight: FontWeight.bold,
                             fontFamily: 'PlayfairDisplay',
+                            fontSize: isTablet ? 17 : 15,
                           ),
                         ),
                       ),
@@ -300,10 +324,11 @@ class _AppointmentPageState extends State<AppointmentPage> {
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: gold,
-                          foregroundColor: Colors.black,
-                          padding: EdgeInsets.symmetric(vertical: isTablet ? 14 : 12),
+                          foregroundColor: maroon,
+                          padding: EdgeInsets.symmetric(vertical: isTablet ? 16 : 14),
+                          elevation: 0,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
                         child: Text(
@@ -311,6 +336,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'PlayfairDisplay',
+                            fontSize: isTablet ? 17 : 15,
                           ),
                         ),
                       ),
@@ -325,27 +351,32 @@ class _AppointmentPageState extends State<AppointmentPage> {
     );
   }
 
-  Widget _dialogDetailRow(String label, String value, Color gold, bool isTablet) {
+  Widget _dialogDetailRow(String label, String value, Color maroon, Color gold, bool isTablet) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            color: gold,
-            fontWeight: FontWeight.bold,
-            fontSize: isTablet ? 15 : 13,
-            fontFamily: 'PlayfairDisplay',
+        Expanded(
+          flex: 2,
+          child: Text(
+            label,
+            style: TextStyle(
+              color: gold,
+              fontWeight: FontWeight.bold,
+              fontSize: isTablet ? 16 : 14,
+              fontFamily: 'PlayfairDisplay',
+            ),
           ),
         ),
-        const SizedBox(width: 8),
+        const SizedBox(width: 12),
         Expanded(
+          flex: 3,
           child: Text(
             value,
             style: TextStyle(
               color: Colors.white,
-              fontSize: isTablet ? 15 : 13,
+              fontSize: isTablet ? 16 : 14,
               fontFamily: 'PlayfairDisplay',
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -383,58 +414,68 @@ class _AppointmentPageState extends State<AppointmentPage> {
             backgroundColor: Colors.transparent,
             insetPadding: EdgeInsets.symmetric(horizontal: isTablet ? 80 : 40, vertical: isTablet ? 40 : 24),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              padding: EdgeInsets.all(isTablet ? 32 : 24),
               decoration: BoxDecoration(
                 color: maroon,
                 borderRadius: BorderRadius.circular(16.0),
-                border: Border.all(color: gold, width: 3.0),
+                border: Border.all(color: gold, width: 2.0),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.25),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
+                    color: gold.withOpacity(0.3),
+                    blurRadius: 20,
+                    spreadRadius: 2,
+                    offset: const Offset(0, 0),
                   ),
                 ],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    Icons.check_circle_outline,
-                    color: gold,
-                    size: isTablet ? 80 : 64,
+                  Container(
+                    padding: EdgeInsets.all(isTablet ? 20 : 16),
+                    decoration: BoxDecoration(
+                      color: gold.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.check_circle_outline,
+                      color: gold,
+                      size: isTablet ? 64 : 56,
+                    ),
                   ),
-                  SizedBox(height: isTablet ? 10 : 8),
+                  SizedBox(height: isTablet ? 20 : 16),
                   Text(
                     'Booking Confirmed!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: gold,
-                      fontSize: isTablet ? 22 : 20,
+                      fontSize: isTablet ? 26 : 22,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'PlayfairDisplay',
                     ),
                   ),
-                  SizedBox(height: isTablet ? 12 : 10),
+                  SizedBox(height: isTablet ? 16 : 12),
                   Text(
                     'Your appointment has been successfully booked. We will contact you by email with the details.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: isTablet ? 15 : 14,
+                      fontSize: isTablet ? 16 : 14,
                       fontFamily: 'PlayfairDisplay',
-                      height: 1.4,
+                      height: 1.5,
                     ),
                   ),
-                  SizedBox(height: isTablet ? 18 : 14),
+                  SizedBox(height: isTablet ? 24 : 20),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: gold,
-                        padding: EdgeInsets.symmetric(vertical: isTablet ? 14 : 12),
+                        foregroundColor: maroon,
+                        padding: EdgeInsets.symmetric(vertical: isTablet ? 16 : 14),
+                        elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                       onPressed: () {
@@ -444,9 +485,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       child: Text(
                         'OK',
                         style: TextStyle(
-                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'PlayfairDisplay',
+                          fontSize: isTablet ? 17 : 15,
                         ),
                       ),
                     ),
@@ -476,16 +517,18 @@ class _AppointmentPageState extends State<AppointmentPage> {
         elevation: 0,
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: isTablet ? 16.0 : 0),
+          padding: EdgeInsets.symmetric(horizontal: isTablet ? 16.0 : 8, vertical: 8),
           child: Row(
             children: [
-              CircleAvatar(
-                radius: isTablet ? 24 : 20,
-                backgroundColor: Colors.black,
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  shape: BoxShape.circle,
+                ),
                 child: IconButton(
                   icon: Icon(
                     Icons.arrow_back,
-                    color: Colors.amber,
+                    color: gold,
                     size: isTablet ? 28 : 24,
                   ),
                   onPressed: () => Navigator.pop(context),
@@ -493,9 +536,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
               ),
               SizedBox(width: isTablet ? 20 : 16),
               Text(
-                'Appointment',
+                'Book Appointment',
                 style: TextStyle(
-                  fontSize: isTablet ? 42 : 32,
+                  fontSize: isTablet ? 32 : 26,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'PlayfairDisplay',
                   color: gold,
@@ -505,269 +548,469 @@ class _AppointmentPageState extends State<AppointmentPage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: isTablet ? screenWidth * 0.15 : 16,
-            vertical: 16,
-          ),
-          child: Column(
-            children: [
-              SizedBox(height: isTablet ? 20 : 14),
-              Text(
-                'Interact with the controls below to set the booking date, time, package, and reader.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.95),
-                  fontFamily: 'PlayfairDisplay',
-                  fontSize: isTablet ? 15 : 13,
-                ),
-              ),
-              SizedBox(height: isTablet ? 20 : 16),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Date:',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'PlayfairDisplay',
-                          fontSize: isTablet ? 17 : 15,
-                          fontWeight: FontWeight.bold,
-                        ),
+      body: Padding(
+        padding: EdgeInsets.only(
+        top: isTablet ? 40 : 28,      // ⬅️ increase top spacing here
+        left: isTablet ? screenWidth * 0.15 : 16,
+        right: isTablet ? screenWidth * 0.15 : 16,
+        bottom: isTablet ? 16 : 12,
+      ),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(isTablet ? 20 : 16),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: gold.withOpacity(0.3), width: 1),
                       ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(isTablet ? 8 : 6),
+                          decoration: BoxDecoration(
+                            color: gold,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(
+                            Icons.calendar_today,
+                            color: Colors.black,
+                            size: isTablet ? 20 : 18,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Text(
+                          'Schedule Details',
+                          style: TextStyle(
+                            color: gold,
+                            fontFamily: 'PlayfairDisplay',
+                            fontSize: isTablet ? 18 : 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(width: 12),
-                  Expanded(
-                    flex: 2,
-                    child: GestureDetector(
+                    SizedBox(height: isTablet ? 16 : 12),
+                    _buildDetailRow(
+                      'Date',
+                      selectedDate != null ? DateFormat.yMMMMd().format(selectedDate!) : 'Not selected',
+                      Icons.event,
+                      maroon,
+                      gold,
+                      isTablet,
                       onTap: _pickDate,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: isTablet ? 16 : 12, horizontal: isTablet ? 16 : 12),
-                        decoration: BoxDecoration(
-                          color: gold,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 4, offset: const Offset(0, 2)),
-                          ],
-                        ),
-                        child: Text(
-                          selectedDate != null ? DateFormat.yMMMMd().format(selectedDate!) : 'Not selected',
-                          style: TextStyle(color: Colors.black, fontFamily: 'PlayfairDisplay', fontSize: isTablet ? 16 : 14, fontWeight: FontWeight.bold),
-                        ),
-                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: isTablet ? 16 : 12),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Time:',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'PlayfairDisplay',
-                          fontSize: isTablet ? 17 : 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  Expanded(
-                    flex: 2,
-                    child: GestureDetector(
+                    SizedBox(height: isTablet ? 12 : 10),
+                    _buildDetailRow(
+                      'Time',
+                      selectedTime.isNotEmpty ? selectedTime : 'Not selected',
+                      Icons.access_time,
+                      maroon,
+                      gold,
+                      isTablet,
                       onTap: _pickTime,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: isTablet ? 16 : 12, horizontal: isTablet ? 16 : 12),
-                        decoration: BoxDecoration(
-                          color: gold,
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 4, offset: const Offset(0, 2)),
-                          ],
-                        ),
-                        child: Text(
-                          selectedTime.isNotEmpty ? selectedTime : 'Not selected',
-                          style: TextStyle(color: Colors.black, fontFamily: 'PlayfairDisplay', fontSize: isTablet ? 16 : 14, fontWeight: FontWeight.bold),
-                        ),
-                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: isTablet ? 20 : 16),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: gold,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 4, offset: const Offset(0, 2)),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: isTablet ? 20 : 16, vertical: 4),
-                        child: DropdownButton<String>(
-                          value: selectedPackage,
-                          hint: Text('Package: Choose', style: TextStyle(color: Colors.black, fontFamily: 'PlayfairDisplay', fontWeight: FontWeight.w600, fontSize: isTablet ? 17 : 15)),
-                          dropdownColor: gold,
-                          underline: const SizedBox(),
-                          isExpanded: true,
-                          icon: Icon(Icons.arrow_drop_down, color: Colors.black, size: isTablet ? 28 : 24),
-                          onChanged: (value) {
-                            if (value != null) setState(() => selectedPackage = value);
-                          },
-                          items: packages.map((p) {
-                            return DropdownMenuItem<String>(
-                              value: p,
-                              child: Text('Package: $p', style: TextStyle(color: Colors.black, fontFamily: 'PlayfairDisplay', fontWeight: FontWeight.w600, fontSize: isTablet ? 17 : 15)),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 12),
-                  Material(
-                    color: gold,
-                    shape: const CircleBorder(),
-                    elevation: 3,
-                    child: InkWell(
-                      customBorder: const CircleBorder(),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const PackagesPage()));
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(isTablet ? 12 : 10),
-                        child: Icon(Icons.help_outline, color: maroon, size: isTablet ? 28 : 24),
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               SizedBox(height: isTablet ? 16 : 12),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: gold,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 4, offset: const Offset(0, 2)),
-                        ],
+              Container(
+                padding: EdgeInsets.all(isTablet ? 20 : 16),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: gold.withOpacity(0.3), width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(isTablet ? 8 : 6),
+                          decoration: BoxDecoration(
+                            color: gold,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(
+                            Icons.card_giftcard,
+                            color: Colors.black,
+                            size: isTablet ? 20 : 18,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Text(
+                          'Select Package',
+                          style: TextStyle(
+                            color: gold,
+                            fontFamily: 'PlayfairDisplay',
+                            fontSize: isTablet ? 18 : 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: isTablet ? 16 : 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: gold,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: isTablet ? 16 : 12),
+                              child: DropdownButton<String>(
+                                value: selectedPackage,
+                                hint: Text(
+                                  'Choose a package',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontFamily: 'PlayfairDisplay',
+                                    fontSize: isTablet ? 16 : 14,
+                                  ),
+                                ),
+                                dropdownColor: gold,
+                                underline: const SizedBox(),
+                                isExpanded: true,
+                                icon: Icon(Icons.arrow_drop_down, color: Colors.black, size: isTablet ? 28 : 24),
+                                onChanged: (value) {
+                                  if (value != null) setState(() => selectedPackage = value);
+                                },
+                                items: packages.map((p) {
+                                  return DropdownMenuItem<String>(
+                                    value: p,
+                                    child: Text(
+                                      p,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'PlayfairDisplay',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: isTablet ? 16 : 14,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: gold,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(Icons.help_outline, color: Colors.black, size: isTablet ? 26 : 22),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const PackagesPage()));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: isTablet ? 16 : 12),
+              Container(
+                padding: EdgeInsets.all(isTablet ? 20 : 16),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: gold.withOpacity(0.3), width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(isTablet ? 8 : 6),
+                          decoration: BoxDecoration(
+                            color: gold,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.black,
+                            size: isTablet ? 20 : 18,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Text(
+                          'Select Reader',
+                          style: TextStyle(
+                            color: gold,
+                            fontFamily: 'PlayfairDisplay',
+                            fontSize: isTablet ? 18 : 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: isTablet ? 16 : 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: gold,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: isTablet ? 16 : 12),
+                              child: DropdownButton<String>(
+                                value: selectedReader,
+                                hint: Text(
+                                  'Choose a reader',
+                                  style: TextStyle(
+                                    color: Colors.black.withOpacity(0.6),
+                                    fontFamily: 'PlayfairDisplay',
+                                    fontSize: isTablet ? 16 : 14,
+                                  ),
+                                ),
+                                dropdownColor: gold,
+                                underline: const SizedBox(),
+                                isExpanded: true,
+                                icon: Icon(Icons.arrow_drop_down, color: Colors.black, size: isTablet ? 28 : 24),
+                                onChanged: (value) {
+                                  if (value != null) setState(() => selectedReader = value);
+                                },
+                                items: readers.map((r) {
+                                  return DropdownMenuItem<String>(
+                                    value: r,
+                                    child: Text(
+                                      r,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'PlayfairDisplay',
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: isTablet ? 16 : 14,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: gold,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            icon: Icon(Icons.help_outline, color: Colors.black, size: isTablet ? 26 : 22),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const TheReaderPage()));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: isTablet ? 16 : 12),
+              Container(
+                padding: EdgeInsets.all(isTablet ? 20 : 16),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: gold.withOpacity(0.3), width: 1),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(isTablet ? 8 : 6),
+                          decoration: BoxDecoration(
+                            color: gold,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(
+                            Icons.message,
+                            color: Colors.black,
+                            size: isTablet ? 20 : 18,
+                          ),
+                        ),
+                        SizedBox(width: 12),
+                        Text(
+                          'Additional Message',
+                          style: TextStyle(
+                            color: gold,
+                            fontFamily: 'PlayfairDisplay',
+                            fontSize: isTablet ? 18 : 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: isTablet ? 16 : 12),
+                    TextField(
+                      controller: _messageController,
+                      maxLines: 3,
+                      style: TextStyle(
+                        fontFamily: 'PlayfairDisplay',
+                        fontSize: isTablet ? 15 : 13,
+                        color: Colors.black,
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: isTablet ? 20 : 16, vertical: 4),
-                        child: DropdownButton<String>(
-                          value: selectedReader,
-                          hint: Text('Reader: Choose', style: TextStyle(color: Colors.black, fontFamily: 'PlayfairDisplay', fontWeight: FontWeight.w600, fontSize: isTablet ? 17 : 15)),
-                          dropdownColor: gold,
-                          underline: const SizedBox(),
-                          isExpanded: true,
-                          icon: Icon(Icons.arrow_drop_down, color: Colors.black, size: isTablet ? 28 : 24),
-                          onChanged: (value) {
-                            if (value != null) setState(() => selectedReader = value);
-                          },
-                          items: readers.map((r) {
-                            return DropdownMenuItem<String>(
-                              value: r,
-                              child: Text('Reader: $r', style: TextStyle(color: Colors.black, fontFamily: 'PlayfairDisplay', fontWeight: FontWeight.w600, fontSize: isTablet ? 17 : 15)),
-                            );
-                          }).toList(),
+                      decoration: InputDecoration(
+                        hintText: 'Share any special requests...',
+                        hintStyle: TextStyle(
+                          fontFamily: 'PlayfairDisplay',
+                          color: Colors.black.withOpacity(0.5),
+                          fontSize: isTablet ? 15 : 13,
+                        ),
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: gold, width: 2),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: isTablet ? 16 : 12,
+                          vertical: isTablet ? 14 : 12,
                         ),
                       ),
                     ),
+                  ],
+                ),
+              ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: isTablet ? 6 : 4),
+            Container(
+              width: double.infinity,
+              height: isTablet ? 56 : 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: gold.withOpacity(0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
                   ),
-                  SizedBox(width: 12),
-                  Material(
-                    color: gold,
-                    shape: const CircleBorder(),
-                    elevation: 3,
-                    child: InkWell(
-                      customBorder: const CircleBorder(),
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const TheReaderPage()));
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(isTablet ? 12 : 10),
-                        child: Icon(Icons.help_outline, color: maroon, size: isTablet ? 28 : 24),
-                      ),
+                ],
+              ),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (selectedTime.isEmpty) {
+                    _showWarningDialog('Please select a time first');
+                    return;
+                  }
+                  if (selectedPackage == null) {
+                    _showWarningDialog('Please choose a package first');
+                    return;
+                  }
+                  if (selectedReader == null) {
+                    _showWarningDialog('Please choose a reader first');
+                    return;
+                  }
+                  _showConfirmationDialog();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: gold,
+                  foregroundColor: maroon,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  'BOOK APPOINTMENT',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: isTablet ? 17 : 15,
+                    fontFamily: 'PlayfairDisplay',
+                    letterSpacing: 1.5,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: isTablet ? 6 : 4),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailRow(
+    String label,
+    String value,
+    IconData icon,
+    Color maroon,
+    Color gold,
+    bool isTablet, {
+    VoidCallback? onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: EdgeInsets.all(isTablet ? 14 : 12),
+        decoration: BoxDecoration(
+          color: gold,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.black, size: isTablet ? 22 : 20),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.6),
+                      fontFamily: 'PlayfairDisplay',
+                      fontSize: isTablet ? 12 : 11,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Text(
+                    value,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'PlayfairDisplay',
+                      fontSize: isTablet ? 15 : 14,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: isTablet ? 28 : 22),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 4, offset: const Offset(0, 2))],
-                ),
-                child: TextField(
-                  controller: _messageController,
-                  maxLines: isTablet ? 5 : 4,
-                  style: TextStyle(fontFamily: 'PlayfairDisplay', fontSize: isTablet ? 17 : 15),
-                  decoration: InputDecoration(
-                    hintText: 'Optional message...',
-                    hintStyle: TextStyle(fontFamily: 'PlayfairDisplay', color: Colors.grey[600], fontSize: isTablet ? 17 : 15),
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
-                    contentPadding: EdgeInsets.symmetric(horizontal: isTablet ? 20 : 16, vertical: isTablet ? 18 : 14),
-                  ),
-                ),
-              ),
-              SizedBox(height: isTablet ? 36 : 30),
-              Container(
-                width: double.infinity,
-                height: isTablet ? 65 : 55,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [gold, gold.withOpacity(0.85)], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [BoxShadow(color: gold.withOpacity(0.4), blurRadius: 12, offset: const Offset(0, 4))],
-                ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (selectedTime.isEmpty) {
-                      _showWarningDialog('Please select a time first');
-                      return;
-                    }
-                    if (selectedPackage == null) {
-                      _showWarningDialog('Please choose a package first');
-                      return;
-                    }
-                    if (selectedReader == null) {
-                      _showWarningDialog('Please choose a reader first');
-                      return;
-                    }
-                    _showConfirmationDialog();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shadowColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  child: Text(
-                    'BOOK NOW',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: isTablet ? 20 : 18, fontFamily: 'PlayfairDisplay', letterSpacing: 1.2),
-                  ),
-                ),
-              ),
-              SizedBox(height: isTablet ? 50 : 40),
-            ],
-          ),
+            ),
+            Icon(Icons.edit, color: Colors.black.withOpacity(0.5), size: isTablet ? 18 : 16),
+          ],
         ),
       ),
     );
