@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -12,6 +11,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   String? validateEmail(String? value) {
@@ -26,13 +26,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     final validationMessage = validateEmail(email);
 
     if (validationMessage != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(validationMessage),
-          backgroundColor: const Color(0xFFE1A948),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      _showErrorDialog(validationMessage);
       return;
     }
 
@@ -40,34 +34,108 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
     try {
       await Supabase.instance.client.auth.signInWithOtp(email: email);
-
       setState(() => isLoading = false);
 
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => OtpAndResetDialog(
-          email: email,
-          onSuccess: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).popUntil((route) => route.isFirst);
-          },
-        ),
-      );
+      _showOtpDialog(email);
     } on AuthException catch (e) {
       setState(() => isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.message), backgroundColor: Colors.red),
-      );
+      _showErrorDialog(e.message);
     } catch (e) {
       setState(() => isLoading = false);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Something went wrong. Please try again.'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      _showErrorDialog('Something went wrong. Please try again.');
     }
+  }
+
+  void _showErrorDialog(String message) {
+    const Color accent = Color(0xFFE1A948);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+          decoration: BoxDecoration(
+            color: const Color(0xFF450003),
+            borderRadius: BorderRadius.circular(16.0),
+            border: Border.all(color: accent, width: 3.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset('assets/images/logo.png', height: 64),
+              const SizedBox(height: 12),
+              const Text(
+                'Error',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFFE1A948),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: accent,
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    side: const BorderSide(color: accent),
+                  ),
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showOtpDialog(String email) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => OtpAndResetDialog(
+        email: email,
+        onSuccess: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        },
+      ),
+    );
   }
 
   @override
@@ -118,9 +186,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           child: TextFormField(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
+                            style: const TextStyle(color: Colors.black),
                             decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
@@ -139,8 +205,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         const SizedBox(height: 40),
                         isLoading
                             ? const CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    Color(0xFFE1A948)),
+                                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFE1A948)),
                               )
                             : ElevatedButton(
                                 onPressed: _onConfirm,
@@ -196,6 +261,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 }
 
+// ===== OTP AND RESET DIALOG =====
 class OtpAndResetDialog extends StatefulWidget {
   final String email;
   final VoidCallback onSuccess;
@@ -213,7 +279,6 @@ class _OtpAndResetDialogState extends State<OtpAndResetDialog> {
   final TextEditingController _otpController = TextEditingController();
   final TextEditingController _newPassController = TextEditingController();
   final TextEditingController _confirmPassController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
 
   bool isLoading = false;
   String? dialogError;
@@ -231,18 +296,6 @@ class _OtpAndResetDialogState extends State<OtpAndResetDialog> {
     _confirmPassController.dispose();
     _cooldownTimer?.cancel();
     super.dispose();
-  }
-
-  String? _validatePassword(String? v) {
-    if (v == null || v.isEmpty) return 'Password is required';
-    if (v.length < 6) return 'Password must be at least 6 characters';
-    return null;
-  }
-
-  String? _validateOtp(String? v) {
-    if (v == null || v.isEmpty) return 'Please enter the code';
-    if (v.length < 4) return 'Enter the full code';
-    return null;
   }
 
   void _setDialogError(String? message) {
@@ -293,31 +346,59 @@ class _OtpAndResetDialogState extends State<OtpAndResetDialog> {
     final newPass = _newPassController.text;
     final confirm = _confirmPassController.text;
 
-  static const Color accent = Color(0xFFE1A948);
+    if (otp.isEmpty || newPass.isEmpty || confirm.isEmpty) {
+      _setDialogError('All fields are required.');
+      return;
+    }
+
+    if (newPass != confirm) {
+      _setDialogError('Passwords do not match.');
+      return;
+    }
+
+    if (newPass.length < 6) {
+      _setDialogError('Password must be at least 6 characters.');
+      return;
+    }
+
+    setState(() => isLoading = true);
+
+    try {
+      await Supabase.instance.client.auth.updateUser(
+        UserAttributes(password: newPass),
+      );
+
+      setState(() => isLoading = false);
+      widget.onSuccess();
+    } on AuthException catch (e) {
+      setState(() => isLoading = false);
+      _setDialogError(e.message);
+    } catch (e) {
+      setState(() => isLoading = false);
+      _setDialogError('Failed to reset password. Try again.');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    const Color accent = Color(0xFFE1A948);
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
         decoration: BoxDecoration(
           color: const Color(0xFF450003),
           borderRadius: BorderRadius.circular(16.0),
-          border: Border.all(color: const Color(0xFFE1A948), width: 3.0),
+          border: Border.all(color: accent, width: 3.0),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'assets/images/logo.png',
-              height: 64,
-              fit: BoxFit.contain,
-            ),
+            Image.asset('assets/images/logo.png', height: 64),
             const SizedBox(height: 12),
             const Text(
-              'Email Confirmation Sent',
+              'Reset Password',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xFFE1A948),
@@ -327,107 +408,101 @@ class _OtpAndResetDialogState extends State<OtpAndResetDialog> {
               ),
             ),
             const SizedBox(height: 12),
-            RichText(
-              textAlign: TextAlign.center,
-              text: const TextSpan(
-                style: TextStyle(
+            if (dialogError != null)
+              Text(
+                dialogError!,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
                   height: 1.4,
+                  fontFamily: 'PlayfairDisplay',
                 ),
-                children: [
-                  TextSpan(
-                    text:
-                        'Please check your email for instructions on how to change your ',
-                  ),
-                  TextSpan(
-                    text: 'password',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextSpan(text: '.'),
-                ],
+              ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: _otpController,
+              decoration: InputDecoration(
+                hintText: 'OTP Code',
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: _newPassController,
+              obscureText: _obscureNew,
+              decoration: InputDecoration(
+                hintText: 'New Password',
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                      _obscureNew ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () => setState(() => _obscureNew = !_obscureNew),
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: _confirmPassController,
+              obscureText: _obscureConfirm,
+              decoration: InputDecoration(
+                hintText: 'Confirm Password',
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                suffixIcon: IconButton(
+                  icon: Icon(_obscureConfirm
+                      ? Icons.visibility_off
+                      : Icons.visibility),
+                  onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
+                ),
               ),
             ),
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
+              child: isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : OutlinedButton(
+                      onPressed: _submitReset,
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: accent,
+                        foregroundColor: Colors.black,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        side: const BorderSide(color: accent),
+                      ),
+                      child: const Text(
+                        'RESET PASSWORD',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
               child: OutlinedButton(
-                onPressed: onBackToMenu,
+                onPressed: () => Navigator.of(context).pop(),
                 style: OutlinedButton.styleFrom(
-                  backgroundColor: accent,
+                  backgroundColor: Colors.grey.shade700,
                   foregroundColor: Colors.black,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                validator: _validatePassword,
-              ),
-
-              const SizedBox(height: 12),
-
-              TextFormField(
-                controller: _confirmPassController,
-                obscureText: _obscureConfirm,
-                style: const TextStyle(color: Colors.black),
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  hintText: 'Confirm password',
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 14.0, horizontal: 16.0),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0)),
-                  suffixIcon: IconButton(
-                    icon: Icon(_obscureConfirm
-                        ? Icons.visibility_off
-                        : Icons.visibility),
-                    color: Colors.black54,
-                    onPressed: () =>
-                        setState(() => _obscureConfirm = !_obscureConfirm),
-                  ),
-                ),
-                validator: _validatePassword,
-              ),
-
-              const SizedBox(height: 16),
-
-              SizedBox(
-                width: double.infinity,
-                child: isLoading
-                    ? const Center(child: CircularProgressIndicator())
-                    : OutlinedButton(
-                        onPressed: _submitReset,
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: const Color(0xFFE1A948),
-                          foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 12),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          side: const BorderSide(color: Color(0xFFE1A948)),
-                        ),
-                        child: const Text('RESET PASSWORD',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                      ),
-              ),
-
-              const SizedBox(height: 8),
-
-              SizedBox(
-                width: double.infinity,
-                child: TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('CANCEL',
-                      style: TextStyle(color: Colors.white)),
+                child: const Text(
+                  'CANCEL',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-            ]),
-          ),
+            ),
+          ],
         ),
       ),
     );
