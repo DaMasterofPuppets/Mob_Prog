@@ -253,12 +253,12 @@ class PackagesPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'LuxuriousScript',
-                        fontSize: isLandscape ? (isTablet ? 72 : 48) : (isTablet ? 56 : 40),
+                        fontSize: isLandscape ? (isTablet ? 75 : 53) : (isTablet ? 60 : 44),
                         color: gold,
                       ),
                     ),
                     
-                    SizedBox(height: isLandscape ? (isTablet ? 15 : 10) : (isTablet ? 12 : 8)),
+                    SizedBox(height: isLandscape ? (isTablet ? 10 : 15) : (isTablet ? 9 : 5)),
                     
                     // Description
                     Text(
@@ -266,14 +266,14 @@ class PackagesPage extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'PlayfairDisplay',
-                        fontSize: isLandscape ? (isTablet ? 20 : 16) : (isTablet ? 16 : 14),
+                        fontSize: isLandscape ? (isTablet ? 25 : 21) : (isTablet ? 21 : 19),
                         color: Colors.white.withOpacity(0.9),
                         height: 1.5,
                       ),
                     ),
                     
                     SizedBox(height: isLandscape ? (isTablet ? 60 : 25) : (isTablet ? 25 : 15)),
-
+                          
                     // Package cards - switch between vertical and horizontal based on orientation
                     if (isLandscape)
                       Expanded(

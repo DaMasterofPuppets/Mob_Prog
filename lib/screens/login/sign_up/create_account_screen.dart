@@ -66,7 +66,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             Text(
                               'Create Account',
                               style: TextStyle(
-                                fontSize: 48,
+                                fontSize: 43,
                                 color: Color(0xFFE1A948),
                                 fontFamily: 'PlayfairDisplay',
                                 fontWeight: FontWeight.bold,

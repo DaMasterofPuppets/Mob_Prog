@@ -19,7 +19,18 @@ class AccountDeletedSuccess extends StatelessWidget {
               ),
               const SizedBox(height: 48),
               const Text(
-                'Deleted successfully. Thank you\nfor being a part of\nEmpress Reads.',
+                'Deleted successfully',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'PlayfairDisplay',
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white
+                ),
+              ),
+              const SizedBox(height: 20),
+            const Text(
+                'Thank you\nfor being a part of\nEmpress Reads.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'PlayfairDisplay',

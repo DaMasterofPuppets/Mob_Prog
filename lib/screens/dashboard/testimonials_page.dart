@@ -19,12 +19,12 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
     },
     {
       'name': 'Sam Canlas',
-      'desc': 'I never believed in tarot readings and honestly thought they were a scam, but the things she brought up have already come true and it still shocks me. She’s incredibly accurate, warm, and genuine — I highly recommend her to anyone who needs clarity.',
+      'desc': 'I never believed in tarot readings and honestly thought they were a scam, but the things she brought up have already come true and it still shocks me. She\'s incredibly accurate, warm, and genuine — I highly recommend her to anyone who needs clarity.',
       'image': 'assets/images/testimonies_page/user2_sammy.png'
     },
     {
       'name': 'Summer Menchavez',
-      'desc': 'One of the best tarot readings I’ve gotten. You can never go wrong with their predictions, almost all readings came true! Even those I didnt think were true, were eventually revealed to be the true later on! 10/10 experience !',
+      'desc': 'One of the best tarot readings I\'ve gotten. You can never go wrong with their predictions, almost all readings came true! Even those I didnt think were true, were eventually revealed to be the true later on! 10/10 experience !',
       'image': 'assets/images/testimonies_page/user3_summer.png'
     },
     {
@@ -61,198 +61,250 @@ class _TestimonialsPageState extends State<TestimonialsPage> {
   Widget build(BuildContext context) {
     final Color maroon = const Color(0xFF420309);
     final Color gold = const Color(0xFFE1A948);
+    
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final orientation = MediaQuery.of(context).orientation;
+    final isLandscape = orientation == Orientation.landscape;
+    final isTablet = screenWidth >= 600;
+
+    // Responsive sizing
+    final bannerHeight = isLandscape 
+        ? screenHeight * 0.35 
+        : (isTablet ? screenHeight * 0.20 : screenHeight * 0.28);
+    
+    final carouselHeight = isLandscape 
+        ? screenHeight * 0.48 
+        : (isTablet ? screenHeight * 0.55 : screenHeight * 0.50);
+    
+    final arrowTopPosition = isLandscape 
+        ? screenHeight * 0.50 
+        : screenHeight * 0.60;
+
+    final titleFontSize = isTablet ? 40.0 : 32.0;
+    final avatarRadius = isTablet ? 60.0 : 50.0;
+    final nameFontSize = isTablet ? 28.0 : 25.0;
+    final descFontSize = isTablet ? 18.0 : 16.0;
+
+    // Max content width for large screens
+    final maxContentWidth = isTablet ? 1200.0 : double.infinity;
 
     return Scaffold(
       backgroundColor: maroon,
       body: SafeArea(
         child: Stack(
           children: [
-            SingleChildScrollView( // ✅ Added to prevent vertical overflow
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Back + title
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.black,
-                          child: IconButton(
-                            icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-                            onPressed: () => Navigator.pop(context),
-                          ),
+            Center(
+              child: Container(
+                width: screenWidth > maxContentWidth ? maxContentWidth : screenWidth,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Back + title
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isTablet ? 24.0 : 16.0, 
+                          vertical: isLandscape ? 4 : 8
                         ),
-                        const SizedBox(width: 16),
-                        Text(
-                          'Testimonials',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'PlayfairDisplay',
-                            color: gold,
-                          ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.black,
+                              radius: isTablet ? 24 : 20,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.arrow_back, 
+                                  color: gold,
+                                  size: isTablet ? 24 : 20,
+                                ),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ),
+                            SizedBox(width: isTablet ? 20 : 16),
+                            Text(
+                              'Testimonials',
+                              style: TextStyle(
+                                fontSize: titleFontSize,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'PlayfairDisplay',
+                                color: gold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  // Bigger banner
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.28,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/testimonies_page/banner.jpeg'),
-                        fit: BoxFit.cover,
                       ),
-                    ),
-                  ),
 
-                  const SizedBox(height: 10),
+                      SizedBox(height: isLandscape ? 5 : 10),
 
-                  // Carousel
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.50, // ✅ bounded height so it doesn't overflow
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: PageView.builder(
-                        controller: _pageController,
-                        itemCount: testimonials.length,
-                        onPageChanged: (index) {
-                          setState(() => _currentIndex = index);
-                        },
-                        itemBuilder: (context, index) {
-                          final item = testimonials[index];
-                          return AnimatedBuilder(
-                            animation: _pageController,
-                            builder: (context, child) {
-                              double scale = 1.0;
-                              if (!_pageController.hasClients || !_pageController.position.haveDimensions) {
-                                scale = 1.0;
-                              } else {
-                                scale = (_pageController.page! - index).abs();
-                                scale = (1 - (scale * 0.2)).clamp(0.85, 1.0);
-                              }
-                              return Transform.scale(
-                                scale: scale,
-                                child: Container(
-                                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                    color: gold,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: SingleChildScrollView( // ✅ added to handle long text inside card
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        if (item['image'] != null)
-                                          CircleAvatar(
-                                            radius: 50,
-                                            backgroundImage: AssetImage(item['image']!),
-                                            backgroundColor: Colors.transparent,
-                                          ),
-                                        const SizedBox(height: 7),
-                                        Text(
-                                          item['name']!,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'PlayfairDisplay',
-                                            color: maroon,
-                                          ),
+                      // Banner
+                      Container(
+                        height: bannerHeight,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/images/testimonies_page/banner.jpeg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: isLandscape ? 5 : 10),
+
+                      // Carousel
+                      SizedBox(
+                        height: carouselHeight,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: isLandscape ? 5 : 10),
+                          child: PageView.builder(
+                            key: const ValueKey('testimonials_pageview'),
+                            controller: _pageController,
+                            itemCount: testimonials.length,
+                            onPageChanged: (index) {
+                              setState(() => _currentIndex = index);
+                            },
+                            itemBuilder: (context, index) {
+                              final item = testimonials[index];
+                              return Container(
+                                margin: EdgeInsets.symmetric(
+                                  horizontal: isTablet ? 12 : 8, 
+                                  vertical: isTablet ? 18 : 14
+                                ),
+                                padding: EdgeInsets.all(isTablet ? 28 : 20),
+                                decoration: BoxDecoration(
+                                  color: gold,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      if (item['image'] != null)
+                                        CircleAvatar(
+                                          radius: avatarRadius,
+                                          backgroundImage: AssetImage(item['image']!),
+                                          backgroundColor: Colors.transparent,
                                         ),
-                                        const SizedBox(height: 7),
-                                        Text(
-                                          item['desc']!,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: 'PlayfairDisplay',
-                                            color: maroon,
-                                          ),
+                                      SizedBox(height: isTablet ? 10 : 7),
+                                      Text(
+                                        item['name']!,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: nameFontSize,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'PlayfairDisplay',
+                                          color: maroon,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                      SizedBox(height: isTablet ? 10 : 7),
+                                      Text(
+                                        item['desc']!,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: descFontSize,
+                                          fontFamily: 'PlayfairDisplay',
+                                          color: maroon,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               );
                             },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-
-                  // Dots indicator
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 14, top: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: testimonials.asMap().entries.map((entry) {
-                        return Container(
-                          width: 10,
-                          height: 10,
-                          margin: const EdgeInsets.symmetric(horizontal: 4),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _currentIndex == entry.key
-                                ? Colors.white
-                                : Colors.white.withOpacity(0.4),
                           ),
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      ),
+
+                      // Dots indicator
+                      Padding(
+                        padding: EdgeInsets.only(
+                          bottom: isLandscape ? 8 : 14, 
+                          top: isLandscape ? 4 : 8
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: testimonials.asMap().entries.map((entry) {
+                            return Container(
+                              width: isTablet ? 12 : 10,
+                              height: isTablet ? 12 : 10,
+                              margin: EdgeInsets.symmetric(horizontal: isTablet ? 5 : 4),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _currentIndex == entry.key
+                                    ? Colors.white
+                                    : Colors.white.withOpacity(0.4),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
 
-            // Arrows wrapped in circle
+            // Left Arrow
             Positioned(
-              left: 10,
-              top: MediaQuery.of(context).size.height * 0.60,
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: maroon,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.4),
-                      blurRadius: 4,
-                      offset: const Offset(2, 2),
-                    )
-                  ],
-                ),
-                child: IconButton(
-                  iconSize: 28,
-                  icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFE1A948)),
-                  onPressed: _previousPage,
+              left: isLandscape ? 30 : (isTablet ? 40 : 20),
+              top: arrowTopPosition,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: _previousPage,
+                  borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    width: isTablet ? 56 : 48,
+                    height: isTablet ? 56 : 48,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: maroon,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          blurRadius: 4,
+                          offset: const Offset(2, 2),
+                        )
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: gold,
+                      size: isTablet ? 28 : 24,
+                    ),
+                  ),
                 ),
               ),
             ),
+            
+            // Right Arrow
             Positioned(
-              right: 10,
-              top: MediaQuery.of(context).size.height * 0.60,
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: maroon,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.4),
-                      blurRadius: 4,
-                      offset: const Offset(2, 2),
-                    )
-                  ],
-                ),
-                child: IconButton(
-                  iconSize: 28,
-                  icon: const Icon(Icons.arrow_forward_ios, color: Color(0xFFE1A948)),
-                  onPressed: _nextPage,
+              right: isLandscape ? 30 : (isTablet ? 40 : 20),
+              top: arrowTopPosition,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: _nextPage,
+                  borderRadius: BorderRadius.circular(30),
+                  child: Container(
+                    width: isTablet ? 56 : 48,
+                    height: isTablet ? 56 : 48,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: maroon,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.4),
+                          blurRadius: 4,
+                          offset: const Offset(2, 2),
+                        )
+                      ],
+                    ),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: gold,
+                      size: isTablet ? 28 : 24,
+                    ),
+                  ),
                 ),
               ),
             ),
