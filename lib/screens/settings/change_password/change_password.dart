@@ -17,6 +17,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   bool _loading = false;
 
+  // password visibility flags
+  bool _obscureOld = true;
+  bool _obscureNew = true;
+  bool _obscureReenter = true;
+
   SupabaseClient get supabase => Supabase.instance.client;
 
   @override
@@ -71,8 +76,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           email: user.email!,
           newPassword: newPassword,
           onSuccess: () {
-            Navigator.of(context).pop();
-            Navigator.pushNamed(context, '/password_changed');
+            // Intentionally left empty to avoid automatic navigation to /password_changed.
+            // The confirmation dialog already instructs the user to go back to menu.
           },
         ),
       );
@@ -111,19 +116,34 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Edit: Password',
+                      'Edit Password',
                       style: TextStyle(
                         fontFamily: 'PlayfairDisplay',
                         fontSize: 30,
-                        color: Color(0xFFFFD700),
+                        color: Color(0xFFE1A948),
                       ),
                     ),
                     const SizedBox(height: 30),
                     Image.asset('assets/images/logo.png', height: 130),
                     const SizedBox(height: 30),
-                    _buildTextField('Enter Old Password', oldPasswordController),
-                    _buildTextField('Enter New Password', newPasswordController),
-                    _buildTextField('Re-Enter New Password', reenterPasswordController),
+                    _buildTextField(
+                      'Enter Old Password',
+                      oldPasswordController,
+                      obscure: _obscureOld,
+                      toggleObscure: () => setState(() => _obscureOld = !_obscureOld),
+                    ),
+                    _buildTextField(
+                      'Enter New Password',
+                      newPasswordController,
+                      obscure: _obscureNew,
+                      toggleObscure: () => setState(() => _obscureNew = !_obscureNew),
+                    ),
+                    _buildTextField(
+                      'Re-Enter New Password',
+                      reenterPasswordController,
+                      obscure: _obscureReenter,
+                      toggleObscure: () => setState(() => _obscureReenter = !_obscureReenter),
+                    ),
                     const SizedBox(height: 24),
                     _buildButton(
                       _loading ? 'PROCESSING...' : 'NEXT',
@@ -145,12 +165,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     );
   }
 
-  Widget _buildTextField(String hint, TextEditingController controller) {
+  /// Updated: accepts obscure flag and toggle callback for eye icon
+  Widget _buildTextField(
+    String hint,
+    TextEditingController controller, {
+    required bool obscure,
+    required VoidCallback toggleObscure,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: TextField(
         controller: controller,
-        obscureText: true,
+        obscureText: obscure,
         enableSuggestions: false,
         autocorrect: false,
         decoration: InputDecoration(
@@ -158,6 +184,14 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          suffixIcon: IconButton(
+            onPressed: toggleObscure,
+            icon: Icon(
+              obscure ? Icons.visibility_off : Icons.visibility,
+              // match icon color to UI; dark enough on white background
+              color: Colors.black54,
+            ),
+          ),
         ),
       ),
     );
