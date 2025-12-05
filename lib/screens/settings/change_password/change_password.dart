@@ -3,6 +3,62 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+Future<void> showStyledErrorDialog(BuildContext context, String message) {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+        decoration: BoxDecoration(
+          color: const Color(0xFF450003),
+          borderRadius: BorderRadius.circular(16.0),
+          border: Border.all(color: const Color(0xFFE1A948), width: 3.0),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset('assets/images/logo.png', height: 64, fit: BoxFit.contain),
+            const SizedBox(height: 12),
+            Text(
+              'Error',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFFE1A948),
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'PlayfairDisplay',
+              ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: const Color(0xFFE1A948),
+                  foregroundColor: Colors.black,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+                child: const Text('OK', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
 
@@ -17,7 +73,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   bool _loading = false;
 
-  // password visibility flags
   bool _obscureOld = true;
   bool _obscureNew = true;
   bool _obscureReenter = true;
@@ -38,21 +93,26 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     final reentered = reenterPasswordController.text.trim();
 
     if (newPassword.isEmpty || reentered.isEmpty || oldPassword.isEmpty) {
-      _showErrorDialog(context, 'All fields are required.');
+      await _showError('All fields are required.');
       return;
     }
     if (newPassword != reentered) {
-      _showErrorDialog(context, 'New passwords do not match.');
+      await _showError('New passwords do not match.');
       return;
     }
     if (newPassword.length < 6) {
-      _showErrorDialog(context, 'New password must be at least 6 characters.');
+      await _showError('New password must be at least 6 characters.');
+      return;
+    }
+
+    if (oldPassword == newPassword) {
+      await _showError('New password cannot be the same as the old password.');
       return;
     }
 
     final user = supabase.auth.currentUser;
     if (user == null || user.email == null) {
-      _showErrorDialog(context, 'Not signed in. Please log in again.');
+      await _showError('Not signed in. Please log in again.');
       if (mounted) Navigator.pushReplacementNamed(context, '/login');
       return;
     }
@@ -76,100 +136,16 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           email: user.email!,
           newPassword: newPassword,
           onSuccess: () {
-
           },
         ),
       );
     } on AuthException catch (e) {
       setState(() => _loading = false);
-      _showError(e.message);
+      await _showError(e.message);
     } catch (e) {
       setState(() => _loading = false);
-      _showError('Something went wrong. Please try again.');
+      await _showError('Something went wrong. Please try again.');
     }
-  }
-
-  void _showErrorDialog(BuildContext context, String message) {
-    const Color accent = Color(0xFFE1A948);
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.transparent,
-        insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
-          decoration: BoxDecoration(
-            color: const Color(0xFF450003),
-            borderRadius: BorderRadius.circular(16.0),
-            border: Border.all(color: accent, width: 3.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.25),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(
-                'assets/images/logo.png',
-                height: 64,
-                fit: BoxFit.contain,
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                'Error',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFFE1A948),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'PlayfairDisplay',
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  height: 1.4,
-                  fontFamily: 'PlayfairDisplay',
-                ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: accent,
-                    foregroundColor: Colors.black,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    side: const BorderSide(color: accent),
-                  ),
-                  child: const Text(
-                    'OK',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -289,6 +265,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       child: Text(text),
     );
   }
+
+  Future<void> _showError(String message) {
+    return showStyledErrorDialog(context, message);
+  }
 }
 
 class ChangePasswordOtpDialog extends StatefulWidget {
@@ -310,7 +290,6 @@ class _ChangePasswordOtpDialogState extends State<ChangePasswordOtpDialog> {
   final TextEditingController _otpController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
-  String? dialogError;
   int resendCooldown = 0;
   Timer? _cooldownTimer;
 
@@ -325,17 +304,6 @@ class _ChangePasswordOtpDialogState extends State<ChangePasswordOtpDialog> {
     if (v == null || v.isEmpty) return 'Please enter the code';
     if (v.length < 4) return 'Enter the full code';
     return null;
-  }
-
-  void _setDialogError(String? message) {
-    setState(() => dialogError = message);
-    if (message != null) {
-      Future.delayed(const Duration(seconds: 7), () {
-        if (mounted && dialogError == message) {
-          setState(() => dialogError = null);
-        }
-      });
-    }
   }
 
   void _startResendCooldown() {
@@ -359,14 +327,14 @@ class _ChangePasswordOtpDialogState extends State<ChangePasswordOtpDialog> {
       setState(() => isLoading = true);
       await Supabase.instance.client.auth.signInWithOtp(email: widget.email);
       setState(() => isLoading = false);
-      _setDialogError('A new code has been sent to your email.');
+      await showStyledErrorDialog(context, 'A new code has been sent to your email.');
       _startResendCooldown();
     } on AuthException catch (e) {
       setState(() => isLoading = false);
-      _setDialogError(e.message);
+      await showStyledErrorDialog(context, e.message);
     } catch (e) {
       setState(() => isLoading = false);
-      _setDialogError('Failed to resend code. Try again.');
+      await showStyledErrorDialog(context, 'Failed to resend code. Try again.');
     }
   }
 
@@ -374,7 +342,6 @@ class _ChangePasswordOtpDialogState extends State<ChangePasswordOtpDialog> {
     final otp = _otpController.text.trim();
     if (!_formKey.currentState!.validate()) return;
     setState(() => isLoading = true);
-    _setDialogError(null);
     try {
       await Supabase.instance.client.auth.verifyOTP(
         token: otp,
@@ -443,10 +410,10 @@ class _ChangePasswordOtpDialogState extends State<ChangePasswordOtpDialog> {
       );
     } on AuthException catch (e) {
       setState(() => isLoading = false);
-      _setDialogError(e.message);
+      await showStyledErrorDialog(context, e.message);
     } catch (e, st) {
       setState(() => isLoading = false);
-      _setDialogError('Failed to verify code or update password.');
+      await showStyledErrorDialog(context, 'Failed to verify code or update password.');
     }
   }
 
@@ -485,24 +452,6 @@ class _ChangePasswordOtpDialogState extends State<ChangePasswordOtpDialog> {
                 style: TextStyle(color: Colors.white),
               ),
               const SizedBox(height: 14),
-              if (dialogError != null) ...[
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.black87,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0xFFE1A948)),
-                  ),
-                  child: Text(
-                    dialogError!,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                        color: Color(0xFFE1A948), fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(height: 12),
-              ],
               TextFormField(
                 controller: _otpController,
                 keyboardType: TextInputType.number,

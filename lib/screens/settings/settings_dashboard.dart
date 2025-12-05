@@ -32,11 +32,10 @@ class _AccountInformationState extends State<AccountInformation> {
       body: SafeArea(
         child: Stack(
           children: [
-            // MAIN CONTENT
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(
-                  top: 100,   // Space for fixed back button
+                  top: 100,
                   left: 34,
                   right: 34,
                   bottom: 30,
@@ -45,7 +44,6 @@ class _AccountInformationState extends State<AccountInformation> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 10),
-
                     const Text(
                       'Account Settings',
                       style: TextStyle(
@@ -54,9 +52,7 @@ class _AccountInformationState extends State<AccountInformation> {
                         color: Color(0xFFE1A948),
                       ),
                     ),
-
                     const SizedBox(height: 24),
-
                     const Text(
                       'Email:',
                       style: TextStyle(
@@ -67,9 +63,7 @@ class _AccountInformationState extends State<AccountInformation> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-
                     const SizedBox(height: 12),
-
                     Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -94,19 +88,13 @@ class _AccountInformationState extends State<AccountInformation> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-
                     const SizedBox(height: 32),
-
-                    buildButton(context, 'Edit Email', () => Navigator.pushNamed(context, '/change_email')),
-                    const SizedBox(height: 16),
                     buildButton(context, 'Edit Password', () => Navigator.pushNamed(context, '/change_password')),
                     const SizedBox(height: 16),
                     buildButton(context, 'Delete Account', () => Navigator.pushNamed(context, '/acc_delete')),
                     const SizedBox(height: 16),
-
                     buildButton(context, 'Log Out', () async {
                       await Supabase.instance.client.auth.signOut();
-
                       if (context.mounted) {
                         Navigator.pushNamedAndRemoveUntil(
                           context,
@@ -119,14 +107,12 @@ class _AccountInformationState extends State<AccountInformation> {
                 ),
               ),
             ),
-
-            // FIXED BACK BUTTON
             Positioned(
               top: 10,
               left: 10,
               child: IconButton(
                 icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.pushReplacementNamed(context, '/dashboard'),
                 style: IconButton.styleFrom(
                   padding: const EdgeInsets.all(12),
                   backgroundColor: Colors.black,
