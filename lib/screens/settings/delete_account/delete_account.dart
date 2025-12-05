@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 class DeleteAccount extends StatefulWidget {
@@ -15,7 +16,6 @@ class _DeleteAccountState extends State<DeleteAccount> {
       _isDeleting = true;
     });
 
-    // simulate deletion process
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, '/acc_delete_succ');
     });
@@ -137,26 +137,37 @@ class _DeleteAccountState extends State<DeleteAccount> {
       body: SafeArea(
         child: Stack(
           children: [
-            // === SCROLL CONTENT ===
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 70),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 50), // spacing under back button
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
+                        onPressed: () => Navigator.pushReplacementNamed(context, '/acc_info'),
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: const CircleBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                     const Text(
                       'Account Deletion',
                       style: TextStyle(
                         fontFamily: 'PlayfairDisplay',
-                        fontSize: 34,
+                        fontSize: 30,
                         color: Color(0xFFE1A948),
                       ),
                     ),
                     const SizedBox(height: 32),
                     Image.asset(
                       'assets/images/logo.png',
-                      height: 240,
+                      height: 130,
+                      fit: BoxFit.contain,
                     ),
                     const SizedBox(height: 24),
                     const Text(
@@ -164,7 +175,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
                       style: TextStyle(
                         fontFamily: 'PlayfairDisplay',
                         fontSize: 32,
-                        color: Colors.white,
+                        color: Color(0xFFE1A948),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -174,16 +185,20 @@ class _DeleteAccountState extends State<DeleteAccount> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'PlayfairDisplay',
-                        fontSize: 20,
+                        fontSize: 17,
                         color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 40),
                     ElevatedButton(
-                      onPressed: _isDeleting ? null : () => _showConfirmDialog(context),
+                      onPressed: _isDeleting ? null : _handleDelete,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFE1A948),
+                        foregroundColor: Colors.black,
                         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                       ),
                       child: const Text(
                         'DELETE ACCOUNT',
@@ -205,19 +220,12 @@ class _DeleteAccountState extends State<DeleteAccount> {
               ),
             ),
 
-            // === FIXED BACK BUTTON ===
-            Positioned(
-              top: 10,
-              left: 10,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-                onPressed: () => Navigator.pushReplacementNamed(context, '/acc_info'),
-                style: IconButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: const CircleBorder(),
-                ),
+            if (_isDeleting)
+              Container(
+                color: Colors.black.withOpacity(0.25),
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(),
               ),
-            ),
           ],
         ),
       ),
