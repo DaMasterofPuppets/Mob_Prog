@@ -3,6 +3,7 @@ import 'package:tarot_app/screens/dashboard/appointment_page.dart';
 import 'package:tarot_app/screens/dashboard/packages_page.dart';
 import 'package:tarot_app/screens/dashboard/reader_page.dart';
 import 'package:tarot_app/screens/settings/settings_dashboard.dart';
+import 'package:tarot_app/screens/dashboard/readers.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
@@ -88,7 +89,7 @@ class DashboardPage extends StatelessWidget {
       childAspectRatio: isTablet ? 0.75 : 0.72,
       physics: const NeverScrollableScrollPhysics(),
       children: [
-        _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const TheReaderPage(), isTablet),
+        _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const ReadersPage(), isTablet),
         _cardButton(context, 'assets/images/dashboard_page/the_packages.png', const PackagesPage(), isTablet),
         _cardButton(context, 'assets/images/dashboard_page/the_appointments.png', const AppointmentPage(), isTablet),
         _cardButton(context, 'assets/images/dashboard_page/settings.png', const AccountInformation(), isTablet),
@@ -98,7 +99,7 @@ class DashboardPage extends StatelessWidget {
 
   Widget _buildLandscapeLayout(BuildContext context, bool isTablet) {
     final cards = [
-      _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const TheReaderPage(), isTablet),
+      _cardButton(context, 'assets/images/dashboard_page/the_reader.png', const ReadersPage(), isTablet),
       _cardButton(context, 'assets/images/dashboard_page/the_packages.png', const PackagesPage(), isTablet),
       _cardButton(context, 'assets/images/dashboard_page/the_appointments.png', const AppointmentPage(), isTablet),
       _cardButton(context, 'assets/images/dashboard_page/settings.png', const AccountInformation(), isTablet),
