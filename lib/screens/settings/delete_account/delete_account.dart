@@ -11,22 +11,12 @@ class DeleteAccount extends StatefulWidget {
 class _DeleteAccountState extends State<DeleteAccount> {
   bool _isDeleting = false;
 
-  void _handleDelete() {
-    setState(() {
-      _isDeleting = true;
-    });
-
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/acc_delete_succ');
-    });
-  }
-
-  void _showConfirmDialog(BuildContext context) {
-    const Color accent = Color(0xFFE1A948);
+  void _showUnavailablePopup() {
+    const accent = Color(0xFFE1A948);
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => Dialog(
+      builder: (_) => Dialog(
         backgroundColor: Colors.transparent,
         insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
         child: Container(
@@ -35,25 +25,14 @@ class _DeleteAccountState extends State<DeleteAccount> {
             color: const Color(0xFF450003),
             borderRadius: BorderRadius.circular(16.0),
             border: Border.all(color: accent, width: 3.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.25),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-              ),
-            ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'assets/images/logo.png',
-                height: 64,
-                fit: BoxFit.contain,
-              ),
+              Image.asset('assets/images/logo.png', height: 64, fit: BoxFit.contain),
               const SizedBox(height: 12),
               const Text(
-                'Confirm Deletion',
+                'Feature Unavailable',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFFE1A948),
@@ -64,7 +43,7 @@ class _DeleteAccountState extends State<DeleteAccount> {
               ),
               const SizedBox(height: 12),
               const Text(
-                'Are you sure you want to delete your account?\nThis action cannot be undone.',
+                'Sorry, this feature is currently unavailable.\n\nHowever, if you really want to delete your account asap, please contact us at\nc202301060@iacademy.edu.ph',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -73,55 +52,22 @@ class _DeleteAccountState extends State<DeleteAccount> {
                   fontFamily: 'PlayfairDisplay',
                 ),
               ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: Colors.grey.shade700,
-                        foregroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Text(
-                        'CANCEL',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                    ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: accent,
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        _handleDelete();
-                      },
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor: accent,
-                        foregroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        side: const BorderSide(color: accent),
-                      ),
-                      child: const Text(
-                        'DELETE',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.0,
-                        ),
-                      ),
-                    ),
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                ],
+                ),
               ),
             ],
           ),
@@ -191,14 +137,12 @@ class _DeleteAccountState extends State<DeleteAccount> {
                     ),
                     const SizedBox(height: 40),
                     ElevatedButton(
-                      onPressed: _isDeleting ? null : _handleDelete,
+                      onPressed: _isDeleting ? null : _showUnavailablePopup,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFE1A948),
                         foregroundColor: Colors.black,
                         padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                       ),
                       child: const Text(
                         'DELETE ACCOUNT',
@@ -219,7 +163,6 @@ class _DeleteAccountState extends State<DeleteAccount> {
                 ),
               ),
             ),
-
             if (_isDeleting)
               Container(
                 color: Colors.black.withOpacity(0.25),

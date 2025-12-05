@@ -135,8 +135,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         builder: (context) => ChangePasswordOtpDialog(
           email: user.email!,
           newPassword: newPassword,
-          onSuccess: () {
-          },
+          onSuccess: () {},
         ),
       );
     } on AuthException catch (e) {
@@ -391,8 +390,7 @@ class _ChangePasswordOtpDialogState extends State<ChangePasswordOtpDialog> {
                   width: double.infinity,
                   child: OutlinedButton(
                     onPressed: () {
-                      Navigator.of(context).pop();
-                      widget.onSuccess();
+                      Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: const Color(0xFFE1A948),
@@ -400,7 +398,7 @@ class _ChangePasswordOtpDialogState extends State<ChangePasswordOtpDialog> {
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
-                    child: const Text('BACK TO MENU', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text('BACK TO LOGIN', style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
