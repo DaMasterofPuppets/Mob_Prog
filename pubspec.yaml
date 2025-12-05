@@ -54,9 +54,9 @@ flutter:
     - assets/images/testimonies_page/banner.jpeg
     - assets/images/testimonies_page/user1_ava.png
     - assets/images/testimonies_page/user2_sammy.png
-    - assets/images/testimonies_page/user3_binky.png
-    - assets/images/testimonies_page/user4_hermione.png
-    - assets/images/testimonies_page/user5_chubi.png
+    - assets/images/testimonies_page/user3_summer.png
+    - assets/images/testimonies_page/user4_aaron.png
+    - assets/images/testimonies_page/user5_shawn.png
 
     #settings_page
     - assets/images/settings_page/settings.png

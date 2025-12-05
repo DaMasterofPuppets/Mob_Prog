@@ -38,21 +38,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     final reentered = reenterPasswordController.text.trim();
 
     if (newPassword.isEmpty || reentered.isEmpty || oldPassword.isEmpty) {
-      _showError('All fields are required.');
+      _showErrorDialog(context, 'All fields are required.');
       return;
     }
     if (newPassword != reentered) {
-      _showError('New passwords do not match.');
+      _showErrorDialog(context, 'New passwords do not match.');
       return;
     }
     if (newPassword.length < 6) {
-      _showError('New password must be at least 6 characters.');
+      _showErrorDialog(context, 'New password must be at least 6 characters.');
       return;
     }
 
     final user = supabase.auth.currentUser;
     if (user == null || user.email == null) {
-      _showError('Not signed in. Please log in again.');
+      _showErrorDialog(context, 'Not signed in. Please log in again.');
       if (mounted) Navigator.pushReplacementNamed(context, '/login');
       return;
     }
@@ -76,8 +76,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           email: user.email!,
           newPassword: newPassword,
           onSuccess: () {
-            // Intentionally left empty to avoid automatic navigation to /password_changed.
-            // The confirmation dialog already instructs the user to go back to menu.
+
           },
         ),
       );
@@ -88,6 +87,89 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       setState(() => _loading = false);
       _showError('Something went wrong. Please try again.');
     }
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    const Color accent = Color(0xFFE1A948);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+          decoration: BoxDecoration(
+            color: const Color(0xFF450003),
+            borderRadius: BorderRadius.circular(16.0),
+            border: Border.all(color: accent, width: 3.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/logo.png',
+                height: 64,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Error',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFFE1A948),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: accent,
+                    foregroundColor: Colors.black,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    side: const BorderSide(color: accent),
+                  ),
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -165,7 +247,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     );
   }
 
-  /// Updated: accepts obscure flag and toggle callback for eye icon
   Widget _buildTextField(
     String hint,
     TextEditingController controller, {
@@ -188,7 +269,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             onPressed: toggleObscure,
             icon: Icon(
               obscure ? Icons.visibility_off : Icons.visibility,
-              // match icon color to UI; dark enough on white background
               color: Colors.black54,
             ),
           ),
@@ -207,15 +287,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
       ),
       onPressed: onPressed,
       child: Text(text),
-    );
-  }
-
-  void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),
     );
   }
 }
