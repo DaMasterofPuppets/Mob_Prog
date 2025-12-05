@@ -23,6 +23,105 @@ class _EditEmailPageState extends State<EditEmailPage> {
     super.dispose();
   }
 
+  // ---------------------------------------------------------------------------
+  //  UNIVERSAL POPUP (your exact design)
+  // ---------------------------------------------------------------------------
+  void _showPopup(String title, String message) {
+    const Color accent = Color(0xFFE1A948);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 22),
+          decoration: BoxDecoration(
+            color: const Color(0xFF450003),
+            borderRadius: BorderRadius.circular(16.0),
+            border: Border.all(color: accent, width: 3.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.25),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/logo.png',
+                height: 64,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFFE1A948),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontFamily: 'PlayfairDisplay',
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: accent,
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    side: const BorderSide(color: accent),
+                  ),
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Error popup shortcut
+  void _showError(String msg) {
+    _showPopup("Error", msg);
+  }
+
+  // Success popup shortcut
+  void _showSuccess(String msg) {
+    _showPopup("Check Your Email", msg);
+  }
+
+  // ---------------------------------------------------------------------------
+  //  CHANGE EMAIL LOGIC
+  // ---------------------------------------------------------------------------
   Future<void> _changeEmail() async {
     final newEmail = _emailController.text.trim();
     final password = _passwordController.text.trim();
@@ -52,21 +151,9 @@ class _EditEmailPageState extends State<EditEmailPage> {
 
       if (!mounted) return;
 
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text("Check Your Email"),
-          content: Text(
-            "A confirmation link was sent to:\n\n$newEmail\n\n"
-            "Open it to finish updating your email.",
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
-            )
-          ],
-        ),
+      _showSuccess(
+        "A confirmation link was sent to:\n\n$newEmail\n\n"
+        "Open it to finish updating your email.",
       );
 
       _emailController.clear();
@@ -80,22 +167,9 @@ class _EditEmailPageState extends State<EditEmailPage> {
     }
   }
 
-  void _showError(String msg) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Error"),
-        content: Text(msg),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("OK"),
-          )
-        ],
-      ),
-    );
-  }
-
+  // ---------------------------------------------------------------------------
+  // UI
+  // ---------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     final currentEmail = supabase.auth.currentUser?.email ?? "Unknown";
@@ -107,22 +181,10 @@ class _EditEmailPageState extends State<EditEmailPage> {
           children: [
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 34, vertical: 70),
+                padding: const EdgeInsets.only(top: 100, left: 34, right: 34, bottom: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
-                        onPressed: () => Navigator.pop(context),
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          shape: const CircleBorder(),
-                        ),
-                      ),
-                    ),
-
                     const SizedBox(height: 10),
 
                     const Center(
@@ -209,10 +271,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFE1A948),
                           foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 40,
-                            vertical: 14,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
@@ -224,6 +283,22 @@ class _EditEmailPageState extends State<EditEmailPage> {
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+
+            // Fixed back button
+            Positioned(
+              top: 10,
+              left: 10,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Color(0xFFE1A948)),
+                onPressed: () => Navigator.pop(context),
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(12),
+                  fixedSize: const Size(48, 48),
                 ),
               ),
             ),
